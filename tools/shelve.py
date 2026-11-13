@@ -222,6 +222,7 @@ def frame(src: str, e: dict, prev, nxt, total: int) -> str:
     c = e["cover"]
     head = ("<!-- library:head -->\n"
             f'<link rel="icon" href="{html.escape(favicon(c["bg"], c["line"]))}">\n'
+            '<link rel="apple-touch-icon" href="../apple-touch-icon.png">\n'
             f'<meta name="theme-color" content="{c["bg"]}">\n'
             f'<meta name="library:id" content="{html.escape(e["id"])}">\n'
             "<!-- /library:head -->\n")

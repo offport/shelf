@@ -99,6 +99,31 @@
     "accent": "var(--a)"
    },
    "emblem": "<ellipse cx=\"24\" cy=\"24\" rx=\"19\" ry=\"7.5\"/><ellipse cx=\"24\" cy=\"24\" rx=\"19\" ry=\"7.5\" transform=\"rotate(60 24 24)\"/><ellipse cx=\"24\" cy=\"24\" rx=\"19\" ry=\"7.5\" transform=\"rotate(120 24 24)\"/><circle cx=\"24\" cy=\"24\" r=\"2.6\" fill=\"currentColor\"/>"
+  },
+  {
+   "id": "how-to-talk-to-anyone",
+   "no": 5,
+   "title": "How to Talk to Anyone",
+   "author": "Leil Lowndes",
+   "year": 2003,
+   "kind": "Guide",
+   "tags": [
+    "Communication",
+    "Psychology"
+   ],
+   "blurb": "Nine stops through a conversation, from the first look across the room to the goodbye. Each one draws the scene and opens Lowndes's techniques into a before-and-after exchange you can try today.",
+   "source": "how-to-talk-to-anyone-guide.html",
+   "added": "2026-11-13",
+   "cover": {
+    "bg": "#f7f4ef",
+    "fg": "#22252b",
+    "line": "#e2603f"
+   },
+   "bar": {
+    "bg": "var(--bg)",
+    "accent": "var(--a)"
+   },
+   "emblem": "<path d=\"M8 10h22a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H17l-6 5v-5H8a3 3 0 0 1-3-3V13a3 3 0 0 1 3-3z\"/><path d=\"M37 19h3a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-2v5l-6-5h-8a3 3 0 0 1-3-3v-2\"/>"
   }
  ]
 }
