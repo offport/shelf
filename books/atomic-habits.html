@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atomic Habits · Shelf</title>
+<!-- library:head -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%23f4f5f1%22/%3E%3Cg fill=%22%230f766e%22 transform=%22translate%284 4%29%22%3E%3Cpath d=%22M5 2H22V4.6H4.6V10.7H19a3 3 0 0 1 3 3V19a3 3 0 0 1-3 3H2V19.4H19.4V13.3H5a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3z%22/%3E%3Cpath d=%22M6 6h2.2v5H6zM9.3 7h2v4h-2zM12.9 11.2L11.8 6.9l1.95-.5 1.1 4.3zM15.8 14.7h2.2v5h-2.2zM12.7 15.7h2v4h-2zM11.1 19.9l1.1-4.3-1.95-.5-1.1 4.3z%22/%3E%3C/g%3E%3C/svg%3E">
+<meta name="theme-color" content="#f4f5f1">
+<meta name="library:id" content="atomic-habits">
+<!-- /library:head -->
+
+<style>
+/* Layout: one screen, four tabs. Each tab is built around one interactive figure:
+   a compounding curve, the habit loop, an atom whose four electrons are the four laws, and a habit builder. */
+:root{
+  --bg:#f4f5f1; --panel:#ffffff; --ink:#1c2a2e; --muted:#5d6b70; --rule:#d8dcd6;
+  --l1:#0f766e; --l2:#d2552f; --l3:#b7820d; --l4:#6a56c2; --a:#0f766e;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --bg:#131a1c; --panel:#1c2528; --ink:#e8eeec; --muted:#9aa8a8; --rule:#2e3a3d; --l1:#4fc4b6; --l2:#f08a66; --l3:#e3b341; --l4:#a696f0; --a:#4fc4b6; color-scheme: dark; }
+}
+:root[data-theme="dark"]{ --bg:#131a1c; --panel:#1c2528; --ink:#e8eeec; --muted:#9aa8a8; --rule:#2e3a3d; --l1:#4fc4b6; --l2:#f08a66; --l3:#e3b341; --l4:#a696f0; --a:#4fc4b6; color-scheme: dark; }
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);display:flex;flex-direction:column;overflow:hidden}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--a);outline-offset:2px}
+header{flex:none;background:var(--panel);border-bottom:1px solid var(--rule);padding:10px 14px 0}
+.w{max-width:640px;margin:0 auto}
+h1{font-size:16px;margin:0;font-weight:700}
+.by{font-size:12px;color:var(--muted);margin-top:1px}
+.tabs{display:flex;gap:2px;margin-top:6px}
+.tab{flex:1;background:transparent;border:0;border-bottom:3px solid transparent;padding:8px 2px 9px;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap}
+.tab[aria-selected="true"]{color:var(--a);border-bottom-color:var(--a)}
+main{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.pg{padding:0 14px 40px}
+.lead{font-size:15px;line-height:1.5;margin:16px 0 12px;max-width:62ch}
+.lead b{color:var(--a)}
+h2{font-size:12.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:26px 0 8px}
+.card{background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:12px}
+.card svg{display:block;width:100%;height:auto}
+.card p{font-size:14.5px;line-height:1.5;margin:8px 0 0;max-width:62ch}
+.card p b{color:var(--a)}
+.big{font-size:26px;font-weight:700;color:var(--a);font-variant-numeric:tabular-nums}
+.sub{font-size:13px;color:var(--muted)}
+input[type=range]{width:100%;margin:10px 0 2px;accent-color:var(--a)}
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px}
+.seg button{border:1px solid var(--rule);background:var(--panel);border-radius:999px;padding:6px 13px;font-size:13px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--a);border-color:var(--a);color:var(--panel);font-weight:600}
+.det{border-left:4px solid var(--a);background:var(--panel);border-radius:0 10px 10px 0;border-top:1px solid var(--rule);border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:10px 12px;margin-top:10px}
+.det .k{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--a);font-weight:700}
+.det b.t{display:block;font-size:18px;margin:1px 0 4px}
+.det p{font-size:14.5px;line-height:1.5;margin:0;max-width:62ch}
+.det p+p{margin-top:6px}
+.det .ex{color:var(--muted)}
+.list{display:grid;gap:6px;margin-top:10px}
+.row{display:block;width:100%;text-align:left;background:var(--panel);border:1px solid var(--rule);border-radius:8px;padding:10px 34px 10px 12px;cursor:pointer;position:relative}
+.row::after{content:"+";position:absolute;right:12px;top:9px;font-size:18px;color:var(--muted);line-height:1}
+.row.open::after{content:"−"}
+.row .n{font-size:14.5px;font-weight:600}
+.row .x{display:none;font-size:14px;line-height:1.5;margin-top:5px;max-width:62ch}
+.row.open .x{display:block}
+.inv{font-size:13px;color:var(--muted);margin:14px 0 0}
+.inv b{color:var(--ink)}
+svg text{font-family:var(--font);fill:var(--ink)}
+.hot{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.hot:focus:not(:focus-visible){outline:none}
+.f{display:grid;gap:8px}
+.f label{font-size:12.5px;color:var(--muted);display:grid;gap:3px}
+.f input{background:var(--bg);border:1px solid var(--rule);border-radius:8px;padding:9px 10px;font-size:15px;width:100%}
+.out{font-size:16px;line-height:1.5;margin:12px 0 0;padding:12px;border-radius:8px;background:var(--bg);border:1px dashed var(--a)}
+.out b{color:var(--a)}
+.dots{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px;margin-top:4px}
+.dot{aspect-ratio:1;border-radius:50%;border:2px solid var(--rule);background:transparent;cursor:pointer;font-size:11px;color:var(--muted);padding:0;font-variant-numeric:tabular-nums}
+.dot.y{background:var(--l1);border-color:var(--l1);color:var(--panel);font-weight:700}
+.dot.n{border-color:var(--l2);color:var(--l2)}
+.note{font-size:12px;color:var(--muted);line-height:1.5;margin:20px 0 0;max-width:62ch}
+</style>
+</head>
+<body>
+<!-- library:bar — added by tools/shelve.py; the original file is in originals/ -->
+<div id="library-bar" role="navigation" aria-label="Shelf" class="" style="display:block;flex:none;--lib-bg:var(--bg);--lib-accent:var(--a);"><template shadowrootmode="open"><style>:host{display:block;flex:none;position:relative;font:500 12.5px/1 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  color:inherit;background:var(--lib-bg,transparent);-webkit-text-size-adjust:100%}
+:host(.lib-sticky){position:sticky;top:0;z-index:50}
+*{box-sizing:border-box}
+.bar{display:flex;align-items:center;gap:4px;height:38px;padding:0 8px 0 6px;max-width:100%;
+  border-bottom:1px solid color-mix(in srgb,currentColor 16%,transparent)}
+a,button{color:inherit;font:inherit;text-decoration:none;background:none;border:0;cursor:pointer;border-radius:6px;
+  display:inline-flex;align-items:center;gap:7px;height:30px;padding:0 8px;-webkit-tap-highlight-color:transparent}
+a:hover,button:hover{background:color-mix(in srgb,currentColor 9%,transparent)}
+:focus-visible{outline:2px solid var(--lib-accent,currentColor);outline-offset:1px}
+.home svg{width:18px;height:18px;fill:var(--lib-accent,currentColor);flex:none}
+.home b{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:13px;letter-spacing:.2em;text-transform:uppercase}
+.no{opacity:.62;font-variant-numeric:tabular-nums;white-space:nowrap;padding-left:9px;margin-left:1px;
+  border-left:1px solid color-mix(in srgb,currentColor 22%,transparent);line-height:16px}
+.sp{flex:1}
+.status i{width:11px;height:11px;border-radius:50%;border:1.6px solid currentColor;flex:none;opacity:.75}
+.status[data-s="reading"] i{background:linear-gradient(90deg,var(--lib-accent,currentColor) 50%,transparent 50%);border-color:var(--lib-accent,currentColor);opacity:1}
+.status[data-s="finished"] i{background:var(--lib-accent,currentColor);border-color:var(--lib-accent,currentColor);opacity:1}
+.step{width:30px;padding:0;justify-content:center;font-size:17px;line-height:1}
+.step[aria-disabled="true"]{opacity:.28;pointer-events:none}
+@media (max-width:400px){.no span{display:none}.home b{letter-spacing:.14em}}
+@media (max-width:330px){.status span{display:none}}</style><div class="bar"><a class="home" href="../index.html#atomic-habits" title="Back to the shelf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2H22V4.6H4.6V10.7H19a3 3 0 0 1 3 3V19a3 3 0 0 1-3 3H2V19.4H19.4V13.3H5a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3z"/><path d="M6 6h2.2v5H6zM9.3 7h2v4h-2zM12.9 11.2L11.8 6.9l1.95-.5 1.1 4.3zM15.8 14.7h2.2v5h-2.2zM12.7 15.7h2v4h-2zM11.1 19.9l1.1-4.3-1.95-.5-1.1 4.3z"/></svg><b>Shelf</b></a><span class="no" title="Book 4 of 4">No. 4<span> of 4</span></span><span class="sp"></span><button class="status" type="button" data-s="none"><i></i><span>To read</span></button><a class="step" href="art-of-seduction.html" title="Previous: The Art of Seduction" aria-label="Previous book: The Art of Seduction">‹</a><a class="step" aria-disabled="true" aria-label="No next book">›</a></div></template></div>
+<script>(function(){
+  var B={"id": "atomic-habits"}, host=document.getElementById("library-bar"); if(!host) return;
+  var root=host.shadowRoot; if(!root){var t=host.querySelector("template"); root=host.attachShadow({mode:"open"}); if(t){root.appendChild(t.content); t.remove();}}
+  var KEY="library.v1", LAB={none:"To read",reading:"Reading",finished:"Finished"}, NEXT={none:"reading",reading:"finished",finished:"none"};
+  function load(){try{var s=JSON.parse(localStorage.getItem(KEY)); if(s&&s.books) return s;}catch(e){} return {books:{}};}
+  function save(s){try{localStorage.setItem(KEY,JSON.stringify(s));}catch(e){}}
+  var btn=root.querySelector(".status");
+  function draw(){var st=(load().books[B.id]||{}).status||"none"; btn.dataset.s=st; btn.querySelector("span").textContent=LAB[st];
+    btn.setAttribute("aria-label","Reading status: "+LAB[st]+". Press to change.");}
+  var s=load(), me=s.books[B.id]||(s.books[B.id]={}); me.opened=Date.now(); save(s); draw();
+  btn.addEventListener("click",function(){var s=load(), me=s.books[B.id]||(s.books[B.id]={}); me.status=NEXT[me.status||"none"]; me.opened=Date.now(); save(s); draw();});
+  addEventListener("storage",function(e){if(e.key===KEY) draw();});
+})();</script>
+<!-- /library:bar -->
+<header><div class="w"><h1>Atomic Habits</h1><div class="by">A guide to the ideas in James Clear's book</div><div class="tabs" id="tabs" role="tablist"></div></div></header>
+<main id="main"><div class="w pg" id="pg"></div></main>
+
+<script>
+const $=id=>document.getElementById(id), pg=$("pg");
+const h=(t,c,x)=>{const e=document.createElement(t); if(c)e.className=c; if(x!=null)e.textContent=x; return e;};
+const add=html=>{const d=document.createElement("div"); d.innerHTML=html; while(d.firstChild) pg.appendChild(d.firstChild);};
+const rows=(items)=>{const l=h("div","list"); items.forEach(([n,x])=>{const b=h("button","row"); b.setAttribute("aria-expanded","false"); b.append(h("div","n",n),h("div","x",x)); b.onclick=()=>{b.setAttribute("aria-expanded",b.classList.toggle("open"));}; l.appendChild(b);}); return l;};
+const LC=["var(--l1)","var(--l2)","var(--l3)","var(--l4)"];
+
+/* ---------- 1. Small gains ---------- */
+function tabIdea(){
+  add(`<p class="lead"><b>Tiny changes, repeated, compound.</b> The book's central claim is that habits are the compound interest of self-improvement. Getting 1% better each day looks like nothing for weeks, then adds up to a great deal.</p>
+  <div class="card"><div class="big" id="val"></div><div class="sub" id="vsub"></div>
+   <svg viewBox="0 0 320 170" role="img" aria-label="Curves for 1% better and 1% worse each day over a year">
+    <line x1="30" y1="150" x2="310" y2="150" stroke="var(--rule)"/><line x1="30" y1="15" x2="30" y2="150" stroke="var(--rule)"/>
+    <path id="up" fill="none" stroke="var(--l1)" stroke-width="3" stroke-linecap="round"/><path id="dn" fill="none" stroke="var(--l2)" stroke-width="3" stroke-linecap="round"/>
+    <line id="vl" y1="15" y2="150" stroke="var(--muted)" stroke-dasharray="3 3"/><circle id="pu" r="5" fill="var(--l1)"/><circle id="pd" r="5" fill="var(--l2)"/>
+    <text x="30" y="164" font-size="9" style="fill:var(--muted)">Day 0</text><text x="310" y="164" font-size="9" text-anchor="end" style="fill:var(--muted)">Day 365</text>
+    <text x="24" y="19" font-size="9" text-anchor="end" style="fill:var(--muted)">38×</text><text x="24" y="150" font-size="9" text-anchor="end" style="fill:var(--muted)">1×</text>
+    <text x="300" y="30" font-size="10" text-anchor="end" style="fill:var(--l1)">1% better</text><text x="300" y="142" font-size="10" text-anchor="end" style="fill:var(--l2)">1% worse</text>
+   </svg>
+   <input type="range" id="day" min="0" max="365" value="90" aria-label="Day of the year">
+   <p>Drag the slider. For the first months the two lines barely separate. Clear calls this stretch the <b>plateau of latent potential</b>: the work is being stored, not wasted, and most people quit here.</p></div>
+  <h2>Systems over goals</h2>`);
+  pg.appendChild(rows([
+   ["Goals set direction, systems make progress","Winners and losers often share the same goal, so the goal cannot be what separates them. What differs is the daily process. The book's advice is to fall in love with the system and let results follow."],
+   ["The British cycling example","The book opens with Dave Brailsford's British Cycling team, which searched for 1% improvements in everything from saddles to hand-washing and went from decades of mediocrity to dominating the Olympics and the Tour de France."],
+   ["Why small habits are underrated","A single workout or a single skipped one changes nothing you can see. Because the feedback is delayed, good habits feel pointless and bad ones feel harmless."]]));
+  add(`<h2>Three layers of change · tap a ring</h2><div class="card"><svg viewBox="0 0 320 190" role="img" aria-label="Three layers of behaviour change"><g id="rings"></g></svg></div><div class="det" id="rdet"></div>`);
+  const RING=[["Outcomes","What you get","Losing weight, publishing a book, winning. Most people start here and try to change results directly.",86,"var(--l3)"],
+   ["Processes","What you do","Your routines and systems: the gym schedule, the writing hour. This is where habits live.",58,"var(--l1)"],
+   ["Identity","What you believe","Your picture of who you are. The book argues lasting change starts here: decide the kind of person you want to be, then prove it with small wins. Each repetition is a vote for that identity.",30,"var(--l4)"]];
+  const g=$("rings"); RING.forEach((r,i)=>{g.insertAdjacentHTML("beforeend",`<g class="hot" data-i="${i}" tabindex="0" role="button" aria-label="${r[0]}"><circle cx="160" cy="98" r="${r[3]}" fill="${r[4]}" fill-opacity=".16" stroke="${r[4]}" stroke-width="2.5"/><text x="160" y="${i==2?102:98-r[3]+17}" font-size="12" font-weight="700" text-anchor="middle">${r[0]}</text></g>`);});
+  const pick=i=>{const r=RING[i]; $("rdet").style.borderLeftColor=r[4]; $("rdet").innerHTML=`<div class="k" style="color:${r[4]}">${r[1]}</div><b class="t">${r[0]}</b><p>${r[2]}</p>`; g.querySelectorAll("circle").forEach((c,k)=>c.setAttribute("fill-opacity",k===i?".4":".12"));};
+  g.onclick=e=>{const t=e.target.closest(".hot"); if(t) pick(+t.dataset.i);}; pick(2);
+  const X=d=>30+280*d/365, Y=v=>150-135*(v-0)/38;
+  let u="",dn=""; for(let d=0;d<=365;d+=5){u+=(d?"L":"M")+X(d).toFixed(1)+","+Y(Math.pow(1.01,d)).toFixed(1); dn+=(d?"L":"M")+X(d).toFixed(1)+","+Y(Math.pow(.99,d)).toFixed(1);}
+  $("up").setAttribute("d",u); $("dn").setAttribute("d",dn);
+  const upd=()=>{const d=+$("day").value, a=Math.pow(1.01,d), b=Math.pow(.99,d);
+    $("val").textContent=a.toFixed(a<10?2:1)+"× better"; $("vsub").textContent="after "+d+" days of 1% gains. With 1% losses you would be at "+b.toFixed(2)+"×.";
+    $("vl").setAttribute("x1",X(d)); $("vl").setAttribute("x2",X(d)); $("pu").setAttribute("cx",X(d)); $("pu").setAttribute("cy",Y(a)); $("pd").setAttribute("cx",X(d)); $("pd").setAttribute("cy",Y(b));};
+  $("day").oninput=upd; upd();
+}
+
+/* ---------- 2. The loop ---------- */
+const STG=[["Cue","Notice","A bit of information that predicts a reward. It triggers the brain to start a behaviour."],
+ ["Craving","Want","The motivation. You do not crave the habit itself but the change in state it delivers."],
+ ["Response","Do","The actual habit, as a thought or an action. It happens only if you are able and the effort is low enough."],
+ ["Reward","Get","The payoff. It satisfies the craving and teaches the brain that this loop is worth repeating."]];
+const EX={Phone:["Your phone buzzes.","You want to know what the message says.","You pick it up and read it.","Curiosity is satisfied. Picking up the phone becomes tied to the buzz."],
+ Coffee:["You wake up.","You want to feel alert.","You make a cup of coffee.","You feel alert. Coffee becomes tied to waking up."],
+ Stress:["You hit a hard problem at work.","You feel stuck and want relief.","You open social media.","The tension eases. Scrolling becomes tied to feeling stuck."],
+ "Dark room":["You walk into a dark room.","You want to be able to see.","You flip the light switch.","You can see. The switch becomes tied to dark rooms."]};
+function tabLoop(){
+  add(`<p class="lead"><b>Every habit runs the same four-step loop.</b> The first two steps are the problem phase, the last two the solution phase. Tap a step, and switch the example to see the loop in a real habit.</p>
+  <div class="seg" id="exs"></div>
+  <div class="card"><svg viewBox="0 0 320 250" role="img" aria-label="The habit loop"><circle cx="160" cy="125" r="78" fill="none" stroke="var(--rule)" stroke-width="10"/>
+   <g fill="var(--muted)"><path d="M222,62 l10,2 l-6,8z"/><path d="M222,188 l2,10 l-10,-4z" transform="rotate(8 222 188)"/><path d="M98,188 l-10,-2 l6,-8z"/><path d="M98,62 l-2,-10 l10,4z" transform="rotate(8 98 62)"/></g>
+   <text x="160" y="121" font-size="10" text-anchor="middle" style="fill:var(--muted)">Problem: 1 and 2</text><text x="160" y="136" font-size="10" text-anchor="middle" style="fill:var(--muted)">Solution: 3 and 4</text><g id="nodes"></g></svg></div>
+  <div class="det" id="ldet"></div>
+  <p class="note" style="margin-top:14px">Each stage has a matching law. To build a habit, strengthen all four. To break one, weaken any of them. See the next tab.</p>`);
+  const P=[[160,47],[238,125],[160,203],[82,125]]; let cur=0, ex="Phone";
+  const g=$("nodes"); STG.forEach((s,i)=>g.insertAdjacentHTML("beforeend",`<g class="hot" data-i="${i}" tabindex="0" role="button" aria-label="${s[0]}"><circle cx="${P[i][0]}" cy="${P[i][1]}" r="36" fill="var(--panel)" stroke="${LC[i]}" stroke-width="3"/><text x="${P[i][0]}" y="${P[i][1]-3}" font-size="10" text-anchor="middle" style="fill:${LC[i]}" font-weight="700">${i+1}</text><text x="${P[i][0]}" y="${P[i][1]+12}" font-size="12.5" font-weight="700" text-anchor="middle">${s[0]}</text></g>`));
+  const draw=()=>{const s=STG[cur]; $("ldet").style.borderLeftColor=LC[cur]; $("ldet").innerHTML=`<div class="k" style="color:${LC[cur]}">Step ${cur+1} · ${s[1]}</div><b class="t">${s[0]}</b><p>${s[2]}</p><p class="ex"><b>${ex}:</b> ${EX[ex][cur]}</p>`;
+    g.querySelectorAll("circle").forEach((c,k)=>{c.setAttribute("fill",k===cur?LC[k]:"var(--panel)"); c.setAttribute("fill-opacity",k===cur?".22":"1");});
+    [...$("exs").children].forEach(b=>b.setAttribute("aria-pressed",b.textContent===ex));};
+  Object.keys(EX).forEach(k=>{const b=h("button",null,k); b.onclick=()=>{ex=k;draw();}; $("exs").appendChild(b);});
+  g.onclick=e=>{const t=e.target.closest(".hot"); if(t){cur=+t.dataset.i;draw();}}; draw();
+}
+
+/* ---------- 3. Four laws ---------- */
+const LAW=[
+ ["Make it obvious","Cue","Make it invisible","Most habits fail for lack of clarity, not motivation. Decide in advance when and where, and put the cue in plain sight.",
+  [["Habit scorecard","List your daily habits and mark each as good, bad or neutral. The point is awareness: you cannot change what you do not notice."],
+   ["Implementation intention","State exactly when and where: \"I will [behaviour] at [time] in [location].\" People who write this down follow through far more often."],
+   ["Habit stacking","Attach a new habit to one you already do: \"After [current habit], I will [new habit].\" The old habit becomes the cue."],
+   ["Design your environment","Make the cues of good habits visible. Fruit on the counter, the book on the pillow, the guitar on a stand in the living room."]],
+  "Reduce exposure. Remove the cues of bad habits from your surroundings. Self-control is easier when the temptation is out of sight."],
+ ["Make it attractive","Craving","Make it unattractive","The anticipation of a reward is what moves us to act. The more appealing a habit looks, the more likely it sticks.",
+  [["Temptation bundling","Pair something you need to do with something you want to do. Only watch your favourite show while on the exercise bike."],
+   ["Join a culture","We copy the habits of the close, the many and the powerful. Join a group where the behaviour you want is the normal behaviour."],
+   ["Motivation ritual","Do something you enjoy immediately before a difficult habit, so the good feeling carries over."]],
+  "Reframe your mindset. Spell out the benefits of avoiding the bad habit until it loses its appeal."],
+ ["Make it easy","Response","Make it difficult","We follow the path of least effort. Habits form through repetition, not time, so make the right action as frictionless as possible.",
+  [["Reduce friction","Cut the number of steps between you and the good habit. Lay out gym clothes the night before."],
+   ["Prime the environment","Prepare your space so the next action is easy: the pan on the stove, the notebook open on the desk."],
+   ["The two-minute rule","Scale any new habit down until it takes two minutes or less. \"Read before bed\" becomes \"read one page\". Master showing up before improving."],
+   ["Master the decisive moment","A few small choices each day decide the hours that follow. Changing into workout clothes largely decides whether you exercise."],
+   ["Automate","Use technology and one-time purchases to lock in good behaviour: automatic savings, a better mattress, a water filter."]],
+  "Increase friction, and use a commitment device: a choice made now that restricts your options later, such as leaving your card at home."],
+ ["Make it satisfying","Reward","Make it unsatisfying","The book's cardinal rule: what is immediately rewarded is repeated, and what is immediately punished is avoided. The first three laws get a habit done once. This one gets it repeated.",
+  [["Immediate reward","Give yourself a small, immediate reward when you complete the habit, since the real benefits arrive much later."],
+   ["Habit tracker","Keep a visible record and do not break the chain. Seeing progress is itself satisfying."],
+   ["Never miss twice","Missing once is an accident. Missing twice is the start of a new habit. Get back on track at the very next chance."],
+   ["The Goldilocks rule","Motivation peaks when a task sits just at the edge of your current ability: not too hard, not too easy."]],
+  "Get an accountability partner, or sign a habit contract that makes the cost of slipping public and painful."]
+];
+function tabLaws(){
+  add(`<p class="lead"><b>Four laws, one for each step of the loop.</b> Tap an electron to open a law. Each has a mirror image for breaking a bad habit.</p>
+  <div class="card"><svg viewBox="0 0 320 240" role="img" aria-label="An atom with four electrons, one for each law"><g fill="none" stroke="var(--rule)" stroke-width="2">
+   <ellipse cx="160" cy="115" rx="92" ry="34"/><ellipse cx="160" cy="115" rx="92" ry="34" transform="rotate(45 160 115)"/><ellipse cx="160" cy="115" rx="92" ry="34" transform="rotate(90 160 115)"/><ellipse cx="160" cy="115" rx="92" ry="34" transform="rotate(135 160 115)"/></g>
+   <circle cx="160" cy="115" r="24" fill="var(--ink)"/><text x="160" y="119" font-size="11" font-weight="700" text-anchor="middle" style="fill:var(--bg)">Habit</text><g id="els"></g></svg></div>
+  <div class="det" id="wdet"></div><div id="tech"></div>`);
+  const P=[[68,115],[225,50],[160,207],[95,180]]; const g=$("els");
+  LAW.forEach((l,i)=>g.insertAdjacentHTML("beforeend",`<g class="hot" data-i="${i}" tabindex="0" role="button" aria-label="${l[0]}"><circle cx="${P[i][0]}" cy="${P[i][1]}" r="21" fill="${LC[i]}"/><circle class="ring" cx="${P[i][0]}" cy="${P[i][1]}" r="26" fill="none" stroke="${LC[i]}" stroke-width="2.5"/><text x="${P[i][0]}" y="${P[i][1]+6}" font-size="17" font-weight="700" text-anchor="middle" style="fill:var(--panel)">${i+1}</text></g>`));
+  const pick=i=>{const l=LAW[i]; g.querySelectorAll(".ring").forEach((c,k)=>c.style.display=k===i?"":"none");
+    $("wdet").style.borderLeftColor=LC[i]; $("wdet").innerHTML=`<div class="k" style="color:${LC[i]}">Law ${i+1} · works on the ${l[1].toLowerCase()}</div><b class="t">${l[0]}</b><p>${l[3]}</p>`;
+    const t=$("tech"); t.textContent=""; t.appendChild(h("h2",null,"How to do it")); t.appendChild(rows(l[4]));
+    const v=h("p","inv"); v.innerHTML=`<b>To break a bad habit: ${l[2].toLowerCase()}.</b> ${l[5]}`; t.appendChild(v);};
+  g.onclick=e=>{const t=e.target.closest(".hot"); if(t) pick(+t.dataset.i);}; pick(0);
+}
+
+/* ---------- 4. Build one ---------- */
+function tabBuild(){
+  add(`<p class="lead"><b>Turn the ideas into one habit of your own.</b> Fill in the blanks and the page writes your plan using the book's three formulas.</p>
+  <div class="card"><div class="f">
+   <label for="b-id">I want to become the kind of person who…<input id="b-id" placeholder="reads every day"></label>
+   <label for="b-do">The habit<input id="b-do" placeholder="read"></label>
+   <label for="b-two">Two-minute version<input id="b-two" placeholder="read one page"></label>
+   <label for="b-when">Time<input id="b-when" placeholder="10 pm"></label>
+   <label for="b-where">Place<input id="b-where" placeholder="in bed"></label>
+   <label for="b-after">After which existing habit?<input id="b-after" placeholder="brush my teeth"></label>
+  </div><div class="out" id="out"></div></div>
+  <h2>30-day tracker · tap a day</h2>
+  <div class="card"><div class="dots" id="dots"></div><p id="tmsg"></p><p class="sub" style="font-size:12.5px">One tap marks a day done, a second tap marks it missed, a third clears it. Marks are kept in this browser only.</p></div>`);
+  const ids=["id","do","two","when","where","after"], def=["reads every day","read","read one page","10 pm","in bed","brush my teeth"];
+  let st={v:{},d:Array(30).fill(0)}; try{const s=JSON.parse(localStorage.getItem("ah-builder")); if(s&&s.d&&s.d.length===30) st=s;}catch(e){}
+  const save=()=>{try{localStorage.setItem("ah-builder",JSON.stringify(st));}catch(e){}};
+  const esc=s=>s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+  const val=(k,i)=>esc(($("b-"+k).value||"").trim()||def[i]);
+  const draw=()=>{$("out").innerHTML=`<b>Identity:</b> I am someone who ${val("id",0)}.<br><b>Intention:</b> I will ${val("do",1)} at ${val("when",3)} ${val("where",4)}.<br><b>Stack:</b> After I ${val("after",5)}, I will ${val("two",2)}.<br><b>Start small:</b> for the first weeks, only ${val("two",2)}. Showing up is the habit.`;};
+  ids.forEach(k=>{const e=$("b-"+k); e.value=st.v[k]||""; e.oninput=()=>{st.v[k]=e.value; save(); draw();};}); draw();
+  const dots=$("dots"); const tdraw=()=>{
+    [...dots.children].forEach((b,i)=>{b.className="dot"+(st.d[i]===1?" y":st.d[i]===2?" n":""); b.setAttribute("aria-label","Day "+(i+1)+(st.d[i]===1?", done":st.d[i]===2?", missed":""));});
+    const done=st.d.filter(x=>x===1).length; let best=0,run=0,twice=false; st.d.forEach((x,i)=>{run=x===1?run+1:0; best=Math.max(best,run); if(x===2&&st.d[i+1]===2) twice=true;});
+    $("tmsg").innerHTML=done?`<b>${done} of 30 days done.</b> Longest streak: ${best}.`+(twice?" You have two misses in a row. The book's rule is never miss twice, so the next day matters most.":""):"No days marked yet.";};
+  for(let i=0;i<30;i++){const b=h("button","dot",i+1); b.onclick=()=>{st.d[i]=(st.d[i]+1)%3; save(); tdraw();}; dots.appendChild(b);} tdraw();
+}
+
+const TABS={"1% better":tabIdea,"The loop":tabLoop,"Four laws":tabLaws,"Build one":tabBuild};
+function show(k){pg.textContent=""; $("main").scrollTop=0; [...$("tabs").children].forEach(b=>b.setAttribute("aria-selected",b.textContent===k)); TABS[k]();
+  pg.appendChild(h("p","note","This is a summary in plain words of ideas from Atomic Habits by James Clear (2018), not a reproduction of the book."));}
+Object.keys(TABS).forEach(k=>{const b=h("button","tab",k); b.setAttribute("role","tab"); b.onclick=()=>show(k); $("tabs").appendChild(b);});
+show("1% better");
+</script>
+</body>
+</html>

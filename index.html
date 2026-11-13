@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Shelf</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#f1ede4">
+<style>
+/* The shelf. Every book is one self-contained HTML file in books/ and keeps its own colours; what makes them one
+   series is the frame: the same cover layout here, and the same Shelf bar inside each book (tools/shelve.py
+   adds it). The list of books is the JSON block at the bottom, written by that tool from catalog.json. */
+:root{
+  --bg:#f1ede4; --panel:#fbf9f4; --ink:#22201c; --muted:#6c665c; --rule:#d9d3c5; --accent:#8c3b2a; --board:#c9bfa9;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; --serif:Georgia,"Times New Roman",serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#161412; --panel:#201d1a; --ink:#ece7dd; --muted:#a39b8d; --rule:#35302a; --accent:#e0906f; --board:#3d362d; color-scheme:dark; } }
+:root[data-theme="dark"]{ --bg:#161412; --panel:#201d1a; --ink:#ece7dd; --muted:#a39b8d; --rule:#35302a; --accent:#e0906f; --board:#3d362d; color-scheme:dark; }
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);min-height:100vh}
+button,input,select{font:inherit;color:inherit}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.w{max-width:1120px;margin:0 auto;padding:0 20px}
+@media (max-width:480px){.w{padding:0 16px}}
+
+/* masthead */
+.mast{border-bottom:1px solid var(--rule);background:var(--panel)}
+.mast .w{display:flex;align-items:center;gap:12px;min-height:58px;flex-wrap:wrap;padding-top:8px;padding-bottom:8px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;margin-right:auto}
+.brand svg{width:26px;height:26px;fill:var(--accent);flex:none}
+.brand b{font-family:var(--serif);font-weight:400;font-size:19px;letter-spacing:.22em;text-transform:uppercase}
+.brand span{font-size:12.5px;color:var(--muted);white-space:nowrap}
+.search{flex:1 1 180px;max-width:300px;min-width:0;height:36px;border:1px solid var(--rule);background:var(--bg);border-radius:8px;padding:0 12px;font-size:14.5px}
+.search::placeholder{color:var(--muted)}
+.icon{flex:none;width:36px;height:36px;border:1px solid var(--rule);background:var(--bg);border-radius:8px;cursor:pointer;font-size:15px;line-height:1}
+
+/* controls */
+.ctl{display:flex;align-items:center;gap:8px 14px;flex-wrap:wrap;padding:16px 0 4px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--rule);background:var(--panel);border-radius:999px;padding:5px 12px;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.chip small{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.chip[aria-pressed="true"] small{color:inherit;opacity:.7}
+.sep{width:1px;height:20px;background:var(--rule)}
+.sort{margin-left:auto;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.sort select{border:1px solid var(--rule);background:var(--panel);border-radius:8px;padding:5px 8px;font-size:13px;color:var(--ink)}
+@media (max-width:560px){.sep{display:none}.sort{margin-left:0}}
+
+/* the reading-status dot: the same three states as the bar inside every book */
+.dot{width:11px;height:11px;border-radius:50%;border:1.6px solid currentColor;flex:none;opacity:.7}
+[data-s="reading"]>.dot{background:linear-gradient(90deg,var(--accent) 50%,transparent 50%);border-color:var(--accent);opacity:1}
+[data-s="finished"]>.dot{background:var(--accent);border-color:var(--accent);opacity:1}
+.chip[aria-pressed="true"]>.dot{border-color:currentColor;opacity:1}
+.chip[aria-pressed="true"][data-s="reading"]>.dot{background:linear-gradient(90deg,currentColor 50%,transparent 50%)}
+.chip[aria-pressed="true"][data-s="finished"]>.dot{background:currentColor}
+
+/* continue */
+.cont{display:none;align-items:center;gap:12px;margin:14px 0 0;padding:10px 14px;background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--accent);border-radius:8px;text-decoration:none}
+.cont.on{display:flex}
+.cont small{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.cont b{font-family:var(--serif);font-weight:400;font-size:17px}
+.cont span{color:var(--muted);font-size:13px}
+.cont i{margin-left:auto;font-style:normal;font-size:20px;color:var(--muted)}
+
+/* shelf */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:34px 26px;padding:26px 0 10px}
+@media (max-width:480px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 16px}}
+.book{min-width:0;display:flex;flex-direction:column;scroll-margin-top:20px}
+.cover{display:block;aspect-ratio:2/3;position:relative;container-type:inline-size;background:var(--c-bg);color:var(--c-fg);text-decoration:none;
+  border-radius:2px 5px 5px 2px;overflow:hidden;box-shadow:0 1px 1px rgba(0,0,0,.18),0 10px 18px -8px rgba(0,0,0,.45);transition:transform .16s ease, box-shadow .16s ease}
+.cover::before{content:"";position:absolute;inset:0 auto 0 0;width:7%;background:linear-gradient(90deg,rgba(0,0,0,.26),rgba(0,0,0,0) 45%,rgba(255,255,255,.1) 60%,rgba(0,0,0,.1));pointer-events:none}
+.cover:hover{transform:translateY(-4px);box-shadow:0 1px 1px rgba(0,0,0,.18),0 18px 24px -10px rgba(0,0,0,.5)}
+@media (prefers-reduced-motion:reduce){.cover{transition:none}.cover:hover{transform:none}}
+.book.flash .cover{outline:3px solid var(--accent);outline-offset:3px}
+.c-in{position:absolute;inset:6cqw 6cqw 6cqw 10cqw;border:1px solid var(--c-line);box-shadow:inset 0 0 0 .8cqw var(--c-bg),inset 0 0 0 1.2cqw color-mix(in srgb,var(--c-line) 55%,transparent);
+  display:flex;flex-direction:column;align-items:center;text-align:center;padding:5cqw 5cqw 4.5cqw}
+.c-top{align-self:stretch;display:flex;align-items:center;gap:2.2cqw;font-family:var(--serif);font-size:4.6cqw;letter-spacing:.2em;text-transform:uppercase}
+.c-top svg{width:6.4cqw;height:6.4cqw;fill:var(--c-line);flex:none}
+.c-top em{margin-left:auto;font-style:normal;font-family:var(--sans);letter-spacing:.04em;font-size:4.2cqw;opacity:.8;font-variant-numeric:tabular-nums;white-space:nowrap}
+.c-emb{margin:auto 0 4cqw;width:30cqw;height:30cqw;color:var(--c-line)}
+.c-emb svg{width:100%;height:100%;display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.c-emb svg.mark{fill:currentColor;stroke:none;padding:12%}
+.c-title{font-family:var(--serif);font-size:11cqw;line-height:1.08;text-wrap:balance;overflow-wrap:anywhere}
+.c-title.long{font-size:9.4cqw}
+.c-title.vlong{font-size:7.8cqw}
+.c-rule{width:14cqw;height:1px;background:var(--c-line);margin:4.5cqw 0 3.6cqw}
+.c-auth{font-size:4.9cqw;letter-spacing:.14em;text-transform:uppercase;line-height:1.3}
+.c-foot{margin-top:auto;padding-top:3cqw;font-size:4cqw;letter-spacing:.14em;text-transform:uppercase;opacity:.72}
+.board{height:7px;margin:0 -8px;background:var(--board);border-radius:1px;box-shadow:0 2px 3px rgba(0,0,0,.18)}
+.info{padding:11px 2px 0;min-width:0}
+.info h3{margin:0;font-size:14.5px;font-weight:650;line-height:1.3}
+.info h3 a{text-decoration:none}
+.info h3 a:hover{text-decoration:underline}
+.info p{margin:2px 0 0;font-size:13px;color:var(--muted)}
+.info .bl{margin-top:6px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px}
+.st{border:1px solid var(--rule);background:var(--panel);border-radius:999px;padding:4px 10px 4px 8px;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.tag{font-size:11.5px;color:var(--muted);border:1px solid var(--rule);border-radius:4px;padding:2px 6px;cursor:pointer;background:transparent}
+.tag:hover{color:var(--ink);border-color:var(--muted)}
+.none{display:none;padding:50px 0;text-align:center;color:var(--muted);font-size:15px}
+.none.on{display:block}
+.foot{margin-top:34px;border-top:1px solid var(--rule);padding:18px 0 44px;color:var(--muted);font-size:12.5px;line-height:1.6}
+.foot code{font-family:ui-monospace,Consolas,Menlo,monospace;font-size:12px;background:var(--panel);border:1px solid var(--rule);border-radius:4px;padding:1px 5px}
+</style>
+</head>
+<body>
+<header class="mast"><div class="w">
+  <a class="brand" href="./" aria-label="Shelf">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2H22V4.6H4.6V10.7H19a3 3 0 0 1 3 3V19a3 3 0 0 1-3 3H2V19.4H19.4V13.3H5a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3z"/><path d="M6 6h2.2v5H6zM9.3 7h2v4h-2zM12.9 11.2L11.8 6.9l1.95-.5 1.1 4.3zM15.8 14.7h2.2v5h-2.2zM12.7 15.7h2v4h-2zM11.1 19.9l1.1-4.3-1.95-.5-1.1 4.3z"/></svg>
+    <b>Shelf</b><span id="count"></span>
+  </a>
+  <input class="search" id="q" type="search" placeholder="Search title, author or tag" aria-label="Search the shelf" autocomplete="off">
+  <button class="icon" id="theme" title="Light or dark" aria-label="Switch between light and dark">◐</button>
+</div></header>
+
+<main class="w">
+  <div class="ctl">
+    <div class="chips" id="statusChips" role="group" aria-label="Filter by reading status"></div>
+    <span class="sep" id="tagSep"></span>
+    <div class="chips" id="tagChips" role="group" aria-label="Filter by tag"></div>
+    <label class="sort">Sort <select id="sort">
+      <option value="no">Number</option><option value="title">Title</option><option value="author">Author</option><option value="opened">Recently opened</option><option value="added">Recently added</option>
+    </select></label>
+  </div>
+  <a class="cont" id="cont"><div><small>Pick up where you left off</small><b></b> <span></span></div><i aria-hidden="true">›</i></a>
+  <div class="grid" id="grid"></div>
+  <p class="none" id="none">No book matches. <button class="chip" id="clear">Clear filters</button></p>
+  <footer class="foot" id="foot"></footer>
+</main>
+
+<script id="catalog" type="application/json">[{"id":"48-laws-of-power","no":1,"title":"The 48 Laws of Power","author":"Robert Greene","year":1998,"kind":"Guide","tags":["Power","Strategy"],"blurb":"Robert Greene's 48 laws laid out on a chessboard, one square each and sorted into six themes. Open any law for the idea, the book's example and what is worth remembering.","source":"48-laws-of-power-guide.html","added":"2026-11-13","cover":{"bg":"#2f5d50","fg":"#ecdfc6","line":"#d4a843"},"bar":{"bg":"var(--bg)","accent":"var(--gold)"},"emblem":"<path d=\"M9 33 6.5 15l9.5 8L24 10l8 13 9.5-8L39 33z\"/><path d=\"M10 38.5h28\"/>"},{"id":"animal-farm","no":2,"title":"Animal Farm","author":"George Orwell","year":1945,"kind":"Guide","tags":["Fiction","Politics"],"blurb":"Step through Orwell's ten chapters and watch the farm, and the commandments painted on the barn wall, change. Then meet the characters and the history each one stands for.","source":"animal-farm-guide.html","added":"2026-11-13","cover":{"bg":"#8f2f25","fg":"#fff6e6","line":"#ffd75a"},"bar":{"bg":"var(--bg)","accent":"var(--red)"},"emblem":"<path d=\"M19 42l3-21h4l3 21z\"/><path d=\"M24 19 11 7M24 19 37 7M24 19 11 31M24 19l13 12\"/><circle cx=\"24\" cy=\"19\" r=\"2.4\" fill=\"currentColor\"/>"},{"id":"art-of-seduction","no":3,"title":"The Art of Seduction","author":"Robert Greene","year":2001,"kind":"Guide","tags":["Psychology","Strategy"],"blurb":"Greene's nine seducer characters as a deck of court cards, the eighteen kinds of target, and the twenty-four moves of the process in four phases, each also seen from the receiving end.","source":"art-of-seduction-guide.html","added":"2026-11-13","cover":{"bg":"#261a2d","fg":"#f6efe6","line":"#c9a24a"},"bar":{"bg":"var(--bg)","accent":"var(--gold)"},"emblem":"<path d=\"M24 40C9 29 6 21.5 6 16a9 9 0 0 1 18-1.5A9 9 0 0 1 42 16c0 5.5-3 13-18 24z\"/>"},{"id":"atomic-habits","no":4,"title":"Atomic Habits","author":"James Clear","year":2018,"kind":"Guide","tags":["Habits","Psychology"],"blurb":"The compounding curve, the four-step habit loop and the four laws of behaviour change, with a builder that turns them into one habit of your own and a 30-day tracker.","source":"atomic-habits-guide.html","added":"2026-11-13","cover":{"bg":"#f4f5f1","fg":"#1c2a2e","line":"#0f766e"},"bar":{"bg":"var(--bg)","accent":"var(--a)"},"emblem":"<ellipse cx=\"24\" cy=\"24\" rx=\"19\" ry=\"7.5\"/><ellipse cx=\"24\" cy=\"24\" rx=\"19\" ry=\"7.5\" transform=\"rotate(60 24 24)\"/><ellipse cx=\"24\" cy=\"24\" rx=\"19\" ry=\"7.5\" transform=\"rotate(120 24 24)\"/><circle cx=\"24\" cy=\"24\" r=\"2.6\" fill=\"currentColor\"/>"}]</script>
+<script>
+"use strict";
+const BOOKS=JSON.parse(document.getElementById("catalog").textContent);
+const KEY="library.v1", $=id=>document.getElementById(id);
+const MARK='<path d="M5 2H22V4.6H4.6V10.7H19a3 3 0 0 1 3 3V19a3 3 0 0 1-3 3H2V19.4H19.4V13.3H5a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3z"/><path d="M6 6h2.2v5H6zM9.3 7h2v4h-2zM12.9 11.2L11.8 6.9l1.95-.5 1.1 4.3zM15.8 14.7h2.2v5h-2.2zM12.7 15.7h2v4h-2zM11.1 19.9l1.1-4.3-1.95-.5-1.1 4.3z"/>';
+const LAB={none:"To read",reading:"Reading",finished:"Finished"}, NEXT={none:"reading",reading:"finished",finished:"none"};
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const load=()=>{try{const s=JSON.parse(localStorage.getItem(KEY)); if(s&&s.books) return s;}catch(e){} return {books:{}};};
+const save=s=>{try{localStorage.setItem(KEY,JSON.stringify(s));}catch(e){}};
+const pref=(k,v)=>{try{if(v===undefined) return localStorage.getItem("library."+k); localStorage.setItem("library."+k,v);}catch(e){} return null;};
+let store=load();
+const statusOf=b=>(store.books[b.id]||{}).status||"none", openedOf=b=>(store.books[b.id]||{}).opened||0;
+const f={q:"",status:"all",tag:null,sort:pref("sort")||"no"};
+
+function card(b){
+  const el=document.createElement("article"); el.className="book"; el.id=b.id;
+  const c=b.cover||{}, n=b.title.length, href="books/"+encodeURIComponent(b.id)+".html";
+  el.style.cssText=`--c-bg:${c.bg||"#3a3a3a"};--c-fg:${c.fg||"#fff"};--c-line:${c.line||c.fg||"#fff"}`;
+  const foot=[b.kind?"A "+b.kind.toLowerCase():"",b.year||""].filter(Boolean).join(" · ");
+  el.innerHTML=`<a class="cover" href="${href}" aria-label="${esc(b.title)}, ${esc(b.author)}. Open the book."><div class="c-in">
+      <div class="c-top"><svg viewBox="0 0 24 24" aria-hidden="true">${MARK}</svg><span>Shelf</span><em>No. ${b.no}</em></div>
+      <div class="c-emb">${b.emblem?`<svg viewBox="0 0 48 48" aria-hidden="true">${b.emblem}</svg>`:`<svg class="mark" viewBox="0 0 24 24" aria-hidden="true">${MARK}</svg>`}</div>
+      <div class="c-title${n>30?" vlong":n>17?" long":""}">${esc(b.title)}</div><div class="c-rule"></div>
+      <div class="c-auth">${esc(b.author)}</div><div class="c-foot">${esc(foot)}</div></div></a>
+    <div class="board"></div>
+    <div class="info"><h3><a href="${href}">${esc(b.title)}</a></h3><p>${esc(b.author)}${b.year?" · "+b.year:""}</p>
+      ${b.blurb?`<p class="bl">${esc(b.blurb)}</p>`:""}
+      <div class="row"><button class="st" type="button"><span class="dot"></span><span class="lb"></span></button>${(b.tags||[]).map(t=>`<button class="tag" type="button">${esc(t)}</button>`).join("")}</div></div>`;
+  const st=el.querySelector(".st");
+  st.onclick=()=>{store=load(); const me=store.books[b.id]||(store.books[b.id]={}); me.status=NEXT[me.status||"none"]; save(store); paint();};
+  el.querySelectorAll(".tag").forEach(t=>t.onclick=()=>{f.tag=f.tag===t.textContent?null:t.textContent; paint();});
+  b._el=el; b._st=st; return el;
+}
+BOOKS.forEach(b=>$("grid").appendChild(card(b)));
+
+function chips(){
+  const sc=$("statusChips"); sc.textContent="";
+  [["all","All"],["none",LAB.none],["reading",LAB.reading],["finished",LAB.finished]].forEach(([k,l])=>{
+    const n=k==="all"?BOOKS.length:BOOKS.filter(b=>statusOf(b)===k).length;
+    const b=document.createElement("button"); b.className="chip"; b.type="button"; b.setAttribute("aria-pressed",f.status===k); if(k!=="all") b.dataset.s=k;
+    b.innerHTML=(k==="all"?"":'<span class="dot"></span>')+esc(l)+` <small>${n}</small>`; b.onclick=()=>{f.status=k; paint();}; sc.appendChild(b);});
+  const tags={}; BOOKS.forEach(b=>(b.tags||[]).forEach(t=>tags[t]=(tags[t]||0)+1));
+  const tc=$("tagChips"); tc.textContent=""; const names=Object.keys(tags).sort((a,b)=>tags[b]-tags[a]||a.localeCompare(b));
+  $("tagSep").style.display=names.length?"":"none";
+  names.forEach(t=>{const b=document.createElement("button"); b.className="chip"; b.type="button"; b.setAttribute("aria-pressed",f.tag===t);
+    b.innerHTML=esc(t)+` <small>${tags[t]}</small>`; b.onclick=()=>{f.tag=f.tag===t?null:t; paint();}; tc.appendChild(b);});
+}
+function paint(){
+  const q=f.q.trim().toLowerCase();
+  const by={no:(a,b)=>a.no-b.no, title:(a,b)=>a.title.replace(/^the /i,"").localeCompare(b.title.replace(/^the /i,"")),
+    author:(a,b)=>a.author.split(" ").pop().localeCompare(b.author.split(" ").pop())||a.no-b.no,
+    opened:(a,b)=>openedOf(b)-openedOf(a)||a.no-b.no, added:(a,b)=>String(b.added).localeCompare(String(a.added))||b.no-a.no}[f.sort];
+  let shown=0;
+  [...BOOKS].sort(by).forEach((b,i)=>{
+    const s=statusOf(b), hay=[b.title,b.author,b.year,b.kind,(b.tags||[]).join(" "),b.blurb].join(" ").toLowerCase();
+    const ok=(!q||q.split(/\s+/).every(w=>hay.includes(w)))&&(f.status==="all"||f.status===s)&&(!f.tag||(b.tags||[]).includes(f.tag));
+    b._el.style.display=ok?"":"none"; b._el.style.order=i; if(ok) shown++;
+    b._st.dataset.s=s; b._st.querySelector(".lb").textContent=LAB[s]; b._st.setAttribute("aria-label","Reading status: "+LAB[s]+". Press to change.");});
+  $("none").classList.toggle("on",!shown&&BOOKS.length>0); chips();
+  $("count").textContent=BOOKS.length+(BOOKS.length===1?" book":" books");
+  const last=[...BOOKS].filter(b=>openedOf(b)&&statusOf(b)!=="finished").sort((a,b)=>openedOf(b)-openedOf(a))[0], c=$("cont");
+  c.classList.toggle("on",!!last); if(last){c.href="books/"+encodeURIComponent(last.id)+".html"; c.querySelector("b").textContent=last.title; c.querySelector("span").textContent=last.author;}
+}
+$("q").oninput=e=>{f.q=e.target.value; paint();};
+$("sort").value=f.sort; $("sort").onchange=e=>{f.sort=e.target.value; pref("sort",f.sort); paint();};
+$("clear").onclick=()=>{f.q="";f.status="all";f.tag=null;$("q").value="";paint();};
+$("theme").onclick=()=>{const r=document.documentElement, cur=r.dataset.theme, dark=cur==="dark"||(cur!=="light"&&matchMedia("(prefers-color-scheme:dark)").matches);
+  r.dataset.theme=dark?"light":"dark"; pref("theme",r.dataset.theme);};
+const th=pref("theme"); if(th) document.documentElement.dataset.theme=th;
+addEventListener("storage",e=>{if(e.key===KEY){store=load(); paint();}});
+addEventListener("pageshow",()=>{store=load(); paint();});      // coming back from a book: its status may have changed
+$("foot").innerHTML=BOOKS.length
+  ? `Every book is one self-contained page that also opens on its own from <code>books/</code>. Reading status is kept in this browser only. To add a book, drop its HTML file in <code>inbox/</code> and run <code>python tools/shelve.py</code>.`
+  : `The shelf is empty. Drop a book's HTML file in <code>inbox/</code> and run <code>python tools/shelve.py</code>.`;
+paint();
+const hit=BOOKS.find(b=>b.id===decodeURIComponent(location.hash.slice(1)));
+if(hit){hit._el.scrollIntoView({block:"center"}); hit._el.classList.add("flash"); setTimeout(()=>hit._el.classList.remove("flash"),1600);}
+</script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The 48 Laws of Power Guide</title>
+<style>
+/* Layout: one screen. The 48 laws sit on a 6 x 8 board, one square each; six chess pieces stand for six
+   themes. Tapping a square or a row in the list opens the law. Look: a chessboard, green and cream. Single theme by choice. */
+:root{
+  --bg:#14171c; --panel:#1d2229; --light:#ecdfc6; --dark:#2f5d50; --ink:#1b1f24; --red:#c43a3f; --gold:#d4a843; --muted:#a3adb8; --mut2:#5f6670; --rule:#2c333c;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --serif: Georgia, "Times New Roman", serif;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--light);font-family:var(--sans);display:flex;flex-direction:column;overflow:hidden}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+header{flex:none;padding:12px 14px 10px;border-bottom:1px solid var(--rule)}
+.w{max-width:620px;margin:0 auto}
+h1{font-family:var(--serif);font-size:18px;margin:0;color:var(--gold);font-weight:400;letter-spacing:.02em}
+.by{font-size:12px;color:var(--muted);margin-top:2px}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-top:10px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;display:flex;align-items:center;gap:5px;border:1px solid var(--rule);background:var(--panel);border-radius:999px;padding:4px 11px 4px 6px;font-size:12.5px;cursor:pointer;white-space:nowrap}
+.chip svg{width:20px;height:20px;fill:var(--gold)}
+.chip.all{padding-left:11px}
+.chip[aria-pressed="true"]{background:var(--light);color:var(--ink);border-color:var(--light)}
+.chip[aria-pressed="true"] svg{fill:var(--ink)}
+main{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.pg{padding:0 14px 40px}
+.lead{font-size:14.5px;line-height:1.5;color:var(--muted);margin:14px 0;max-width:64ch}
+.lead b{color:var(--light)}
+#theme{font-size:13.5px;line-height:1.45;color:var(--light);background:var(--panel);border-left:3px solid var(--gold);padding:8px 12px;margin:0 0 12px;display:none}
+#board{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));border:4px solid #0c0e11;outline:1px solid var(--gold);border-radius:3px}
+.sq{aspect-ratio:1;border:0;padding:0;position:relative;cursor:pointer;background:var(--light);color:var(--ink);display:grid;place-items:center}
+.sq.d{background:var(--dark);color:var(--light)}
+.sq svg{width:62%;height:62%;fill:currentColor;margin-top:12%}
+.sq i{position:absolute;left:4px;top:2px;font-style:normal;font-size:11px;font-weight:700;font-variant-numeric:tabular-nums}
+.sq.off{opacity:.22}
+.sq:active{filter:brightness(1.15)}
+h2{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:22px 0 8px}
+.list{display:grid;gap:5px}
+.row{display:flex;align-items:center;gap:10px;text-align:left;background:var(--panel);border:1px solid var(--rule);border-radius:8px;padding:8px 10px;cursor:pointer}
+.row i{flex:none;width:28px;font-style:normal;font-family:var(--serif);font-size:16px;color:var(--gold);text-align:right;font-variant-numeric:tabular-nums}
+.row span{flex:1;font-size:14.5px}
+.row svg{flex:none;width:20px;height:20px;fill:var(--muted)}
+.note{font-size:12px;color:var(--muted);line-height:1.5;margin:18px 0 0;max-width:64ch}
+#shade{position:fixed;inset:0;background:#000a;opacity:0;pointer-events:none;transition:opacity .2s}
+#sheet{position:fixed;left:0;right:0;bottom:0;max-height:86%;overflow-y:auto;background:var(--light);color:var(--ink);border-radius:16px 16px 0 0;padding:14px 18px 24px;transform:translateY(105%);transition:transform .25s ease}
+body.open #shade{opacity:1;pointer-events:auto}
+body.open #sheet{transform:none}
+@media (prefers-reduced-motion: reduce){#sheet,#shade{transition:none}}
+.si{max-width:560px;margin:0 auto}
+.sh{display:flex;gap:12px;align-items:flex-start}
+#s-art{flex:none;width:64px;height:64px;background:var(--dark);border-radius:8px;display:grid;place-items:center}
+#s-art svg{width:46px;height:46px;fill:var(--light)}
+.st{flex:1;min-width:0}
+#s-k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--red);font-weight:700}
+#s-n{font-family:var(--serif);font-size:23px;font-weight:400;margin:2px 0;text-wrap:balance}
+#s-t{font-size:13px;color:var(--mut2)}
+#close{flex:none;border:1px solid #cbbfa6;background:transparent;border-radius:50%;width:34px;height:34px;font-size:18px;cursor:pointer;color:var(--ink)}
+#s-body h3{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--mut2);margin:16px 0 3px}
+#s-body p{font-size:15px;line-height:1.5;margin:0;max-width:62ch}
+#s-body p.flag{border-left:3px solid var(--red);padding-left:10px}
+.nav{display:flex;gap:8px;margin-top:18px}
+.nav button{flex:1;border:1px solid #cbbfa6;background:transparent;border-radius:8px;padding:9px;font-size:13.5px;cursor:pointer;color:var(--ink)}
+.nav button:disabled{opacity:.35}
+</style>
+</head>
+<body>
+<header><div class="w">
+  <h1>The 48 Laws of Power</h1><div class="by">A guide to the ideas in Robert Greene's book</div>
+  <div class="chips" id="chips"></div>
+</div></header>
+<main id="main"><div class="w pg">
+  <p class="lead"><b>Forty-eight laws, one square each.</b> The six chess pieces are this guide's way of sorting them into themes. Tap a square or a row to open a law, or pick a piece to see its eight.</p>
+  <p id="theme"></p>
+  <div id="board"></div>
+  <h2 id="lh">All 48 laws</h2>
+  <div class="list" id="list"></div>
+  <p class="note">This is a summary in plain words of ideas from The 48 Laws of Power by Robert Greene (1998), not a reproduction of the book. Law names are shortened. The grouping by chess piece and the "worth remembering" notes are this guide's own additions.</p>
+</div></main>
+<div id="shade"></div>
+<div id="sheet" role="dialog" aria-modal="true" aria-labelledby="s-n"><div class="si">
+  <div class="sh"><div id="s-art"></div><div class="st"><div id="s-k"></div><h2 id="s-n" style="all:unset;display:block;font-family:var(--serif);font-size:23px;margin:2px 0"></h2><div id="s-t"></div></div><button id="close" aria-label="Close">×</button></div>
+  <div id="s-body"></div>
+  <div class="nav"><button id="prev">‹ Previous</button><button id="next">Next ›</button></div>
+</div></div>
+
+<script>
+const base=`<rect x="8" y="33" width="24" height="4" rx="1.5"/><rect x="11" y="29.5" width="18" height="3" rx="1"/>`;
+const PIECE={
+ K:`<path d="M18.7,1h2.6v3h3v2.6h-3v3.4h-2.6v-3.4h-3v-2.6h3z"/><path d="M12,14 q8,-7 16,0 q2,6 -3,15 h-10 q-5,-9 -3,-15z"/>`+base,
+ Q:`<circle cx="7" cy="9" r="2.2"/><circle cx="14" cy="5.5" r="2.2"/><circle cx="20" cy="4" r="2.2"/><circle cx="26" cy="5.5" r="2.2"/><circle cx="33" cy="9" r="2.2"/><path d="M7,11 l5,8 l2,-11 l6,10 l6,-10 l2,11 l5,-8 l-5,18 h-16z"/>`+base,
+ B:`<circle cx="20" cy="4" r="2.4"/><path d="M20,6.5 q9,7 4,15 h-8 q-5,-8 4,-15z M21.5,10 l-4,6 l1.6,1 l4,-6z" fill-rule="evenodd"/><path d="M14,22h12l-1,2h-10z M16,24.5 h8 l2,4.5 h-12z"/>`+base,
+ N:`<path d="M12,29 q0,-10 6,-14 l-5,-1 l8,-9 l1.5,-4 l3,4 q8,6 5.5,24z M21,10 a1.4,1.4 0 1 0 .1,0z" fill-rule="evenodd"/>`+base,
+ R:`<path d="M10,4h4.5v3h3.5v-3h4v3h3.5v-3h4.5v9h-20z"/><path d="M13,14h14l1.5,15h-17z"/>`+base,
+ P:`<circle cx="20" cy="11" r="6"/><path d="M14,18h12v2.5h-2.5 q0,5 3.5,9 h-14 q3.5,-4 3.5,-9 h-2.5z"/>`+base
+};
+const pc=k=>`<svg viewBox="0 0 40 40" aria-hidden="true">${PIECE[k]}</svg>`;
+const THEME={
+ K:["King","Presence and reputation","How you are seen: image, reputation, visibility and bearing."],
+ Q:["Queen","Force and decisiveness","When and how to act with full weight, and when to stop."],
+ B:["Bishop","Persuasion","Moving people through their interests, feelings and beliefs."],
+ N:["Knight","Indirection","Working sideways: concealment, bait, proxies and misdirection."],
+ R:["Rook","Restraint and defence","Self-control, patience, timing and staying hard to hit."],
+ P:["Pawn","Navigating others","Handling superiors, allies, rivals and the people around you."]
+};
+// n, piece, short name, the idea, example the book uses, worth remembering
+const L=[
+[1,"P","Never outshine the master","Make those above you feel comfortably superior. Showing off your talents can stir their insecurity instead of their gratitude.","Nicolas Fouquet threw a party so lavish that Louis XIV had him arrested soon after.","A secure boss welcomes talent. The law mostly describes insecure ones, which is useful to know about yours."],
+[2,"P","Be careful with friends, make use of enemies","Friends can grow envious and take favours for granted. A former opponent has more to prove and may serve you better.","The Byzantine emperor Michael III raised his friend Basilius to power and was murdered by him.","Trust built on a track record beats trust built on affection alone."],
+[3,"N","Conceal your intentions","If people cannot tell what you are aiming at, they cannot prepare a defence. Use decoys and plausible cover.","Bismarck spoke warmly for peace while preparing for the wars he wanted.","Habitual secrecy costs you allies. People commit to those whose aims they understand."],
+[4,"R","Say less than necessary","The more you say, the more ordinary you seem and the more likely you say something foolish. Brevity looks like strength.","Louis XIV met most requests with only \"I shall see\".","Silence can also read as coldness or evasion. Some moments call for plain speech."],
+[5,"K","Guard your reputation","Reputation does much of your work for you. Build it carefully and defend it before attacks land.","Zhuge Liang's name for cunning let him turn back an army by sitting calmly at an open gate.","A reputation is only as strong as the conduct behind it."],
+[6,"K","Court attention","What is unseen counts for nothing. Stand out, even through controversy, sooner than be ignored.","P.T. Barnum courted criticism because any attention sold tickets.","Attention is not respect. The wrong kind is hard to undo."],
+[7,"N","Let others do the work, take the credit","Use other people's skill and effort to save your own time, and make sure your name is on the result.","Edison's fame overshadowed the engineers behind much of his work, including Nikola Tesla.","People remember who took credit from them. This one is expensive in the long run."],
+[8,"N","Make others come to you","Whoever makes the other side act holds control. Lure opponents onto your ground with bait.","Talleyrand is shown drawing Napoleon back from Elba into a trap that ended at Waterloo.","Waiting works only if you really are worth coming to."],
+[9,"B","Win through actions, not argument","Arguments leave resentment even when you win. Show the point instead of explaining it.","Michelangelo, told a statue's nose was too large, pretended to chisel it and let dust fall. The critic was satisfied.","Demonstration is good advice in almost any setting."],
+[10,"P","Avoid the unhappy and unlucky","Moods and misfortune spread. Keep company with the fortunate and stable.","Lola Montez brought ruin to a string of admirers, including a king of Bavaria.","Taken literally this means abandoning people in trouble. A fairer reading is to watch for chronic chaos."],
+[11,"P","Keep people dependent on you","The more you are relied on, the more freedom you have. Never teach others enough to do without you.","Bismarck made himself indispensable to the Prussian kings he served.","Hoarding knowledge makes you a bottleneck, and organisations route around bottlenecks."],
+[12,"B","Disarm with selective honesty and generosity","One honest or generous act lowers suspicion and opens the door for what follows.","The con man Victor Lustig returned Al Capone's money untouched and was rewarded for his honesty.","The same gesture done sincerely builds real trust. The difference is what follows it."],
+[13,"B","Appeal to self-interest","When asking for help, do not remind people of past favours. Show what they gain.","Corcyra won Athens as an ally by stressing mutual advantage while Corinth spoke of old debts.","Sound negotiating advice. Gratitude is a weak motive compared with benefit."],
+[14,"N","Pose as a friend, work as a spy","Learn about rivals by asking indirect questions and listening more than you talk.","The art dealer Joseph Duveen studied his clients' habits through their servants.","Listening carefully is a skill. Pretending friendship to do it destroys trust when found out."],
+[15,"Q","Crush your enemy totally","A half-defeated enemy recovers and seeks revenge. Leave no ember.","Xiang Yu spared his rival Liu Bang more than once, and Liu Bang later destroyed him.","Outside war, total victories create permanent enemies. Most rivals are tomorrow's colleagues."],
+[16,"K","Use absence to increase respect","Too much presence cheapens you. Withdraw at the right time and you will be valued more.","Deioces of the Medes withdrew his services as a judge until the people begged him to be king.","It works only after you have established your worth. Unknowns who vanish are forgotten."],
+[17,"Q","Be unpredictable","Predictability gives others a sense of control. Occasional unexplained moves keep them unsettled.","Bobby Fischer's erratic behaviour threw Boris Spassky off balance in 1972.","People who work with you need to be able to predict you. Save surprise for opponents."],
+[18,"R","Do not isolate yourself","A fortress cuts you off from information and allies. Stay in circulation.","China's first emperor hid inside his palaces and lost touch with his own court.","Solitude for thinking is fine. The danger is losing contact with what is happening."],
+[19,"P","Know who you are dealing with","People react differently to the same treatment. Do not offend or deceive the wrong person.","The Shah of Khwarezm insulted Genghis Khan's envoys and lost his empire.","Reading people before acting is plain good sense."],
+[20,"R","Do not commit to anyone","Stay independent of sides and you remain the one everyone courts.","Elizabeth I kept suitors and nations hopeful for decades without marrying any of them.","Never committing also means never being fully trusted by anyone."],
+[21,"N","Seem less clever than you are","People enjoy feeling smarter than those around them. Let them, and they will not suspect you.","Two prospectors posing as simpletons sold a salted diamond field to San Francisco financiers in 1872.","Modesty helps. Faked incompetence eventually sticks to you."],
+[22,"R","Surrender to gain time","When weaker, do not fight for honour. Yield, wait and recover while the victor relaxes.","Melos refused to submit to Athens and was destroyed, the book's warning. Bertolt Brecht answered a hostile committee politely and walked free.","Knowing when not to fight is one of the more humane laws here."],
+[23,"Q","Concentrate your forces","Depth beats breadth. Put your strength into one point instead of spreading it thin.","The Rothschild family kept its wealth and its marriages tightly within the family.","Concentration brings exposure to a single failure. Keep a reserve."],
+[24,"P","Be the perfect courtier","Thrive near power by mastering tact: flatter with restraint, never be the bearer of bad news, adapt to those above.","The book draws on the courts of Europe and the manuals written for those who served in them.","Tact is valuable. A workplace where no one can deliver bad news fails."],
+[25,"K","Re-create yourself","Do not accept the role others hand you. Shape your own identity and present it with a sense of theatre.","Julius Caesar staged his public life like drama. George Sand built a new persona to be read at all.","Reinvention works when the new self is something you can sustain."],
+[26,"N","Keep your hands clean","Stay spotless by letting others carry blame or do the unpleasant work.","Cesare Borgia had his harsh governor Remirro de Orco executed once the hard work was done.","Scapegoating is quickly recognised, and those who see it done expect to be next."],
+[27,"B","Use people's need to believe","People long for a cause. Offer vague promises, ritual and a sense of belonging, and they will follow.","Charlatans such as Francesco Borri and Franz Mesmer gathered devoted followings.","This is the anatomy of a cult. Its best use is recognising one."],
+[28,"Q","Act boldly","Hesitation invites doubt and resistance. If you act, act with confidence. Mistakes of boldness are easily corrected.","Victor Lustig \"sold\" the Eiffel Tower through sheer nerve.","Boldness without preparation is just recklessness."],
+[29,"Q","Plan to the end","Think through the whole sequence, including obstacles and what happens after you win.","Bismarck fought short wars with fixed aims and stopped when he had them.","Among the least controversial laws. Most plans fail at the part nobody thought about."],
+[30,"K","Make it look effortless","Hide the labour and the tricks. Ease looks like mastery, visible strain looks like weakness.","The tea master Sen no Rikyu prized grace that showed no trace of effort.","Hiding all effort means nobody learns from you or knows what your work costs."],
+[31,"N","Control the options","Offer choices that all serve you. People feel free while picking from the cards you dealt.","Ivan the Terrible left Moscow and returned only on terms that gave him absolute power.","Notice when every option you are offered benefits the person offering."],
+[32,"B","Play to people's fantasies","Truth is often dull or painful. Those who offer a dream draw crowds.","The alchemist Bragadino was kept in luxury by Venice on the promise of making gold.","Whoever sells the fantasy eventually faces the bill for reality."],
+[33,"B","Find each person's weak point","Everyone has an insecurity, need or pleasure that moves them. Find it and you have a lever.","Cardinal Richelieu rose by reading the weaknesses of those around the French throne.","Understanding what people need is useful. Using it against them is manipulation."],
+[34,"K","Act like a king to be treated like one","The way you carry yourself sets how others treat you. Respect yourself and expect it of others.","Columbus, an unknown, negotiated with the Spanish crown as if he were its equal.","Confidence, not arrogance. The line is whether you can back it up."],
+[35,"R","Master timing","Never seem hurried. Learn to wait for the right moment, and strike when it comes.","Joseph Fouché survived every French regime from the Revolution to the Restoration by sensing each turn.","Patience is an advantage. Waiting forever is just avoidance."],
+[36,"R","Ignore what you cannot have","Paying attention to a small problem makes it larger. Contempt is sometimes the best response.","The US sent an army into Mexico after Pancho Villa and only made him a hero.","Some problems do grow when ignored. Choose which ones carefully."],
+[37,"K","Create spectacles","Striking images and grand gestures create an aura that argument cannot.","Diane de Poitiers wrapped herself in the imagery of the goddess Diana to hold a king's devotion.","Symbols persuade. They also fade quickly if nothing stands behind them."],
+[38,"P","Think as you like, behave like others","Flaunting unconventional ideas makes people feel judged. Blend in and share your views selectively.","The Spartan general Pausanias adopted Persian ways and was destroyed by his own people.","Useful in hostile settings. Lived permanently, it means never being known."],
+[39,"Q","Stir the waters","Anger clouds judgment. Stay calm yourself and unsettle opponents so they make mistakes.","Napoleon raged at Talleyrand in front of the court, and it was Napoleon who looked weakened.","Keeping your own temper is the half of this law worth practising."],
+[40,"R","Distrust the free lunch","What is offered free usually carries a hidden obligation. Pay your own way, and use generosity strategically.","Conquistadors chasing the free gold of El Dorado found ruin instead.","Good consumer advice. Not every gift is a trap, though."],
+[41,"K","Do not step into a great man's shoes","Following a famous predecessor leaves you in their shadow. Find a new direction of your own.","Alexander the Great set out to outdo his father Philip instead of preserving his work.","Build on what came before without pretending it never existed."],
+[42,"Q","Strike the shepherd","Trouble often traces back to one strong individual. Remove or isolate them and the group disperses.","Athens used ostracism to exile individuals who threatened the city's balance.","First be sure the person is the cause and not the messenger."],
+[43,"B","Win hearts and minds","Coercion breeds resistance. Persuade by working on what people feel and want.","Zhuge Liang captured the chieftain Meng Huo seven times and released him each time until he was won over.","Probably the most durable law in the book. Loyalty outlasts force."],
+[44,"N","Use the mirror","Mirroring what someone does unsettles or charms them and hides your own strategy.","Alcibiades won over Athenians, Spartans and Persians by taking on the manner of each.","People notice mirroring sooner than mirrorers think."],
+[45,"B","Change slowly","People accept the need for change in principle and resist it in their habits. Respect the old forms while you alter things.","Thomas Cromwell pushed the English Reformation too fast and lost his head.","Sound change management. Pace matters as much as direction."],
+[46,"P","Never appear too perfect","Flawlessness provokes envy. Show the occasional harmless fault.","Sir Walter Raleigh's brilliance earned him enemies at court who helped bring him down.","Admitting real limits works better than staging fake ones."],
+[47,"Q","Know when to stop","The moment of victory is dangerous. Do not push past your goal out of overconfidence.","Cyrus the Great pushed on against Queen Tomyris after his conquests and was killed.","A rare law about restraint. Most collapses begin with a win."],
+[48,"R","Stay formless","Anything with a fixed shape can be attacked. Stay adaptable and keep moving.","Rigid Sparta could not adapt after defeating Athens and soon declined.","Flexibility is strength, as long as people can still tell what you stand for."]
+];
+
+const $=id=>document.getElementById(id);
+const h=(t,c,x)=>{const e=document.createElement(t); if(c)e.className=c; if(x!=null)e.textContent=x; return e;};
+let filter=null, vis=L, idx=0;
+const sqs=[], rows=[];
+L.forEach((l,i)=>{
+  const r=Math.floor(i/6), c=i%6;
+  const s=h("button","sq"+((r+c)%2?" d":"")); s.innerHTML=pc(l[1]); s.appendChild(h("i",null,l[0])); s.setAttribute("aria-label","Law "+l[0]+": "+l[2]); s.onclick=()=>openLaw(l); $("board").appendChild(s); sqs.push(s);
+  const w=h("button","row"); w.append(h("i",null,l[0]),h("span",null,l[2])); w.insertAdjacentHTML("beforeend",pc(l[1])); w.onclick=()=>openLaw(l); $("list").appendChild(w); rows.push(w);
+});
+function chip(k){const b=h("button","chip"+(k?"":" all")); if(k) b.innerHTML=pc(k); b.appendChild(document.createTextNode(k?THEME[k][1]:"All 48")); b._k=k; b.onclick=()=>setFilter(k); $("chips").appendChild(b);}
+chip(null); Object.keys(THEME).forEach(chip);
+function setFilter(k){
+  filter=k; vis=k?L.filter(l=>l[1]===k):L;
+  [...$("chips").children].forEach(b=>b.setAttribute("aria-pressed",b._k===k));
+  L.forEach((l,i)=>{const on=!k||l[1]===k; sqs[i].classList.toggle("off",!on); rows[i].style.display=on?"":"none";});
+  const t=$("theme"); if(k){t.style.display="block"; t.textContent=THEME[k][0]+" · "+THEME[k][1]+". "+THEME[k][2];} else t.style.display="none";
+  $("lh").textContent=k?THEME[k][1]+": 8 laws":"All 48 laws";
+}
+function openLaw(l){
+  if(!vis.includes(l)) setFilter(null);
+  idx=vis.indexOf(l);
+  $("s-art").innerHTML=pc(l[1]); $("s-k").textContent="Law "+l[0]+" of 48"; $("s-n").textContent=l[2]; $("s-t").textContent=THEME[l[1]][0]+" · "+THEME[l[1]][1];
+  const b=$("s-body"); b.textContent="";
+  [["The idea",l[3]],["Example in the book",l[4]],["Worth remembering",l[5],1]].forEach(([k,v,f])=>{b.appendChild(h("h3",null,k)); b.appendChild(h("p",f?"flag":null,v));});
+  $("prev").disabled=idx===0; $("next").disabled=idx===vis.length-1; $("sheet").scrollTop=0; document.body.classList.add("open");
+}
+const close=()=>document.body.classList.remove("open");
+$("close").onclick=close; $("shade").onclick=close; addEventListener("keydown",e=>{if(e.key==="Escape")close();});
+$("prev").onclick=()=>openLaw(vis[idx-1]); $("next").onclick=()=>openLaw(vis[idx+1]);
+setFilter(null);
+</script>
+</body>
+</html>

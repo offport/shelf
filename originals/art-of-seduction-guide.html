@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Art of Seduction Guide</title>
+<style>
+/* Layout: one screen. Three tabs; a deck of illustrated character cards; tapping any card,
+   medallion or step opens a sheet with the detail. Look: a deck of court cards on dark aubergine. Single theme by choice. */
+:root{
+  --bg:#1b1220; --felt:#261a2d; --card:#f6efe6; --ink:#2a1b2e; --rose:#c2385a; --gold:#c9a24a; --muted:#b8a9bd; --mut2:#6d5a70; --rule:#3a2a42;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --serif: Georgia, "Times New Roman", serif;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--card);font-family:var(--sans);display:flex;flex-direction:column;overflow:hidden}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+header{flex:none;padding:12px 14px 0;border-bottom:1px solid var(--rule);background:var(--bg)}
+.w{max-width:760px;margin:0 auto}
+h1{font-family:var(--serif);font-size:18px;margin:0;color:var(--gold);font-weight:400;letter-spacing:.02em}
+.by{font-size:12px;color:var(--muted);margin-top:2px}
+.tabs{display:flex;gap:2px;margin-top:8px}
+.tab{flex:1;background:transparent;border:0;border-bottom:3px solid transparent;padding:8px 2px 9px;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer}
+.tab[aria-selected="true"]{color:var(--card);border-bottom-color:var(--rose)}
+
+main{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.pg{padding:0 14px 40px}
+.lead{font-size:14.5px;line-height:1.5;color:var(--muted);margin:14px 0;max-width:64ch}
+.lead b{color:var(--card)}
+.deck{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (min-width:560px){.deck{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:740px){.deck{grid-template-columns:repeat(5,minmax(0,1fr))}}
+.cc{background:var(--card);color:var(--ink);border:0;border-radius:10px;padding:8px 8px 10px;cursor:pointer;text-align:center;position:relative;box-shadow:0 2px 0 #0008}
+.cc::before{content:attr(data-n);position:absolute;left:4px;top:4px;min-width:22px;height:22px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-family:var(--serif);font-size:13px;color:var(--rose)}
+.cc svg{display:block;width:100%;height:auto;border-radius:6px}
+.cc b{display:block;font-family:var(--serif);font-size:16px;font-weight:400;margin-top:6px}
+.cc span{display:block;font-size:11.5px;color:var(--mut2);line-height:1.3;margin-top:2px}
+.meds{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+@media (min-width:560px){.meds{grid-template-columns:repeat(6,minmax(0,1fr))}}
+.md{background:var(--felt);border:1px solid var(--rule);border-radius:10px;padding:10px 4px 8px;cursor:pointer;text-align:center}
+.md svg{width:38px;height:38px;display:block;margin:0 auto 6px;stroke:var(--gold);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.md span{font-size:12px;line-height:1.25;display:block}
+h2{font-family:var(--serif);font-weight:400;font-size:17px;color:var(--gold);margin:22px 0 2px}
+.ph{font-size:13px;color:var(--muted);margin:0 0 8px}
+.steps{display:grid;gap:6px}
+.sp{display:flex;gap:10px;align-items:center;text-align:left;background:var(--felt);border:1px solid var(--rule);border-radius:8px;padding:9px 10px;cursor:pointer}
+.sp i{flex:none;width:26px;height:26px;border-radius:50%;background:var(--rose);color:#fff;font-style:normal;font-size:12.5px;font-weight:700;display:grid;place-items:center;font-variant-numeric:tabular-nums}
+.sp span{font-size:14.5px}
+.note{font-size:12px;color:var(--muted);line-height:1.5;margin:18px 0 0;max-width:64ch}
+
+#shade{position:fixed;inset:0;background:#000a;opacity:0;pointer-events:none;transition:opacity .2s}
+#sheet{position:fixed;left:0;right:0;bottom:0;max-height:86%;overflow-y:auto;background:var(--card);color:var(--ink);border-radius:16px 16px 0 0;padding:14px 18px 24px;transform:translateY(105%);transition:transform .25s ease}
+body.open #shade{opacity:1;pointer-events:auto}
+body.open #sheet{transform:none}
+@media (prefers-reduced-motion: reduce){#sheet,#shade{transition:none}}
+.si{max-width:560px;margin:0 auto}
+.sh{display:flex;gap:12px;align-items:flex-start}
+#s-art{flex:none;width:96px}
+#s-art svg{display:block;width:100%;height:auto;border-radius:8px}
+#s-art.sm{width:56px;height:56px;background:var(--ink);border-radius:50%;display:grid;place-items:center}
+#s-art.sm svg{width:34px;height:34px;stroke:var(--gold);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;border-radius:0}
+#s-art.num{width:48px;height:48px;background:var(--rose);border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:18px}
+.st{flex:1;min-width:0}
+#s-k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--rose);font-weight:700}
+#s-n{font-family:var(--serif);font-size:24px;font-weight:400;margin:2px 0;text-wrap:balance}
+#s-t{font-size:14px;color:var(--mut2);font-style:italic}
+#close{flex:none;border:1px solid #cbbfae;background:transparent;border-radius:50%;width:34px;height:34px;font-size:18px;cursor:pointer;color:var(--ink)}
+#s-body h3{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--mut2);margin:16px 0 3px}
+#s-body p{font-size:15px;line-height:1.5;margin:0;max-width:62ch}
+#s-body p.flag{border-left:3px solid var(--rose);padding-left:10px}
+.nav{display:flex;gap:8px;margin-top:18px}
+.nav button{flex:1;border:1px solid #cbbfae;background:transparent;border-radius:8px;padding:9px;font-size:13.5px;cursor:pointer;color:var(--ink)}
+.nav button:disabled{opacity:.35}
+</style>
+</head>
+<body>
+<header><div class="w">
+  <h1>The Art of Seduction</h1><div class="by">A guide to the ideas in Robert Greene's book</div>
+  <div class="tabs" id="tabs" role="tablist"></div>
+</div></header>
+<main id="main"><div class="w pg" id="pg"></div></main>
+<div id="shade"></div>
+<div id="sheet" role="dialog" aria-modal="true" aria-labelledby="s-n"><div class="si">
+  <div class="sh"><div id="s-art"></div><div class="st"><div id="s-k"></div><h2 id="s-n" style="color:inherit"></h2><div id="s-t"></div></div><button id="close" aria-label="Close">×</button></div>
+  <div id="s-body"></div>
+  <div class="nav"><button id="prev">‹ Previous</button><button id="next">Next ›</button></div>
+</div></div>
+
+<script>
+/* ---------- character art, 120 x 150 ---------- */
+const SK="#e9c3a2", INK="#2a1b2e";
+const eyes=(c=INK)=>`<circle cx="51" cy="69" r="2.2" fill="${c}"/><circle cx="69" cy="69" r="2.2" fill="${c}"/>`;
+const smile=(w=8,d=5)=>`<path d="M${60-w},79 q${w},${d} ${w*2},0" fill="none" stroke="${INK}" stroke-width="2" stroke-linecap="round"/>`;
+const bust=(bg,cloth,back,front,skin=SK)=>`<rect width="120" height="150" fill="${bg}"/>${back||""}<path d="M18,150 q0,-44 42,-44 q42,0 42,44z" fill="${cloth}"/><rect x="53" y="88" width="14" height="22" fill="${skin}"/><circle cx="60" cy="70" r="24" fill="${skin}"/>${front||""}`;
+const ray=(n,r1,r2,c,w=3)=>Array.from({length:n},(_,i)=>{const a=i*2*Math.PI/n;return `<line x1="${(60+r1*Math.cos(a)).toFixed(1)}" y1="${(70+r1*Math.sin(a)).toFixed(1)}" x2="${(60+r2*Math.cos(a)).toFixed(1)}" y2="${(70+r2*Math.sin(a)).toFixed(1)}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`;}).join("");
+const starP=(cx,cy,r,f)=>{let p="";for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,q=i%2?r*.45:r;p+=(cx+q*Math.cos(a)).toFixed(1)+","+(cy+q*Math.sin(a)).toFixed(1)+" ";}return `<polygon points="${p}" fill="${f}"/>`;};
+const ART={
+ siren:bust("#bfe3e0","#1f7a80",
+  `<path d="M32,72 q-4,-40 28,-40 q32,0 28,40 q6,34 -4,78 h-48 q-10,-44 -4,-78z" fill="#7a2f4a"/>`,
+  `<path d="M36,66 q4,-26 24,-26 q20,0 24,26 q-12,-14 -24,-14 q-12,0 -24,14z" fill="#7a2f4a"/><path d="M46,69 q5,4 10,0 M64,69 q5,4 10,0" fill="none" stroke="${INK}" stroke-width="2" stroke-linecap="round"/><path d="M54,80 q6,4 12,0" fill="#c2385a" stroke="#c2385a" stroke-width="2"/><path d="M0,132 q10,-8 20,0 t20,0 t20,0 t20,0 t20,0 t20,0 v18 h-120z" fill="#2e9aa0" opacity=".85"/><path d="M0,140 q10,-8 20,0 t20,0 t20,0 t20,0 t20,0 t20,0 v10 h-120z" fill="#bfe3e0" opacity=".7"/><g fill="${INK}"><circle cx="100" cy="36" r="3.5"/><rect x="102.5" y="16" width="2" height="20"/><path d="M102.5,16 l10,4 v5 l-10,-4z"/><circle cx="18" cy="52" r="3"/><rect x="20" y="36" width="1.8" height="16"/></g>`),
+ rake:bust("#e8c9b0","#3b1d2a",
+  `<path d="M96,40 q14,-22 6,-34 q-14,8 -16,30z" fill="#c2385a"/>`,
+  `<ellipse cx="60" cy="52" rx="40" ry="8" fill="#231019"/><path d="M38,52 q0,-26 22,-26 q22,0 22,26z" fill="#231019"/><rect x="38" y="46" width="44" height="5" fill="#c9a24a"/>${eyes()}<path d="M48,81 q6,-5 12,0 q6,-5 12,0 q-6,4 -12,1 q-6,3 -12,-1z" fill="${INK}"/><path d="M60,106 l-10,12 l10,8 l10,-8z" fill="#f6efe6"/><path d="M92,150 v-26" stroke="#2f6b3a" stroke-width="3"/><path d="M92,134 q-9,-2 -10,-10" fill="none" stroke="#2f6b3a" stroke-width="3"/><circle cx="92" cy="116" r="10" fill="#c2385a"/><path d="M86,116 q6,-8 12,0 q-6,6 -12,0" fill="none" stroke="#7a1830" stroke-width="2"/>`),
+ ideal:bust("#e9dcec","#5b3f7a",
+  `<path d="M34,74 q-4,-40 26,-40 q30,0 26,40 v20 h-52z" fill="#3a2a1e"/>`,
+  `<path d="M36,62 q8,-22 24,-22 q16,0 24,22 q-10,-8 -24,-8 q-14,0 -24,8z" fill="#3a2a1e"/>${eyes()}${smile(7,4)}<rect x="84" y="126" width="6" height="24" rx="3" fill="#c9a24a"/><ellipse cx="87" cy="108" rx="18" ry="22" fill="#c9a24a"/><ellipse cx="87" cy="108" rx="14" ry="18" fill="#f4fbff"/><path d="M87,116 l-8,-8 a4.5,4.5 0 0 1 8,-5 a4.5,4.5 0 0 1 8,5z" fill="#c2385a"/><path d="M78,96 l5,-5" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>`),
+ dandy:`<rect width="120" height="150" fill="#d8e2c8"/><path d="M18,150 q0,-44 42,-44 v44z" fill="#111"/><path d="M102,150 q0,-44 -42,-44 v44z" fill="#b24a7a"/><rect x="53" y="88" width="14" height="22" fill="${SK}"/><circle cx="60" cy="70" r="24" fill="${SK}"/><rect x="42" y="14" width="36" height="32" fill="#111"/><rect x="42" y="38" width="36" height="6" fill="#b24a7a"/><ellipse cx="60" cy="47" rx="30" ry="5" fill="#111"/>${eyes()}<circle cx="69" cy="69" r="8" fill="none" stroke="#c9a24a" stroke-width="2"/><path d="M77,71 q10,16 2,38" fill="none" stroke="#c9a24a" stroke-width="1.5"/><path d="M53,81 q7,2 14,-2" fill="none" stroke="${INK}" stroke-width="2" stroke-linecap="round"/><path d="M60,112 l-14,-8 v16z M60,112 l14,-8 v16z" fill="#c9a24a"/><circle cx="60" cy="112" r="3.5" fill="#8a6a1e"/>`,
+ natural:bust("#ffe7a8","#e8743b",
+  `<path d="M100,112 q-8,-30 -2,-52" fill="none" stroke="${INK}" stroke-width="1.5"/><ellipse cx="98" cy="40" rx="15" ry="19" fill="#c2385a"/><path d="M98,59 l-4,6 h8z" fill="#c2385a"/><path d="M91,30 q3,-6 8,-6" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>`,
+  `<path d="M36,64 l-2,-16 l10,8 l2,-16 l10,10 l6,-14 l6,14 l10,-10 l2,16 l10,-8 l-2,16 q-12,-12 -26,-12 q-14,0 -26,12z" fill="#a8552a"/><circle cx="51" cy="69" r="3.2" fill="${INK}"/><circle cx="69" cy="69" r="3.2" fill="${INK}"/><circle cx="52" cy="68" r="1" fill="#fff"/><circle cx="70" cy="68" r="1" fill="#fff"/><path d="M49,78 q11,13 22,0z" fill="${INK}"/><g fill="#c98a5e"><circle cx="44" cy="76" r="1.3"/><circle cx="48" cy="79" r="1.3"/><circle cx="76" cy="76" r="1.3"/><circle cx="72" cy="79" r="1.3"/></g>`),
+ coquette:bust("#f3d5dc","#8a2a4a",
+  `<path d="M34,70 q-2,-38 26,-38 q28,0 26,38 q8,6 2,16 h-56 q-6,-10 2,-16z" fill="#1d1420"/>`,
+  `<path d="M36,62 q6,-22 24,-22 q18,0 24,22 q-10,-6 -24,-6 q-14,0 -24,6z" fill="#1d1420"/><circle cx="51" cy="68" r="2.4" fill="${INK}"/><path d="M64,68 q5,4 10,0" fill="none" stroke="${INK}" stroke-width="2" stroke-linecap="round"/><path d="M60,128 L22,82 A60,60 0 0 1 98,82 Z" fill="#c9a24a"/><path d="M60,128 L22,82 A60,60 0 0 1 98,82 Z" fill="none" stroke="#8a6a1e" stroke-width="1.5"/><path d="M60,128 L35,72 M60,128 L47,69 M60,128 L60,68 M60,128 L73,69 M60,128 L85,72" stroke="#8a6a1e" stroke-width="1.5"/><circle cx="60" cy="128" r="4" fill="#8a6a1e"/><path d="M14,20 q5,8 0,14 q-6,-6 0,-14z M12,34 q-5,-6 2,-10" fill="#e8743b"/><g stroke="#3d8fb3" stroke-width="2" stroke-linecap="round"><path d="M104,16v18M96,20l16,10M112,20l-16,10"/></g>`),
+ charmer:bust("#cfe0f2","#2d5a8a",
+  `<path d="M36,66 q0,-32 24,-32 q24,0 24,32z" fill="#6b4a2a"/>`,
+  `<path d="M46,68 q5,-5 10,0 M64,68 q5,-5 10,0" fill="none" stroke="${INK}" stroke-width="2.2" stroke-linecap="round"/><path d="M48,77 q12,12 24,0z" fill="#fff" stroke="${INK}" stroke-width="1.8"/><path d="M60,106 l-8,10 l8,6 l8,-6z" fill="#f6efe6"/><path d="M78,10 h34 a5,5 0 0 1 5,5 v22 a5,5 0 0 1 -5,5 h-18 l-10,9 v-9 h-6 a5,5 0 0 1 -5,-5 v-22 a5,5 0 0 1 5,-5z" fill="#fff"/><text x="95" y="31" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#c2385a">you</text><path d="M14,118 q8,-10 18,-4 l-4,8 q-8,2 -14,-4z" fill="${SK}"/>`),
+ charismatic:bust("#3a2148","#c2385a",
+  ray(16,30,54,"#c9a24a",3)+`<circle cx="60" cy="70" r="29" fill="#f1d27a" opacity=".5"/><path d="M92,128 l10,-58" stroke="#c2385a" stroke-width="12" stroke-linecap="round"/><circle cx="103" cy="64" r="7" fill="${SK}"/>`,
+  `<path d="M36,64 q2,-30 24,-30 q22,0 24,30 q-12,-10 -24,-10 q-12,0 -24,10z" fill="#1d1420"/><path d="M45,64 l11,3 M75,64 l-11,3" stroke="${INK}" stroke-width="2.2" stroke-linecap="round"/><circle cx="51" cy="70" r="2.6" fill="${INK}"/><circle cx="69" cy="70" r="2.6" fill="${INK}"/><ellipse cx="60" cy="82" rx="5" ry="3.5" fill="${INK}"/>`),
+ star:bust("#12203f","#f6efe6",
+  starP(60,70,56,"#c9a24a")+starP(16,22,6,"#fff")+starP(104,118,5,"#fff")+starP(102,24,4,"#fff"),
+  `<path d="M35,66 q0,-34 25,-34 q25,0 25,34 q-8,-18 -25,-18 q-17,0 -25,18z" fill="#e9d48a"/><path d="M40,64 h40" stroke="${INK}" stroke-width="2"/><rect x="41" y="64" width="16" height="11" rx="4" fill="${INK}"/><rect x="63" y="64" width="16" height="11" rx="4" fill="${INK}"/><path d="M44,67 l4,0" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/><path d="M54,82 q6,3 12,0" fill="none" stroke="#c2385a" stroke-width="2.5" stroke-linecap="round"/>`),
+ anti:bust("#cfcfcf","#6b6b6b",
+  [[26,96],[20,120],[94,96],[100,120],[36,40],[84,40]].map(([x,y])=>`<path d="M${x},${y} l-8,-4 M${x},${y} l-6,6 M${x},${y} l2,-9" stroke="#3d5a3a" stroke-width="2.5" stroke-linecap="round"/>`).join(""),
+  `<path d="M36,62 q4,-26 24,-26 q20,0 24,26 q-12,-8 -24,-8 q-12,0 -24,8z" fill="#555"/><path d="M45,63 l11,4 M75,63 l-11,4" stroke="${INK}" stroke-width="2.2" stroke-linecap="round"/>${eyes()}<path d="M52,84 q8,-7 16,0" fill="none" stroke="${INK}" stroke-width="2" stroke-linecap="round"/><circle cx="98" cy="28" r="15" fill="none" stroke="#c2385a" stroke-width="4"/><path d="M88,38 l20,-20" stroke="#c2385a" stroke-width="4"/>`,"#d9c9bb")
+};
+const svg=k=>`<svg viewBox="0 0 120 150" role="img" aria-hidden="true">${ART[k]}</svg>`;
+
+/* ---------- content ---------- */
+const SED=[
+ ["siren","The Siren","Fantasy with a hint of danger",
+  "Offers an escape from routine and responsibility. Everything about the Siren's presence feels heightened and slightly unreal, so being near them feels like stepping into a dream.",
+  "Voice, appearance and movement are staged with care. The manner is calm and unhurried, and there is always a suggestion of risk, which makes the pursuit feel like an adventure.",
+  "Cleopatra, Marilyn Monroe",
+  "The image is hard to keep up for long, it attracts envy, and it tends to fade once ordinary life intrudes.",
+  "You are responding to a performance. Ask what the person is like when the stage lights are off."],
+ ["rake","The Rake","Wants you, and lets you feel it",
+  "Gives total, reckless attention. The target feels desired above everything else, which is rare and flattering.",
+  "Pursues intensely and ignores obstacles. Words are used to intoxicate more than to inform, and a reputation for being dangerous adds to the pull. The book describes two kinds: the Ardent Rake and the Demonic Rake.",
+  "Don Juan (legend), Gabriele D'Annunzio, the Duke de Richelieu",
+  "The intensity is real only for the moment. The Rake moves on, and a bad reputation eventually closes doors.",
+  "Fast, overwhelming attention at the start says nothing about staying power. Watch what happens after the chase ends."],
+ ["ideal","The Ideal Lover","Becomes what you have been missing",
+  "Most people carry an unfulfilled ideal: romance, adventure, being truly understood. The Ideal Lover seems to supply exactly that.",
+  "Studies what a person feels is missing from their life, then patiently reflects it back with great attention to detail.",
+  "Casanova, Madame de Pompadour",
+  "It takes enormous effort, and the fantasy cracks when the real person behind it shows through.",
+  "Someone who seems a perfect fit very quickly may be mirroring you. Notice whether they have preferences of their own."],
+ ["dandy","The Dandy","Free of the rules, hard to pin down",
+  "Plays with image and with masculine and feminine traits. People who feel boxed in by their roles are drawn to that freedom.",
+  "Keeps a distinctive style set slightly apart from everyone else, stays self-contained and does not try to please. The book describes the Feminine Dandy and the Masculine Dandy.",
+  "Rudolph Valentino, Lou Andreas-Salomé",
+  "Pushed too far, the pose insults or unsettles people, and society pushes back.",
+  "The independence is attractive, but check whether there is room for your needs inside it."],
+ ["natural","The Natural","The playful child who never left",
+  "Spontaneous, sincere and unguarded. Being around a Natural lowers people's defences and stirs nostalgia for a simpler time.",
+  "Stays playful and open and seems unable to scheme. Small weaknesses draw sympathy. The book lists four kinds: the Innocent, the Imp, the Wonder and the Undefensive Lover.",
+  "Charlie Chaplin, Josephine Baker",
+  "Childlike charm becomes irritating over time, especially with age, and can look like irresponsibility.",
+  "Charm is not the same as reliability. See who ends up carrying the practical load."],
+ ["coquette","The Coquette","Warm, then cold, then warm again",
+  "Raises hope and then withdraws it. The uncertainty keeps people chasing, and the Coquette's apparent self-sufficiency makes them seem a prize.",
+  "Alternates attention with distance, never fully satisfies, and appears to need no one.",
+  "Joséphine Bonaparte, Andy Warhol",
+  "Push and pull breeds resentment. Once the pattern is seen, affection can flip to anger.",
+  "Hot and cold treatment is a pattern, not a mystery. If you feel anxious more often than happy, that is the signal."],
+ ["charmer","The Charmer","Makes it all about you",
+  "Gives attention and comfort. People leave a Charmer feeling better about themselves.",
+  "Listens closely, flatters lightly, avoids conflict, rarely talks about themselves and makes themselves useful.",
+  "Benjamin Disraeli, Pamela Harriman",
+  "Does not work on people who distrust pleasantness, and can come across as slippery.",
+  "Notice how little you actually know about them after many conversations."],
+ ["charismatic","The Charismatic","Burning certainty",
+  "Radiates inner confidence, purpose and energy. People want to believe in something, and the Charismatic gives them a focus.",
+  "Shows a clear vision, speaks with force, uses theatre, appears fearless and keeps a touch of mystery.",
+  "Joan of Arc, Rasputin, Elvis Presley, Malcolm X",
+  "Adoration is volatile and can turn to hatred, and followers tire of constant intensity.",
+  "Certainty is persuasive but it is not evidence. Judge the claims separately from the delivery."],
+ ["star","The Star","A distant, dreamlike screen",
+  "Glittering but vague. Because the Star gives little away, people project their own fantasies onto them.",
+  "Cultivates a distinctive look and keeps a distance, seeming familiar and unreachable at once.",
+  "Marlene Dietrich, John F. Kennedy",
+  "The effect needs constant renewal, and public attention is fickle.",
+  "Much of what you admire may be your own projection. See how much survives real contact."],
+ ["anti","The Anti-Seducer","What repels",
+  "The book's counter-example. Anti-Seducers are insecure and self-absorbed, and they cannot see a situation from the other person's side.",
+  "Eight kinds are described: the Brute, the Suffocator, the Moralizer, the Tightwad, the Bumbler, the Windbag, the Reactor and the Vulgarian.",
+  "",
+  "Greene's advice is to learn these traits so you can spot them in others and correct them in yourself.",
+  "Most people show one or two of these on a bad day. The useful question is which one is yours."]
+];
+const ic={
+ chain:`<path d="M10,18 a5,5 0 0 1 0,-10 h5 M14,22 h5 M28,22 a5,5 0 0 0 0,-10 h-5 M24,8 h-5" transform="translate(0,3)"/><path d="M19,6v-3M13,7l-2,-2M25,7l2,-2"/>`,
+ cloud:`<path d="M11,26 a6,6 0 0 1 1,-12 a8,8 0 0 1 15,2 a5,5 0 0 1 0,10z"/><path d="M14,31v2M20,31v2M26,31v2"/>`,
+ crown:`<path d="M7,27 l-2,-15 l8,7 l6,-11 l6,11 l8,-7 l-2,15z M7,31h24"/>`,
+ lock:`<rect x="9" y="17" width="20" height="15" rx="2"/><path d="M13,17v-5a6,6 0 0 1 12,0v5M19,23v4"/>`,
+ crack:`<path d="M19,4 l4,10 l11,1 l-8,7 l3,11 l-10,-6 l-10,6 l3,-11 l-8,-7 l11,-1z"/><path d="M19,11 l-2,6 l4,3 l-3,6"/>`,
+ sprout:`<path d="M19,33v-15M19,22 q-10,0 -11,-10 q10,0 11,10 M19,18 q0,-10 11,-11 q0,10 -11,11"/>`,
+ flag:`<path d="M9,34v-29M9,6 h19 l-5,7 l5,7 h-19"/>`,
+ globe:`<circle cx="19" cy="19" r="14"/><path d="M5,19h28M19,5 q-9,14 0,28 M19,5 q9,14 0,28"/>`,
+ bolt:`<path d="M22,4 l-12,17 h8 l-3,13 l13,-18 h-8z"/>`,
+ specs:`<circle cx="11" cy="20" r="6"/><circle cx="27" cy="20" r="6"/><path d="M17,20h4M5,19l-2,-5M33,19l2,-5"/>`,
+ mirror:`<ellipse cx="19" cy="14" rx="9" ry="11"/><path d="M19,25v10M15,35h8M15,10l4,-3"/>`,
+ rattle:`<circle cx="19" cy="12" r="8"/><path d="M19,20v10M11,12h16"/><circle cx="19" cy="32" r="2.5"/>`,
+ buoy:`<circle cx="19" cy="19" r="14"/><circle cx="19" cy="19" r="6"/><path d="M9,9l6,6M29,9l-6,6M9,29l6,-6M29,29l-6,-6"/>`,
+ glass:`<path d="M10,5h18 q0,13 -9,14 q-9,-1 -9,-14z M19,19v13M13,33h12M12,11h14"/>`,
+ candle:`<rect x="14" y="16" width="10" height="14"/><path d="M8,34h22M10,30h18M19,16v-3M19,12 q-4,-4 0,-9 q4,5 0,9"/>`,
+ flower:`<circle cx="19" cy="15" r="3.5"/><path d="M19,11.5 q-5,-8 0,-9 q5,1 0,9 M22.5,15 q8,-5 9,0 q-1,5 -9,0 M19,18.5 q5,8 0,9 M15.5,15 q-8,-5 -9,0 q1,5 9,0 M19,27v9"/>`,
+ peak:`<path d="M3,32 l12,-22 l7,12 l4,-6 l10,16z M15,10v-6 h6 l-2,2.5 l2,2.5 h-6"/>`,
+ halves:`<circle cx="19" cy="19" r="14"/><path d="M19,5 a7,7 0 0 1 0,14 a7,7 0 0 0 0,14"/><circle cx="19" cy="12" r="1.5"/><circle cx="19" cy="26" r="1.5"/>`
+};
+const VIC=[
+ ["chain","The Reformed Rake or Siren","Gave up a free, pleasure-seeking life and misses it.","Drawn to anyone who lets them feel they are the one doing the seducing again."],
+ ["cloud","The Disappointed Dreamer","Grew up on fantasies and finds real life flat.","Responds to grand romance, drama and anything larger than life."],
+ ["crown","The Pampered Royal","Was indulged early and bores easily.","Needs constant variety and novelty, and loses interest once things settle."],
+ ["lock","The New Prude","Worried about appearances and what is proper.","Secretly excited by what they condemn, and drawn to someone who takes the blame for crossing the line."],
+ ["crack","The Crushed Star","Once the centre of attention, now holding back.","Opens up when made the centre of attention again."],
+ ["sprout","The Novice","Young, curious and inexperienced.","Drawn to someone who seems worldly, mixed with enough innocence not to frighten them."],
+ ["flag","The Conqueror","Energetic and needs obstacles to overcome.","Loses interest in easy wins. Resistance and challenge keep them engaged."],
+ ["globe","The Exotic Fetishist","Feels empty inside and looks far away for what is missing.","Attracted to whatever seems foreign or different from their own background."],
+ ["bolt","The Drama Queen","Needs constant emotional turbulence.","Feels alive with conflict and reconciliation, and uneasy with calm."],
+ ["specs","The Professor","Lives in the head, analysing everything.","Wants to be pulled out of thinking and into physical, unreflective experience."],
+ ["mirror","The Beauty","Admired for looks all their life and unsure of anything else.","Responds to praise for what others overlook: intelligence, skill, character."],
+ ["rattle","The Aging Baby","Refuses to grow up or take on responsibility.","Looks for an adult figure who indulges them without lecturing."],
+ ["buoy","The Rescuer","Drawn to people with problems.","Feels needed and powerful by helping. Hooked by displays of weakness and need."],
+ ["glass","The Roué","Older, experienced and a little jaded.","Longs for youth and innocence, and enjoys believing they are corrupting or teaching."],
+ ["candle","The Idol Worshipper","Feels an inner lack and wants something to believe in.","Attaches to causes or people they can put on a pedestal."],
+ ["flower","The Sensualist","Unusually alive to colour, texture, scent and sound.","Reached through the senses: setting, detail and atmosphere."],
+ ["peak","The Lonely Leader","Powerful, surrounded by flatterers and isolated.","Disarmed by someone who treats them as an equal and speaks honestly."],
+ ["halves","The Floating Gender","Does not fit neatly into expected gender roles.","Looks for someone equally fluid who lets them express both sides."]
+];
+const PH=[
+ ["Phase one · Separation","Stirring interest and desire",[
+  ["Choose the right person","Everything depends on picking someone who is open to your influence, usually a person who feels something is missing.","Being chosen can feel like fate. Sometimes it is a calculation about who looks available."],
+  ["Approach indirectly","Begin as a friend or through a third party, so no defences go up.","A sideways start is often innocent, but notice if the friendship was always a route to something else."],
+  ["Send mixed signals","Be hard to read: innocent and knowing, cool and warm. Ambiguity holds attention.","If you spend a lot of time decoding someone, the confusion may be deliberate."],
+  ["Appear desired by others","People want what others want, so show that you have admirers.","Triangles and talk of rivals are meant to make you compete."],
+  ["Create a need","Stir a quiet discontent with the person's life, then present yourself as the answer.","Be wary of anyone who makes you feel lacking and then offers to fix it."],
+  ["Insinuate","Plant ideas through hints and half-statements so the person believes the thought is their own.","If an idea about them keeps appearing in your head, ask where it came from."],
+  ["Enter their spirit","Adopt their tastes, moods and rules first. People relax around a mirror of themselves.","Early, total agreement can be mirroring more than compatibility."],
+  ["Create temptation","Find a weakness or an unrealised wish and dangle a glimpse of it.","Temptation works by keeping the reward just out of reach."]]],
+ ["Phase two · Lead astray","Creating pleasure and confusion",[
+  ["Keep them in suspense","Stay unpredictable with calculated surprises, so the other person wonders what comes next.","Surprise is pleasant. Constant unpredictability keeps you off balance."],
+  ["Use words to blur","Use flattery, promises and emotionally loaded language that people want to hear.","Compare what is said with what is done."],
+  ["Attend to detail","Thoughtful gestures, gifts and settings chosen for the person say more than words.","Attention to detail is lovely when it continues after the goal is reached."],
+  ["Poeticise your presence","Be associated with heightened moments, then be absent, so the person idealises you.","Absence that feeds fantasy is different from someone who is simply unavailable."],
+  ["Show strategic weakness","Reveal vulnerability to lower suspicion and make the other person feel stronger.","Real vulnerability comes with accountability. Staged weakness asks only for sympathy."],
+  ["Blend desire and reality","Build an illusion in which the person feels they are living out a fantasy.","If it feels like a film, check who is writing the script."]]],
+ ["Phase three · The precipice","Deepening the effect",[
+  ["Isolate","Draw the person away from their usual surroundings, friends and habits, so they rely on you.","This is a serious warning sign in any relationship. Keep your people close."],
+  ["Prove yourself","Make a dramatic gesture or sacrifice that removes lingering doubt.","One grand gesture is easier than steady, ordinary reliability."],
+  ["Evoke the past","Stir childhood feelings of being protected or adored, taking a parent-like role.","Notice if you are being made to feel smaller or more dependent."],
+  ["Stir the forbidden","Suggest crossing a limit together. A shared secret binds people.","Secrets that cut you off from others give the other person leverage."],
+  ["Use spiritual lures","Frame the connection as destined or elevated to dissolve doubts about the physical side.","Talk of destiny early on is a way of skipping the getting-to-know-you stage."],
+  ["Mix pleasure with pain","Alternate kindness with coldness, so relief feels like joy.","This is the pattern behind many unhealthy bonds. Consistency is the healthy alternative."]]],
+ ["Phase four · The final move","Closing, and what comes after",[
+  ["Step back and be pursued","Withdraw a little at the peak of interest so the other person does the chasing.","Sudden distance after intensity is a test of how far you will run."],
+  ["Physical lures","Lower inhibitions through presence, calm and atmosphere, never through pressure.","You should never feel rushed. Your pace is the one that counts."],
+  ["The bold move","When the moment is right, act decisively instead of waiting for the other person.","Boldness is only welcome where interest is clear and mutual."],
+  ["Beware the aftereffects","After success comes boredom and disenchantment. Either re-seduce, or end things cleanly and quickly.","How someone behaves after they get what they wanted tells you the most."]]]
+];
+const STEPS=PH.flatMap((p,pi)=>p[2].map(s=>[...s,p[0]]));
+
+/* ---------- page ---------- */
+const $=id=>document.getElementById(id), pg=$("pg");
+const h=(t,c,x)=>{const e=document.createElement(t); if(c)e.className=c; if(x!=null)e.textContent=x; return e;};
+let ctx=null, idx=0;
+function body(parts){const b=$("s-body"); b.textContent=""; parts.forEach(([k,v,f])=>{ if(!v) return; b.appendChild(h("h3",null,k)); b.appendChild(h("p",f?"flag":null,v)); });}
+function openAt(kind,i){
+  ctx=kind; idx=i; const art=$("s-art"); art.className=""; let n;
+  if(kind==="sed"){const s=SED[i]; n=SED.length; art.innerHTML=svg(s[0]); $("s-k").textContent=i<9?"Seducer type "+(i+1)+" of 9":"The counter-example"; $("s-n").textContent=s[1]; $("s-t").textContent=s[2];
+    body([["The appeal",s[3]],["How it works",s[4]],["Examples in the book",s[5]],["Where it fails",s[6]],["Seen from the other side",s[7],1]]);}
+  if(kind==="vic"){const v=VIC[i]; n=VIC.length; art.className="sm"; art.innerHTML=`<svg viewBox="0 0 38 38" aria-hidden="true">${ic[v[0]]}</svg>`; $("s-k").textContent="Target type "+(i+1)+" of 18"; $("s-n").textContent=v[1]; $("s-t").textContent="";
+    body([["What is missing",v[2]],["What draws them in",v[3]]]);}
+  if(kind==="step"){const s=STEPS[i]; n=STEPS.length; art.className="num"; art.textContent=i+1; $("s-k").textContent=s[3]; $("s-n").textContent=s[0]; $("s-t").textContent="";
+    body([["The move",s[1]],["Seen from the other side",s[2],1]]);}
+  $("prev").disabled=i===0; $("next").disabled=i===n-1; $("sheet").scrollTop=0; document.body.classList.add("open");
+}
+const close=()=>document.body.classList.remove("open");
+$("close").onclick=close; $("shade").onclick=close; addEventListener("keydown",e=>{if(e.key==="Escape")close();});
+$("prev").onclick=()=>openAt(ctx,idx-1); $("next").onclick=()=>openAt(ctx,idx+1);
+
+const TABS={
+ Seducers(){
+  const l=h("p","lead"); l.innerHTML="<b>Nine ways of drawing people in.</b> Greene argues that every seducer fits one of nine characters, each built on a different kind of appeal, plus one type who repels. Tap a card."; pg.appendChild(l);
+  const d=h("div","deck"); SED.forEach((s,i)=>{const b=h("button","cc"); b.dataset.n=i<9?i+1:"✕"; b.innerHTML=svg(s[0]); b.append(h("b",null,s[1]),h("span",null,s[2])); b.onclick=()=>openAt("sed",i); d.appendChild(b);}); pg.appendChild(d);
+ },
+ Targets(){
+  const l=h("p","lead"); l.innerHTML="<b>Eighteen kinds of target.</b> The book calls them victims and sorts them by what they feel is missing from their lives, since that gap is where seduction gets in. Tap one."; pg.appendChild(l);
+  const d=h("div","meds"); VIC.forEach((v,i)=>{const b=h("button","md"); b.innerHTML=`<svg viewBox="0 0 38 38" aria-hidden="true">${ic[v[0]]}</svg>`; b.appendChild(h("span",null,v[1].replace(/^The /,""))); b.onclick=()=>openAt("vic",i); d.appendChild(b);}); pg.appendChild(d);
+ },
+ Process(){
+  const l=h("p","lead"); l.innerHTML="<b>Twenty-four moves in four phases.</b> Each step opens to the idea and to how it looks from the receiving end."; pg.appendChild(l);
+  let n=0; PH.forEach(p=>{pg.appendChild(h("h2",null,p[0])); pg.appendChild(h("p","ph",p[1])); const s=h("div","steps");
+    p[2].forEach(st=>{const i=n++; const b=h("button","sp"); b.append(h("i",null,i+1),h("span",null,st[0])); b.onclick=()=>openAt("step",i); s.appendChild(b);}); pg.appendChild(s);});
+ }
+};
+function show(k){pg.textContent=""; $("main").scrollTop=0; [...$("tabs").children].forEach(b=>b.setAttribute("aria-selected",b.textContent===k)); TABS[k]();
+  pg.appendChild(h("p","note","This is a summary in plain words of ideas from The Art of Seduction by Robert Greene (2001), not a reproduction of the book. Step names are shortened. The \"seen from the other side\" notes are this guide's own addition."));}
+Object.keys(TABS).forEach(k=>{const b=h("button","tab",k); b.setAttribute("role","tab"); b.onclick=()=>show(k); $("tabs").appendChild(b);});
+show("Seducers");
+</script>
+</body>
+</html>
