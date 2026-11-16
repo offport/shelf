@@ -1,6 +1,7 @@
 """Shelve books onto the Shelf.
 
     python tools/shelve.py            take in everything in inbox/, then rebuild every book and the shelf
+                                      (inbox/ takes books; inbox/extras/ takes pages that are not books)
     python tools/shelve.py --check    report what would change, write nothing
 
 A "book" is one self-contained HTML file. The tool never edits what you drop in: the file is moved to
@@ -28,7 +29,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 INBOX, ORIGINALS, BOOKS = ROOT / "inbox", ROOT / "originals", ROOT / "books"
+EXTRAS = ROOT / "extras"
 CATALOG, INDEX = ROOT / "catalog.json", ROOT / "index.html"
+# The two tabs of the shelf. A book is a guide to a book; an extra is any other page (a talk, an episode, a topic).
+# Each has its own folder, its own numbering and its own previous / next chain. inbox/ takes books,
+# inbox/extras/ takes extras.
+SECTIONS = {"books": BOOKS, "extras": EXTRAS}
 STORE_KEY = "library.v1"
 
 # The mark: an S that is also a bookcase, books standing on its two shelves. 24 x 24, drawn in currentColor.
@@ -122,7 +128,7 @@ def read_book(src: str, filename: str) -> tuple[dict, list[str]]:
     accent = resolve(vars_.get(accent_var), vars_) if accent_var else fg
     if not resolve(bg_expr, vars_):
         todo.append("page background (the bar and cover fall back to paper)")
-    stem = re.sub(r"-guide$", "", Path(filename).stem.lower())
+    stem = re.sub(r"[-_ ]guide$", "", Path(filename).stem.lower())
     stem = re.sub(r"[^a-z0-9]+", "-", stem).strip("-")
     entry = {
         "id": stem, "no": 0, "title": title, "author": author or "Unknown", "year": year, "kind": "Guide",
@@ -186,8 +192,8 @@ def bar_html(e: dict, prev: dict | None, nxt: dict | None, total: int, sticky: b
 
     def step(b, ch, word):
         if not b:
-            return f'<a class="step" aria-disabled="true" aria-label="No {word} book">{ch}</a>'
-        return f'<a class="step" href="{esc(b["id"])}.html" title="{word.capitalize()}: {esc(b["title"])}" aria-label="{word.capitalize()} book: {esc(b["title"])}">{ch}</a>'
+            return f'<a class="step" aria-disabled="true" aria-label="Nothing {word}">{ch}</a>'
+        return f'<a class="step" href="{esc(b["id"])}.html" title="{word.capitalize()}: {esc(b["title"])}" aria-label="{word.capitalize()}: {esc(b["title"])}">{ch}</a>'
 
     data = json.dumps({"id": e["id"]}, ensure_ascii=False)
     return (
@@ -199,7 +205,7 @@ def bar_html(e: dict, prev: dict | None, nxt: dict | None, total: int, sticky: b
         '<div class="bar">'
         f'<a class="home" href="../index.html#{esc(e["id"])}" title="Back to the shelf">'
         f'<svg viewBox="0 0 24 24" aria-hidden="true">{MARK}</svg><b>Shelf</b></a>'
-        f'<span class="no" title="Book {e["no"]} of {total}">No. {e["no"]}<span> of {total}</span></span>'
+        f'<span class="no" title="No. {e["no"]} of {total}">No. {e["no"]}<span> of {total}</span></span>'
         '<span class="sp"></span>'
         '<button class="status" type="button" data-s="none"><i></i><span>To read</span></button>'
         f'{step(prev, "‹", "previous")}{step(nxt, "›", "next")}'
@@ -246,48 +252,61 @@ def main() -> int:
     catalog = json.loads(CATALOG.read_text(encoding="utf-8")) if CATALOG.exists() else {"books": []}
     books = catalog["books"]
     notes: list[str] = []
+    pending: dict[str, Path] = {}
     for d in (INBOX, ORIGINALS, BOOKS):
         d.mkdir(exist_ok=True)
 
-    # 1. take in new files
-    for f in sorted(INBOX.glob("*.htm*")):
-        src = f.read_text(encoding="utf-8", errors="replace")
-        known = next((b for b in books if b["source"] == f.name), None)
-        if known:
-            notes.append(f"updated   {known['title']}: new copy of {f.name} replaces the one in originals/")
-        else:
-            entry, todo = read_book(src, f.name)
-            ids = {b["id"] for b in books}
-            base, k = entry["id"], 2
-            while entry["id"] in ids:
-                entry["id"] = f"{base}-{k}"; k += 1
-            entry["no"] = max((b["no"] for b in books), default=0) + 1
-            books.append(entry)
-            notes.append(f"added     No. {entry['no']}  {entry['title']} — {entry['author']}" + (f"   (check in catalog.json: {', '.join(todo)})" if todo else ""))
-        if not check:
-            shutil.move(str(f), str(ORIGINALS / f.name))
+    # 1. take in new files: inbox/ holds books, inbox/extras/ holds everything else
+    for d in SECTIONS.values():
+        d.mkdir(exist_ok=True)
+    (INBOX / "extras").mkdir(exist_ok=True)
+    for b in books:
+        b.setdefault("section", "books")
+    for section, box in (("books", INBOX), ("extras", INBOX / "extras")):
+        for f in sorted(box.glob("*.htm*")):
+            src = f.read_text(encoding="utf-8", errors="replace")
+            known = next((b for b in books if b["source"] == f.name), None)
+            if known:
+                notes.append(f"updated   {known['title']}: new copy of {f.name} replaces the one in originals/")
+            else:
+                entry, todo = read_book(src, f.name)
+                entry["section"] = section
+                ids = {b["id"] for b in books}
+                base, k = entry["id"], 2
+                while entry["id"] in ids:
+                    entry["id"] = f"{base}-{k}"; k += 1
+                entry["no"] = max((b["no"] for b in books if b["section"] == section), default=0) + 1
+                books.append(entry)
+                notes.append(f"added     {section} No. {entry['no']}  {entry['title']} — {entry['author']}" + (f"   (check in catalog.json: {', '.join(todo)})" if todo else ""))
+            if check:
+                pending[f.name] = f
+            else:
+                shutil.move(str(f), str(ORIGINALS / f.name))
 
-    # 2. rebuild every book from its original
-    books.sort(key=lambda b: b["no"])
+    # 2. rebuild every page from its original, each section with its own numbering and previous / next
+    order = list(SECTIONS)
+    books.sort(key=lambda b: (order.index(b["section"]) if b["section"] in order else len(order), b["no"]))
     built = 0
-    for i, e in enumerate(books):
-        src_path = ORIGINALS / e["source"]
-        if not src_path.exists():
-            src_path = INBOX / e["source"] if check else src_path
-        if not src_path.exists():
-            notes.append(f"MISSING   {e['title']}: originals/{e['source']} is not there; the book was skipped")
-            continue
-        out = frame(src_path.read_text(encoding="utf-8", errors="replace"), e, books[i - 1] if i else None,
-                    books[i + 1] if i + 1 < len(books) else None, len(books))
-        target = BOOKS / f"{e['id']}.html"
-        if not check and (not target.exists() or target.read_text(encoding="utf-8") != out):
-            target.write_text(out, encoding="utf-8", newline="\n")
-        built += 1
-    if not check:
-        keep = {f"{e['id']}.html" for e in books}
-        for stray in BOOKS.glob("*.html"):
-            if stray.name not in keep:
-                notes.append(f"note      books/{stray.name} is not in the catalogue (left alone)")
+    for section, folder in SECTIONS.items():
+        group = [b for b in books if b["section"] == section]
+        for i, e in enumerate(group):
+            src_path = ORIGINALS / e["source"]
+            if not src_path.exists():
+                src_path = pending.get(e["source"], src_path)
+            if not src_path.exists():
+                notes.append(f"MISSING   {e['title']}: originals/{e['source']} is not there; it was skipped")
+                continue
+            out = frame(src_path.read_text(encoding="utf-8", errors="replace"), e, group[i - 1] if i else None,
+                        group[i + 1] if i + 1 < len(group) else None, len(group))
+            target = folder / f"{e['id']}.html"
+            if not check and (not target.exists() or target.read_text(encoding="utf-8") != out):
+                target.write_text(out, encoding="utf-8", newline="\n")
+            built += 1
+        if not check:
+            keep = {f"{e['id']}.html" for e in group}
+            for stray in folder.glob("*.html"):
+                if stray.name not in keep:
+                    notes.append(f"note      {folder.name}/{stray.name} is not in the catalogue (left alone)")
 
     # 3. the catalogue, and its copy inside the shelf page
     if not check:
@@ -302,7 +321,7 @@ def main() -> int:
                 notes.append("WARNING   index.html has no <script id=\"catalog\"> block; the shelf was not updated")
     for n in notes:
         print(n)
-    print(f"{'would build' if check else 'built'} {built} of {len(books)} books" + ("" if check else " · catalog.json and index.html updated"))
+    print(f"{'would build' if check else 'built'} {built} of {len(books)} pages" + ("" if check else " · catalog.json and index.html updated"))
     return 0
 
 

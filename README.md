@@ -30,6 +30,18 @@ colour and first accent variable). It prints whatever it could not work out.
 To replace a book with a newer conversion, drop a file with the same name in `inbox/` and run the tool.
 To remove one, delete its entry from `catalog.json` and its files from `books/` and `originals/`, then run the tool.
 
+## Books and extras
+
+The shelf has two tabs. **Books** holds guides to books. **Extras** holds everything else: a talk, a podcast
+episode, a topic. Extras get the same cover layout and the same bar, with their own numbering and their own
+previous / next.
+
+- A book goes in `inbox/` and is built into `books/`.
+- Anything that is not a book goes in `inbox/extras/` and is built into `extras/`.
+
+In `catalog.json` the difference is one field, `"section": "books"` or `"section": "extras"`. For an extra, put
+where it comes from (the show, the speaker) in `author`.
+
 ## catalog.json
 
 ```json
@@ -63,7 +75,8 @@ stuck to the top.
 index.html        the shelf (the catalogue is the JSON block at the bottom, written by the tool)
 catalog.json      the list of books, hand-editable
 books/            what you read: one framed, self-contained file per book
+extras/           the same for pages that are not books
 originals/        the files exactly as they arrived
-inbox/            drop new books here
+inbox/            drop new books here (non-books in inbox/extras/)
 tools/shelve.py   the tool (Python standard library only)
 ```

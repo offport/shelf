@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beyond Order Guide</title>
+<style>
+/* Layout: one scrolling page. Twelve illustrated rule cards; tapping one opens the rule with the idea,
+   the book's argument, something to try and a common objection. Single theme by choice. */
+:root{
+  --bg:#f5f2ec; --panel:#ffffff; --ink:#1f2126; --muted:#666a72; --rule:#e2ddd2; --a:#b3262e; --tint:#f6ebe6; color-scheme:light;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --serif: Georgia, "Times New Roman", serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);display:flex;flex-direction:column;overflow:hidden}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--a);outline-offset:2px}
+header{flex:none;background:var(--panel);border-bottom:1px solid var(--rule);padding:10px 14px}
+.w{max-width:720px;margin:0 auto}
+h1{font-family:var(--serif);font-size:19px;margin:0;font-weight:400;letter-spacing:.01em}
+.by{font-size:12px;color:var(--muted);margin-top:1px}
+main{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.pg{padding:0 14px 40px}
+.intro{display:grid;grid-template-columns:92px 1fr;gap:14px;align-items:center;background:var(--panel);border:1px solid var(--rule);border-radius:14px;padding:12px;margin-top:14px}
+.intro svg{display:block;width:100%;height:auto}
+.intro p{font-size:14px;line-height:1.5;margin:0;color:var(--muted)}
+.intro b{color:var(--ink)}
+h2{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:22px 0 8px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (min-width:600px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.cd{background:var(--panel);border:1px solid var(--rule);border-radius:14px;padding:6px 8px 12px;cursor:pointer;text-align:center;position:relative}
+.cd svg{display:block;width:100%;height:auto}
+.cd i{position:absolute;left:10px;top:8px;font-style:normal;font-family:var(--serif);font-size:20px;color:var(--a)}
+.cd b{display:block;font-size:14px;line-height:1.3;margin-top:2px;text-wrap:balance}
+.themes{display:grid;gap:6px}
+.row{display:block;width:100%;text-align:left;background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:10px 34px 10px 12px;cursor:pointer;position:relative}
+.row::after{content:"+";position:absolute;right:12px;top:9px;font-size:18px;color:var(--muted);line-height:1}
+.row.open::after{content:"−"}
+.row .n{font-size:14.5px;font-weight:600}
+.row .x{display:none;font-size:14px;line-height:1.5;margin-top:5px;max-width:62ch;color:var(--muted)}
+.row.open .x{display:block}
+.note{font-size:12px;color:var(--muted);line-height:1.5;margin:20px 0 0;max-width:64ch}
+#shade{position:fixed;inset:0;background:#000a;opacity:0;pointer-events:none;transition:opacity .2s}
+#sheet{position:fixed;left:0;right:0;bottom:0;max-height:90%;overflow-y:auto;background:var(--panel);border-radius:18px 18px 0 0;padding:10px 18px 24px;transform:translateY(105%);transition:transform .25s ease}
+body.open #shade{opacity:1;pointer-events:auto}
+body.open #sheet{transform:none}
+@media (prefers-reduced-motion: reduce){#sheet,#shade{transition:none}}
+.si{max-width:560px;margin:0 auto}
+.sh{display:grid;grid-template-columns:128px 1fr auto;gap:10px;align-items:center}
+#s-art svg{display:block;width:100%;height:auto}
+#s-k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--a);font-weight:700}
+#s-n{font-family:var(--serif);font-size:21px;line-height:1.2;margin-top:3px;text-wrap:balance}
+#close{align-self:flex-start;border:1px solid var(--rule);background:transparent;border-radius:50%;width:34px;height:34px;font-size:18px;cursor:pointer}
+#s-body h3{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:16px 0 3px}
+#s-body p{font-size:15px;line-height:1.5;margin:0;max-width:62ch}
+#s-body p.try{background:var(--tint);border-radius:10px;padding:10px 12px}
+#s-body p.push{border-left:3px solid var(--a);padding-left:10px;color:var(--muted)}
+.nav{display:flex;gap:8px;margin-top:18px}
+.nav button{flex:1;border:1px solid var(--rule);background:transparent;border-radius:9px;padding:9px;font-size:13.5px;cursor:pointer}
+.nav button:disabled{opacity:.35}
+</style>
+</head>
+<body>
+<header><div class="w"><h1>Beyond Order</h1><div class="by">A guide to Jordan Peterson's 2021 book, 12 More Rules for Life</div></div></header>
+<main id="main"><div class="w pg">
+  <div class="intro"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="#1f2126" stroke="#b3262e" stroke-width="3"/><path d="M50,4 a46,46 0 0 1 0,92 a23,23 0 0 1 0,-46 a23,23 0 0 0 0,-46z" fill="#f5f2ec"/><circle cx="50" cy="27" r="7" fill="#f5f2ec"/><circle cx="50" cy="73" r="7" fill="#1f2126"/></svg><p><b>Twelve more rules.</b> The companion to 12 Rules for Life. Where the first book warned against chaos, this one warns against too much order. Each card opens to the idea, how the book argues it, something to try, and a common objection.</p></div>
+  <h2>The twelve rules · tap one</h2>
+  <div class="grid" id="grid"></div>
+  <h2>Ideas that run through the book</h2>
+  <div class="themes" id="themes"></div>
+  <p class="note">This is a summary in plain words of ideas from Beyond Order: 12 More Rules for Life by Jordan B. Peterson (2021), not a reproduction of the book. Rule names are shortened. The "try it" lines, the objections and the drawings are this guide's own additions. The book and its author are widely debated; the objections reflect common criticisms, not a verdict.</p>
+</div></main>
+<div id="shade"></div>
+<div id="sheet" role="dialog" aria-modal="true" aria-labelledby="s-n"><div class="si">
+  <div class="sh"><div id="s-art"></div><div><div id="s-k"></div><div id="s-n"></div></div><button id="close" aria-label="Close">×</button></div>
+  <div id="s-body"></div>
+  <div class="nav"><button id="sp">‹ Previous rule</button><button id="sn">Next rule ›</button></div>
+</div></div>
+<script>
+/* =====================  character builder, 200 x 250  ===================== */
+const INK="#22252b", SKIN={a:"#f3cfae",b:"#e0aa80",c:"#b97d54",d:"#8a5636",e:"#f8dcc6"};
+const shade=(hex,k)=>{const n=parseInt(hex.slice(1),16),f=v=>Math.max(0,Math.min(255,Math.round(v*k)));return "#"+[n>>16,(n>>8)&255,n&255].map(v=>f(v).toString(16).padStart(2,"0")).join("");};
+function arm(sx,sy,p,col,skin,short){
+  const [ex,ey,hx,hy]=p; let s=`<path d="M${sx},${sy} L${ex},${ey} L${hx},${hy}" fill="none" stroke="${short?skin:col}" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>`;
+  if(short) s+=`<path d="M${sx},${sy} L${(sx*.45+ex*.55).toFixed(1)},${(sy*.45+ey*.55).toFixed(1)}" stroke="${col}" stroke-width="14.5" stroke-linecap="round"/>`;
+  return s+`<circle cx="${hx}" cy="${hy}" r="7.6" fill="${skin}"/>`;
+}
+function leg(sx,p,col,shoe,dir,skinLeg){
+  const [kx,ky,fx,fy]=p;
+  return `<path d="M${sx},170 L${kx},${ky} L${fx},${fy}" fill="none" stroke="${skinLeg||col}" stroke-width="${skinLeg?12:16}" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="${fx+dir*4}" cy="${fy+6}" rx="12" ry="6.5" fill="${shoe}"/>`;
+}
+const HAIR={
+ short:c=>["",`<path d="M73,68 q-3,-36 27,-36 q30,0 27,36 q-5,-16 -27,-17 q-22,1 -27,17z" fill="${c}"/>`],
+ side:c=>["",`<path d="M73,72 q-4,-40 27,-40 q32,0 27,40 q-3,-14 -12,-20 q-20,8 -37,2 q-4,6 -5,18z" fill="${c}"/>`],
+ slick:c=>["",`<path d="M73,66 q-2,-36 27,-36 q29,0 27,36 q-4,-12 -10,-17 q-17,-6 -34,0 q-6,5 -10,17z" fill="${c}"/><path d="M84,40 q16,-6 32,0" fill="none" stroke="${shade(c,1.5)}" stroke-width="1.5" opacity=".6"/>`],
+ spiky:c=>["",`<path d="M73,68 l-3,-18 l10,6 l0,-18 l11,10 l6,-18 l8,16 l12,-12 l1,16 l11,-6 l-2,24 q-5,-14 -27,-15 q-22,1 -27,15z" fill="${c}"/>`],
+ curly:c=>["",`<g fill="${c}"><circle cx="78" cy="52" r="10"/><circle cx="90" cy="42" r="11"/><circle cx="104" cy="39" r="11"/><circle cx="117" cy="45" r="10"/><circle cx="124" cy="56" r="8"/><circle cx="75" cy="62" r="7"/></g>`],
+ afro:c=>[`<circle cx="100" cy="56" r="40" fill="${c}"/>`,`<path d="M75,66 q4,-22 25,-22 q21,0 25,22 q-10,-10 -25,-10 q-15,0 -25,10z" fill="${c}"/>`],
+ long:c=>[`<path d="M70,72 q-4,-42 30,-42 q34,0 30,42 l4,50 q-34,12 -68,0z" fill="${c}"/>`,`<path d="M74,70 q0,-34 26,-34 q26,0 26,34 q-8,-18 -22,-22 q-16,10 -30,22z" fill="${c}"/>`],
+ bob:c=>[`<path d="M69,72 q-4,-42 31,-42 q35,0 31,42 l1,22 q-32,10 -64,0z" fill="${c}"/>`,`<path d="M74,68 q2,-30 26,-30 q24,0 26,30 q-12,-12 -52,-8z" fill="${c}"/>`],
+ bun:c=>[`<circle cx="100" cy="30" r="12" fill="${c}"/>`,`<path d="M73,68 q-3,-34 27,-34 q30,0 27,34 q-6,-16 -27,-16 q-21,0 -27,16z" fill="${c}"/>`],
+ pony:c=>[`<path d="M122,48 q26,2 22,36 q-2,22 -14,34 q4,-22 -2,-38 q-4,-16 -12,-20z" fill="${c}"/>`,`<path d="M73,70 q-4,-38 27,-38 q31,0 27,38 q-6,-18 -18,-22 q-18,10 -36,22z" fill="${c}"/>`],
+ buzz:c=>["",`<path d="M74,64 q0,-30 26,-30 q26,0 26,30 q-6,-16 -26,-16 q-20,0 -26,16z" fill="${c}" opacity=".85"/>`]
+};
+function face(f={}){
+  const d=INK, b=f.brow||"soft", e=f.eyes||"dot", m=f.mouth||"smile"; let s="";
+  s+={soft:`<path d="M84,61 q6,-3 12,0 M104,61 q6,-3 12,0"`,flat:`<path d="M84,61 h12 M104,61 h12"`,down:`<path d="M84,59 l12,3 M116,59 l-12,3"`,up:`<path d="M84,59 q6,-5 12,-1 M104,58 q6,-4 12,1"`,quirk:`<path d="M84,62 h12 M104,57 q6,-4 12,0"`}[b]+` fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`;
+  s+={dot:`<circle cx="90" cy="70" r="2.8" fill="${d}"/><circle cx="110" cy="70" r="2.8" fill="${d}"/>`,
+      wide:`<circle cx="90" cy="70" r="4.2" fill="#fff"/><circle cx="110" cy="70" r="4.2" fill="#fff"/><circle cx="90.6" cy="70.4" r="2.5" fill="${d}"/><circle cx="110.6" cy="70.4" r="2.5" fill="${d}"/>`,
+      smile:`<path d="M85.500,71 q4.500,-5 9,0 M105.500,71 q4.500,-5 9,0" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      lash:`<circle cx="90" cy="70" r="2.8" fill="${d}"/><circle cx="110" cy="70" r="2.8" fill="${d}"/><path d="M85,67 l-3,-2 M115,67 l3,-2" stroke="${d}" stroke-width="1.8" stroke-linecap="round"/>`}[e];
+  s+=`<path d="M100,73 q3,5 -1,7" fill="none" stroke="#0002" stroke-width="2" stroke-linecap="round"/>`;
+  s+={smile:`<path d="M92,83 q8,6 16,0" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      soft:`<path d="M94,84 q6,3.500 12,0" fill="none" stroke="${d}" stroke-width="2.2" stroke-linecap="round"/>`,
+      flat:`<path d="M94,85 h12" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      smirk:`<path d="M93,85 q7,2 14,-3" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      grin:`<path d="M90,81 q10,13 20,0z" fill="${d}"/><path d="M93,82.500 h14" stroke="#fff" stroke-width="2.6"/>`,
+      o:`<ellipse cx="100" cy="85" rx="4" ry="5" fill="${d}"/>`}[m];
+  if(f.blush) s+=`<circle cx="82" cy="78" r="5" fill="#e8766b" opacity=".32"/><circle cx="118" cy="78" r="5" fill="#e8766b" opacity=".32"/>`;
+  return s;
+}
+function torso(o){
+  const t=o.top, sh=shade(t,.8), st=o.style||"tee"; let s="";
+  const base=c=>`<path d="M76,105 q24,-9 48,0 l6,62 q-30,9 -60,0z" fill="${c}"/>`;
+  const shadow=`<path d="M104,101 q12,0 20,4 l6,62 q-13,4 -26,5z" fill="#000" opacity=".08"/>`;
+  if(st==="dress") return `<path d="M76,105 q24,-9 48,0 l5,40 l15,58 q-44,11 -88,0 l15,-58z" fill="${t}"/><path d="M104,101 q12,0 20,4 l5,40 l15,58 q-20,5 -40,6z" fill="#000" opacity=".08"/>`+(o.belt?`<path d="M72,144 q28,7 56,0 v7 q-28,7 -56,0z" fill="${o.belt}"/>`:"");
+  if(st==="coat"){ s=base(o.inner||"#f4f1ea")+`<path d="M76,105 q10,-5 19,-5 l-3,100 h-24z" fill="${t}"/><path d="M124,105 q-10,-5 -19,-5 l3,100 h24z" fill="${t}"/><path d="M108,100 l3,100 h21 l-8,-95z" fill="#000" opacity=".08"/><path d="M95,100 l-6,24 M105,100 l6,24" stroke="${sh}" stroke-width="2.5" stroke-linecap="round"/>`; return s; }
+  s=base(st==="jacket"||st==="vest"||st==="overalls"||st==="shirt"?(o.inner||"#f4f1ea"):t);
+  if(st==="suit") s+=`<path d="M91,100 l9,26 l9,-26z" fill="#fbfaf7"/><path d="M98,104 h4 l2.500,20 l-4.500,6 l-4.500,-6z" fill="${o.tie||"#b3262e"}"/><path d="M91,100 l9,26 M109,100 l-9,26" stroke="${sh}" stroke-width="3" stroke-linecap="round"/><circle cx="100" cy="144" r="1.8" fill="${sh}"/><circle cx="100" cy="156" r="1.8" fill="${sh}"/>`;
+  if(st==="shirt") s+=`<path d="M90,100 l10,9 l10,-9 l3,8 l-13,6 l-13,-6z" fill="${shade(o.inner||"#f4f1ea",.9)}"/><path d="M98,108 h4 l3,34 l-5,7 l-5,-7z" fill="${o.tie||t}"/><path d="M100,150 v20" stroke="#0001" stroke-width="2"/>`;
+  if(st==="jacket") s+=`<path d="M76,105 q9,-5 17,-5 l-5,68 q-8,0 -18,-1z" fill="${t}"/><path d="M124,105 q-9,-5 -17,-5 l5,68 q8,0 18,-1z" fill="${t}"/><path d="M93,100 l-4,22 M107,100 l4,22" stroke="${sh}" stroke-width="2.5" stroke-linecap="round"/>`;
+  if(st==="vest") s+=`<path d="M78,105 q8,-4 14,-5 l8,30 l8,-30 q6,1 14,5 l5,62 q-27,8 -54,0z" fill="${t}"/><path d="M98,106 h4 l2,16 l-4,5 l-4,-5z" fill="${o.tie||"#8f2f25"}"/><circle cx="100" cy="142" r="1.8" fill="${sh}"/><circle cx="100" cy="154" r="1.8" fill="${sh}"/>`;
+  if(st==="overalls") s+=`<path d="M86,122 h28 l10,46 q-24,7 -48,0z" fill="${t}"/><path d="M88,122 l-5,-18 M112,122 l5,-18" stroke="${t}" stroke-width="6" stroke-linecap="round"/><circle cx="88" cy="124" r="2.4" fill="#e6c25a"/><circle cx="112" cy="124" r="2.4" fill="#e6c25a"/><rect x="92" y="132" width="16" height="12" rx="2" fill="${sh}"/>`;
+  if(st==="hoodie") s+=`<path d="M86,146 h28 l4,16 h-36z" fill="${sh}"/><path d="M95,104 v16 M105,104 v16" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".8"/>`;
+  if(st==="turtle") s+=`<rect x="88" y="91" width="24" height="15" rx="6" fill="${t}"/><path d="M88,99 h24" stroke="${sh}" stroke-width="1.5"/>`;
+  if(st==="sweater") s+=`<path d="M88,101 q12,9 24,0" fill="none" stroke="${sh}" stroke-width="4" stroke-linecap="round"/><path d="M72,160 q28,9 56,0" fill="none" stroke="${sh}" stroke-width="5"/>`;
+  if(st==="stripe") s+=`<g stroke="${o.stripe||"#fff"}" stroke-width="4" opacity=".9"><path d="M77,116 q23,-6 46,0"/><path d="M76,130 q24,-5 48,0"/><path d="M75,144 q25,-4 50,0"/><path d="M74,158 q26,-3 52,0"/></g>`;
+  if(o.graphic) s+=o.graphic;
+  return s+shadow;
+}
+function fig(o){
+  const skin=SKIN[o.skin||"a"], bottom=o.bottom||"#2f3440", shoe=o.shoes||"#22252b";
+  const la=o.la||[66,140,70,166], ra=o.ra||[134,140,130,166], ll=o.ll||[87,202,86,232], rl=o.rl||[113,202,114,232];
+  const [hb,hf]=HAIR[o.hair||"short"](o.hairCol||"#3a2a20"), short=o.sleeve==="short";
+  const long=o.style==="dress"||o.style==="coat", skirt=o.style==="dress";
+  const legs=leg(90,ll,bottom,shoe,-1,skirt?skin:null)+leg(110,rl,bottom,shoe,1,skirt?skin:null);
+  const hips=skirt?"":`<path d="M71,164 q29,9 58,0 l2,14 q-31,8 -62,0z" fill="${bottom}"/>`;
+  const armCol=o.armCol||o.top;
+  const armL=arm(79,111,la,armCol,skin,short), armR=arm(121,111,ra,armCol,skin,short);
+  return `<svg viewBox="0 0 200 250" role="img" aria-label="${o.label||""}">
+   <circle cx="100" cy="122" r="96" fill="${o.bg||"#eee"}"/>${o.back||""}
+   <ellipse cx="100" cy="${o.jump?244:240}" rx="${o.jump?34:48}" ry="6" fill="#000" opacity=".14"/>
+   ${hb}${o.behind||""}${legs}${hips}${o.armsBack?armL+armR:""}${torso(o)}${o.armsBack?"":armL+armR}
+   <rect x="93" y="88" width="14" height="18" rx="5" fill="${shade(SKIN[o.skin||"a"],.88)}"/>${o.style==="turtle"?`<rect x="88" y="91" width="24" height="15" rx="6" fill="${o.top}"/>`:""}${o.style==="hoodie"?`<path d="M80,104 q20,-14 40,0 q-20,10 -40,0z" fill="${shade(o.top,.8)}"/>`:""}
+   <circle cx="74" cy="72" r="5.500" fill="${skin}"/><circle cx="126" cy="72" r="5.500" fill="${skin}"/><circle cx="100" cy="68" r="27" fill="${skin}"/><path d="M110,42 a27,27 0 0 1 0,52 a34,34 0 0 0 0,-52z" fill="#000" opacity=".06"/>
+   ${o.beard?`<path d="M75,74 q2,26 25,26 q23,0 25,-26 q-8,14 -25,14 q-17,0 -25,-14z" fill="${o.hairCol}"/>`:""}${hf}${face(o.face)}${o.acc||""}${o.front||""}</svg>`;
+}
+/* small drawing helpers for props and backdrops */
+const star=(x,y,r,c,o=1)=>{let p="";for(let i=0;i<8;i++){const a=i*Math.PI/4,q=i%2?r*.38:r;p+=(x+q*Math.cos(a)).toFixed(1)+","+(y+q*Math.sin(a)).toFixed(1)+" ";}return `<polygon points="${p}" fill="${c}" opacity="${o}"/>`;};
+const gear=(x,y,r,c,o=1)=>{let t="";for(let i=0;i<8;i++)t+=`<rect x="${x-r*.16}" y="${y-r*1.22}" width="${r*.32}" height="${r*.5}" rx="1.5" transform="rotate(${i*45} ${x} ${y})"/>`;return `<g fill="${c}" opacity="${o}">${t}<circle cx="${x}" cy="${y}" r="${r}"/></g><circle cx="${x}" cy="${y}" r="${r*.42}" fill="#fff" opacity="${o*.7}"/>`;};
+const note=(x,y,c)=>`<g fill="${c}"><ellipse cx="${x}" cy="${y}" rx="5" ry="4" transform="rotate(-20 ${x} ${y})"/><rect x="${x+3.500}" y="${y-18}" width="2.200" height="18"/><path d="M${x+3.500},${y-18} q9,2 9,10 q-3,-5 -9,-4z"/></g>`;
+const heart=(x,y,s,c,o=1)=>`<path d="M${x},${y+s*.9} l${-s},${-s} a${s*.56},${s*.56} 0 0 1 ${s},${-s*.62} a${s*.56},${s*.56} 0 0 1 ${s},${s*.62}z" fill="${c}" opacity="${o}"/>`;
+const glasses=(sq)=>sq?`<rect x="81" y="63" width="17" height="13" rx="3" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.200"/><rect x="102" y="63" width="17" height="13" rx="3" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.200"/><path d="M98,68 h4 M81,68 l-6,-2 M119,68 l6,-2" stroke="${INK}" stroke-width="2.200"/>`:`<circle cx="90" cy="70" r="8.500" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.200"/><circle cx="110" cy="70" r="8.500" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.200"/><path d="M98.500,69 h3 M81.500,69 l-6,-2 M118.500,69 l6,-2" stroke="${INK}" stroke-width="2.200"/>`;
+
+
+
+const inner=o=>fig(o).replace(/^<svg[^>]*>\s*<circle[^>]*\/>/,"").replace("</svg>","");
+const sub=(x,y,k,o,op)=>`<g transform="translate(${x},${y}) scale(${k})" opacity="${op||1}">${inner(o)}</g>`;
+const mini=(x,y,c,s,hc)=>`<path d="M${x-13},${y+34} q0,-22 13,-22 q13,0 13,22z" fill="${c}"/><circle cx="${x}" cy="${y}" r="9.5" fill="${s}"/><path d="M${x-9},${y-2} q9,-12 18,0 q-9,-5 -18,0z" fill="${hc}"/>`;
+const cloud=(x,y,s,c,o)=>`<g fill="${c}" opacity="${o}"><circle cx="${x}" cy="${y}" r="${12*s}"/><circle cx="${x+14*s}" cy="${y-6*s}" r="${14*s}"/><circle cx="${x+30*s}" cy="${y}" r="${12*s}"/><rect x="${x}" y="${y}" width="${30*s}" height="${12*s}"/></g>`;
+
+
+const BASE={skin:"d",hair:"curly",hairCol:"#1d1a1c",style:"jacket",top:"#c43a3f",inner:"#fbfaf7",bottom:"#2f3440"};
+const TINT=["#f1e4de","#e3e8ef","#efe9d8","#e2ebe4"];
+const flag=(x,y,c,r)=>`<g transform="rotate(${r} ${x} ${y})"><rect x="${x}" y="${y-56}" width="3" height="60" fill="#5a3d2a"/><path d="M${x+3},${y-56} h30 l-7,9 l7,9 h-30z" fill="${c}"/></g>`;
+const SCENE=[
+ {la:[66,138,95,132],face:{brow:"soft",mouth:"smile"},
+  back:`<g opacity=".8"><path d="M118,96 l36,-24 l36,24z" fill="#fbfaf7" stroke="#6b7078" stroke-width="2.5" stroke-linejoin="round"/><rect x="120" y="96" width="68" height="8" fill="#fbfaf7" stroke="#6b7078" stroke-width="2"/><g fill="#fbfaf7" stroke="#6b7078" stroke-width="2"><rect x="124" y="104" width="10" height="70"/><rect x="142" y="104" width="10" height="70"/><rect x="160" y="104" width="10" height="70"/><rect x="176" y="104" width="10" height="70"/></g><rect x="116" y="174" width="76" height="9" fill="#fbfaf7" stroke="#6b7078" stroke-width="2"/></g><g><path d="M20,190 l12,-70 M56,190 l-12,-70 M38,190 v-60" stroke="#7a4a2e" stroke-width="3" stroke-linecap="round"/><rect x="14" y="92" width="48" height="40" fill="#fbfaf7" stroke="#22252b" stroke-width="2"/><circle cx="30" cy="106" r="7" fill="#d9a441"/><path d="M16,130 l16,-16 l10,10 l8,-6 l10,12z" fill="#2f7d6b"/></g>`},
+ {ra:[146,100,127,58],face:{brow:"up",eyes:"wide",mouth:"smile"},
+  back:`<g fill="none" stroke="#d9a441" stroke-width="2.800" stroke-dasharray="5 6" stroke-linecap="round"><circle cx="170" cy="92" r="15"/><path d="M148,164 q0,-46 22,-46 q22,0 22,46z"/></g>`+star(170,48,10,"#d9a441")+star(30,60,5,"#d9a441",.8)+star(44,120,4,"#d9a441",.7)},
+ {ra:[146,108,152,78],face:{brow:"down",mouth:"flat"},
+  back:`<g fill="#3a3f4c" opacity=".55"><rect x="14" y="170" width="30" height="34"/><path d="M52,204 v-24 q0,-8 6,-10 v-10 h8 v10 q6,2 6,10 v24z"/><rect x="150" y="186" width="34" height="20" rx="3"/></g>`+cloud(4,160,1.5,"#9aa0a8",.55)+cloud(128,176,1.4,"#9aa0a8",.55)+cloud(30,196,1.6,"#9aa0a8",.5)+`<circle cx="152" cy="56" r="34" fill="#f2c12e" opacity=".22"/>`,
+  front:`<path d="M152,78 v-10" stroke="#22252b" stroke-width="2"/><path d="M143,34 h18 l3,5 v24 l-3,5 h-18 l-3,-5 v-24z" fill="#3a3352" stroke="#22252b" stroke-width="2"/><rect x="144" y="41" width="16" height="20" rx="2" fill="#ffe08a"/><path d="M152,58 q-5,-5 0,-12 q5,7 0,12z" fill="#f08a3c"/><circle cx="152" cy="80" r="7.6" fill="#8a5636"/>`},
+ {la:[60,138,76,152],ra:[140,138,124,152],face:{brow:"up",mouth:"smile"},
+  back:`<g opacity=".7"><path d="M150,206 v-30 h28 v30 M146,206 h36 M152,176 v-22 h24 v22" fill="none" stroke="#6b7078" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>`+star(40,80,8,"#d9a441")+star(58,104,4,"#d9a441",.8)+`<g opacity=".7"><circle cx="30" cy="190" r="8" fill="none" stroke="#d9a441" stroke-width="3.500"/><path d="M38,190 h24 M54,190 v8 M62,190 v6" stroke="#d9a441" stroke-width="3.500" stroke-linecap="round"/></g>`,
+  front:`<rect x="76" y="134" width="48" height="38" rx="3" fill="#b98a5c" stroke="#22252b" stroke-width="2"/><path d="M76,146 h48 M100,134 v12" stroke="#7a4a2e" stroke-width="2"/><circle cx="76" cy="156" r="7.6" fill="#8a5636"/><circle cx="124" cy="156" r="7.6" fill="#8a5636"/>`},
+ {ra:[146,116,160,90],face:{brow:"down",mouth:"flat"},
+  back:`<g opacity=".75"><rect x="14" y="150" width="50" height="8" fill="#fbfaf7" stroke="#6b7078" stroke-width="2"/><rect x="18" y="140" width="50" height="8" fill="#fbfaf7" stroke="#6b7078" stroke-width="2"/><rect x="12" y="130" width="50" height="8" fill="#fbfaf7" stroke="#6b7078" stroke-width="2"/><rect x="16" y="120" width="50" height="8" fill="#fbfaf7" stroke="#6b7078" stroke-width="2"/><rect x="6" y="160" width="66" height="6" fill="#7a4a2e"/><path d="M12,166 v40 M66,166 v40" stroke="#7a4a2e" stroke-width="4"/></g><path d="M26,92 l26,26 M52,92 l-26,26" stroke="#c43a3f" stroke-width="5" stroke-linecap="round"/>`,
+  front:`<rect x="151" y="66" width="20" height="26" rx="8" fill="#8a5636"/><path d="M155,68 v-8 M161,67 v-10 M167,68 v-8" stroke="#8a5636" stroke-width="5" stroke-linecap="round"/>`},
+ {la:[58,134,80,152],ra:[142,136,116,100],face:{brow:"quirk",mouth:"flat"},
+  back:flag(62,238,"#3d5a98",-52)+flag(138,238,"#2f7d6b",52)+`<text x="158" y="78" font-size="40" font-family="Georgia,serif" fill="#6b7078" opacity=".6">?</text>`},
+ {ra:[146,104,152,76],la:[62,140,72,160],face:{brow:"down",mouth:"smirk"},
+  back:`<path d="M152,196 l-14,-16 l14,-12 l14,12z M138,180 h28" fill="#9fd3e6" stroke="#22252b" stroke-width="2" stroke-linejoin="round" transform="translate(14,10)"/>`+star(178,160,5,"#d9a441")+star(150,150,4,"#d9a441",.8),
+  front:`<g><path d="M18,196 h60 l-8,14 h-10 v10 h14 v8 h-52 v-8 h14 v-10 h-10z" fill="#4a4f58" stroke="#22252b" stroke-width="2" stroke-linejoin="round"/><path d="M78,196 l14,4 l-14,6z" fill="#4a4f58" stroke="#22252b" stroke-width="2" stroke-linejoin="round"/></g>`+star(50,182,7,"#f08a3c")+`<g transform="rotate(20 152 70)"><rect x="149" y="56" width="6" height="42" rx="3" fill="#b98a5c" stroke="#22252b" stroke-width="1.600"/><rect x="136" y="42" width="32" height="18" rx="3" fill="#6b7078" stroke="#22252b" stroke-width="2"/></g><circle cx="152" cy="78" r="7.6" fill="#8a5636"/>`},
+ {ra:[146,108,150,84],face:{brow:"up",mouth:"smile"},
+  back:`<rect x="128" y="34" width="58" height="46" fill="#fbfaf7" stroke="#b98a2e" stroke-width="5"/><path d="M131,77 l16,-18 l12,10 l10,-12 l14,20z" fill="#2f7d6b"/><circle cx="170" cy="48" r="6" fill="#e8873c"/><g><path d="M30,206 q-10,-20 0,-34 h20 q10,14 0,34z" fill="#3d6fb0" stroke="#22252b" stroke-width="2"/><path d="M40,172 v-34 M40,150 q-14,-4 -14,-18 M40,146 q14,-6 12,-20" fill="none" stroke="#2f7d6b" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="132" r="8" fill="#e8627a"/><circle cx="25" cy="128" r="7" fill="#f2c12e"/><circle cx="53" cy="122" r="7" fill="#b8497a"/></g><ellipse cx="100" cy="240" rx="80" ry="8" fill="#d9a441" opacity=".35"/>`},
+ {la:[62,140,84,150],ra:[138,140,118,146],face:{brow:"soft",mouth:"soft"},
+  back:cloud(118,54,1.5,"#fbfaf7",.95)+`<circle cx="124" cy="92" r="5" fill="#fbfaf7"/><circle cx="118" cy="104" r="3" fill="#fbfaf7"/><g opacity=".6"><path d="M136,60 l12,-10 l12,10 v12 h-24z" fill="none" stroke="#6b7078" stroke-width="2.200" stroke-linejoin="round"/><circle cx="168" cy="58" r="5" fill="none" stroke="#6b7078" stroke-width="2.200"/><path d="M168,63 v9" stroke="#6b7078" stroke-width="2.200"/></g>`,
+  front:`<g transform="rotate(-5 100 150)"><rect x="76" y="132" width="50" height="38" rx="3" fill="#fbfaf7" stroke="#22252b" stroke-width="2"/><path d="M101,132 v38" stroke="#22252b" stroke-width="1.600"/><path d="M81,142 h15 M81,150 h15 M81,158 h10 M106,142 h15 M106,150 h8" stroke="#9aa0a8" stroke-width="2"/></g><circle cx="82" cy="154" r="7.6" fill="#8a5636"/><path d="M116,148 l14,-22" stroke="#3d5a98" stroke-width="4" stroke-linecap="round"/><circle cx="118" cy="146" r="7.6" fill="#8a5636"/>`},
+ {ra:[144,124,152,102],face:{brow:"up",eyes:"smile",mouth:"smile",blush:1},
+  back:heart(40,60,12,"#c43a3f",.85)+heart(64,92,6,"#c43a3f",.6)+heart(20,100,5,"#b8497a",.6)+`<g><rect x="14" y="196" width="50" height="6" fill="#7a4a2e"/><path d="M39,202 v34 M26,236 h26" stroke="#7a4a2e" stroke-width="4" stroke-linecap="round"/><rect x="34" y="170" width="10" height="26" fill="#fbfaf7" stroke="#22252b" stroke-width="1.800"/><path d="M39,168 q-6,-6 0,-14 q6,8 0,14z" fill="#f08a3c"/></g>`,
+  front:`<path d="M152,102 l-4,-26 M152,102 l6,-28 M152,102 l-14,-20" stroke="#2f7d6b" stroke-width="3" stroke-linecap="round"/><circle cx="147" cy="70" r="8" fill="#e8627a"/><circle cx="160" cy="68" r="8" fill="#f2c12e"/><circle cx="136" cy="78" r="7" fill="#b8497a"/><path d="M144,96 l8,12 l8,-12z" fill="#fbfaf7" stroke="#22252b" stroke-width="1.800" stroke-linejoin="round"/><circle cx="152" cy="106" r="7.6" fill="#8a5636"/>`},
+ {la:[58,134,80,152],ra:[142,134,120,152],face:{brow:"soft",mouth:"soft"},
+  back:[[30,70,`<path d="M21,64 l8,3 M39,64 l-8,3" stroke="#fff" stroke-width="2.200"/><path d="M23,80 q7,-7 14,0" fill="none" stroke="#fff" stroke-width="2.200"/>`],[170,62,`<path d="M161,58 h8 M171,56 l8,2" stroke="#fff" stroke-width="2.200"/><path d="M162,70 q8,4 14,-4" fill="none" stroke="#fff" stroke-width="2.200"/>`],[32,170,`<path d="M23,162 q4,-4 8,0 M33,162 q4,-4 8,0" fill="none" stroke="#fff" stroke-width="2.200"/><path d="M25,176 q7,6 14,0" fill="none" stroke="#fff" stroke-width="2.200"/><path d="M26,152 l6,-10 l6,10z" fill="#d9a441"/>`]].map(([x,y,f])=>`<circle cx="${x}" cy="${y}" r="20" fill="#3a3f4c" opacity=".8"/><circle cx="${x-7}" cy="${y-3}" r="2.200" fill="#fff"/><circle cx="${x+7}" cy="${y-3}" r="2.200" fill="#fff"/>${f}`).join("")},
+ {la:[66,138,95,132],ra:[146,112,150,88],face:{brow:"soft",eyes:"smile",mouth:"smile"},
+  back:cloud(8,44,1.3,"#6b7078",.7)+`<g stroke="#3d6fb0" stroke-width="3" stroke-linecap="round" opacity=".7"><path d="M16,72 l-4,12 M32,76 l-4,12 M48,72 l-4,12 M24,96 l-4,12 M42,98 l-4,12 M14,120 l-4,12"/></g><circle cx="176" cy="190" r="16" fill="#f2c12e" opacity=".85"/><g stroke="#f2c12e" stroke-width="3" stroke-linecap="round" opacity=".8"><path d="M176,166 v-8 M156,176 l-6,-5 M152,196 h-8"/></g>`,
+  front:`<path d="M150,90 v-66" stroke="#5a3d2a" stroke-width="3.500" stroke-linecap="round"/><path d="M106,30 q44,-32 88,0 q-11,-7 -22,0 q-11,-7 -22,0 q-11,-7 -22,0 q-11,-7 -22,0z" fill="#2f7d6b" stroke="#22252b" stroke-width="2" stroke-linejoin="round"/><circle cx="150" cy="90" r="7.6" fill="#8a5636"/>`}
+];
+const RULES=[
+ ["Do not carelessly dismiss institutions or creative achievement","We stay sane largely through other people and shared structures. Respect what has been built, and respect the creativity that renews it.","Through a lonely client who rebuilt his life by learning ordinary social routines, and the idea that you must first be a good beginner inside a tradition.","Learn the rules of something properly before you decide to break them.","Institutions can be truly unjust. The rule does not say how to tell careless criticism from deserved criticism."],
+ ["Imagine who you could be, and aim at it","Your personality is unfinished. Picture a better version of yourself and choose a direction, because aimlessness is its own kind of suffering.","With hero stories, from ancient myth to modern children's fantasy, read as a pattern: face the unknown, gain something, bring it home.","Write a paragraph about who you could be in three years. Pick the first step.","The chapter is thick with symbolism, and aiming at one thing can blind you to better options."],
+ ["Do not hide unwanted things in the fog","Small irritations you avoid naming pile up. Staying vague about what you want protects you from failing, and guarantees you will not get it.","Through everyday marital resentments left unspoken for years until they come out all at once.","Say the small thing now, while it is still small.","It covers much the same ground as the earlier rule about precise speech."],
+ ["Opportunity lies where responsibility has been abandoned","The jobs nobody wants are where you become valuable. Meaning is found in picking up a burden.","With workplace advice to take on the neglected tasks, and Peter Pan as the picture of someone refusing to grow up.","Find one neglected job at work or at home and make it yours.","Employers can exploit this readily. Taking on more is not always rewarded."],
+ ["Do not do what you hate","If your work requires you to betray your conscience, small compromises add up to a large one. Object, and prepare to leave if you must.","Through a client pressured at work to go along with something she thought absurd, who began to push back and plan her exit.","State your objection once, clearly. Meanwhile, quietly make yourself employable elsewhere.","Critics say his example trivialises efforts to make workplaces more inclusive, and many people cannot afford to walk away."],
+ ["Abandon ideology","Ideologies explain everything with one cause and blame one group. Trade them for specific problems you can check and personal responsibility you can act on.","With Nietzsche's warning that the decline of religion would leave a gap filled by mass movements, and the twentieth century as proof.","Swap one sweeping complaint for one small, concrete problem you can do something about.","Critics note that he does not count his own outlook as an ideology, and that some problems really are systemic."],
+ ["Work as hard as you can on one thing","Commitment to one demanding pursuit pulls a scattered personality together. Discipline comes first, freedom after.","With the image of coal under pressure becoming a diamond, and the old path from apprentice to master.","Commit to one pursuit for a fixed period, long enough to get past the boring part.","It is not obvious which one thing deserves it, and the stories told are those of people for whom it worked."],
+ ["Make one room in your home as beautiful as you can","Beauty is a need, not a luxury. Start with one room and learn to pay attention to it.","From his own home, filled with paintings, and his view that art is a window onto something beyond daily routine.","Choose one room or corner. Clear it, then add one thing you find beautiful.","It is the least argued of the rules, and taste and money are real constraints."],
+ ["If old memories still upset you, write them down fully","A past you have not understood keeps signalling danger. Writing it out in detail turns it into something you can learn from and leave behind.","With clients whose painful memories lost their grip once they were told completely and seen with adult eyes.","Write the memory out in full, including what you learned. Stop if it overwhelms you.","Expressive writing has research support, but serious trauma calls for professional help, not a notebook alone."],
+ ["Plan and work to keep romance alive","Romance does not maintain itself. It needs honesty about what each of you wants, negotiation and time set aside on purpose.","With blunt practical advice: schedule regular time together, and say out loud what you want.","Put a recurring evening in the calendar and protect it.","His picture of marriage is a traditional one that not every reader shares."],
+ ["Do not become resentful, deceitful or arrogant","Life gives everyone reasons for all three, and each makes things worse.","By describing the forces that shape every life, nature, culture and the self, as having both a kind and a cruel face.","When you feel resentful, ask whether you are being wronged or being immature. Then speak up, or grow up.","The chapter is abstract, and the line between fair anger and resentment is not easy to see from inside."],
+ ["Be grateful in spite of your suffering","Gratitude is not naivety. It is the courage to see what is still good, knowing how hard life is.","Written after his own serious illness and his family's health crises, with the thought that grief is a measure of love.","Name three things that are still good. Tell someone who is one of them.","It is hard counsel for someone in acute pain, and it is no substitute for getting help."]
+];
+const THEMES=[
+ ["The other half of the argument","The first book warned against too much chaos. This one warns against too much order: rigidity, stale routine and blind obedience. The cover colours were swapped to match."],
+ ["Order and chaos, again","Order is the known and chaos the unknown. Peterson's claim is that a good life keeps a foot in each."],
+ ["Responsibility as the source of meaning","As in the first book, the recurring answer is to pick up a burden: at work, at home, in your own character."],
+ ["Written through illness","Much of the book was written during a period of severe illness for Peterson and his family, which shapes the final chapters."]
+];
+
+
+const $=id=>document.getElementById(id), h=(t,c,x)=>{const e=document.createElement(t); if(c)e.className=c; if(x!=null)e.textContent=x; return e;};
+const art=i=>fig(Object.assign({label:"Rule "+(i+1)},BASE,{bg:TINT[i%TINT.length]},SCENE[i]));
+RULES.forEach((r,i)=>{const b=h("button","cd"); b.innerHTML=art(i); b.append(h("i",null,i+1),h("b",null,r[0])); b.onclick=()=>openRule(i); $("grid").appendChild(b);});
+THEMES.forEach(([n,x])=>{const b=h("button","row"); b.setAttribute("aria-expanded","false"); b.append(h("div","n",n),h("div","x",x)); b.onclick=()=>b.setAttribute("aria-expanded",b.classList.toggle("open")); $("themes").appendChild(b);});
+let cur=0;
+function openRule(i){cur=i; const r=RULES[i]; $("s-art").innerHTML=art(i); $("s-k").textContent="Rule "+(i+1)+" of 12"; $("s-n").textContent=r[0];
+  const b=$("s-body"); b.textContent=""; [["The idea",r[1]],["How the book argues it",r[2]],["Try it",r[3],"try"],["A common objection",r[4],"push"]].forEach(([k,v,c])=>{b.appendChild(h("h3",null,k)); b.appendChild(h("p",c||null,v));});
+  $("sp").disabled=i===0; $("sn").disabled=i===11; $("sheet").scrollTop=0; document.body.classList.add("open");}
+const close=()=>document.body.classList.remove("open");
+$("close").onclick=close; $("shade").onclick=close; addEventListener("keydown",e=>{if(e.key==="Escape")close();});
+$("sp").onclick=()=>openRule(cur-1); $("sn").onclick=()=>openRule(cur+1);
+
+</script>
+</body>
+</html>

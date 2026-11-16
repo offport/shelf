@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Four Agreements Guide</title>
+<style>
+/* Layout: one scrolling page. A four-part medallion picks an agreement; its panel shows a drawn scene that
+   switches between the old habit and the agreement. Below: a situation tester and the book's background ideas.
+   Look: terracotta, turquoise and sun gold on sand. Single theme by choice. */
+:root{
+  --bg:#f6efe2; --panel:#fffaf0; --ink:#2b211a; --muted:#6f6254; --rule:#e3d7c2; --terra:#c2552d; --teal:#1f8f8a; --gold:#e0a52e; --plum:#5a3d6b; --a:#c2552d;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --serif: Georgia, "Times New Roman", serif;
+  color-scheme: light;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);display:flex;flex-direction:column;overflow:hidden}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+header{flex:none;background:var(--panel);border-bottom:1px solid var(--rule);padding:10px 14px}
+.w{max-width:640px;margin:0 auto}
+h1{font-family:var(--serif);font-size:19px;margin:0;font-weight:400}
+.by{font-size:12px;color:var(--muted);margin-top:1px}
+main{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.pg{padding:0 14px 40px}
+.lead{font-size:14.5px;line-height:1.5;color:var(--muted);margin:14px 0 4px;max-width:62ch}
+.lead b{color:var(--ink)}
+#wheel{display:block;width:100%;max-width:300px;margin:6px auto 0}
+#wheel .q{cursor:pointer;-webkit-tap-highlight-color:transparent}
+#wheel .q:focus:not(:focus-visible){outline:none}
+#wheel .q path.s{fill:var(--panel);stroke:var(--c);stroke-width:3;transition:fill .2s}
+#wheel .q.on path.s{fill:var(--c)}
+#wheel .q .ic{stroke:var(--c);fill:none;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+#wheel .q.on .ic{stroke:#fff}
+#wheel .q text{font-family:var(--serif);font-size:15px;fill:var(--c)}
+#wheel .q.on text{fill:#fff}
+@media (prefers-reduced-motion: reduce){#wheel .q path.s{transition:none}}
+.card{background:var(--panel);border:1px solid var(--rule);border-top:5px solid var(--a);border-radius:14px;padding:12px 14px 16px;margin-top:10px}
+.k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--a);font-weight:700}
+h2{font-family:var(--serif);font-size:24px;font-weight:400;margin:2px 0 8px;text-wrap:balance}
+.seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--rule);border-radius:10px;overflow:hidden;margin:0 0 8px}
+.seg button{border:0;background:transparent;padding:8px 4px;font-size:13.5px;cursor:pointer;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);font-weight:600}
+#art svg{display:block;width:100%;max-width:300px;height:auto;margin:0 auto}
+#cap{font-size:14px;line-height:1.45;text-align:center;margin:4px auto 0;max-width:46ch;color:var(--muted)}
+h3{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:18px 0 4px}
+.card p{font-size:15px;line-height:1.5;margin:0;max-width:62ch}
+.card ol{margin:0;padding-left:20px;font-size:15px;line-height:1.5;max-width:60ch}
+.card li{margin:0 0 4px}
+.card p.push{border-left:3px solid var(--a);padding-left:10px;color:var(--muted);font-size:14.5px}
+.sec{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:26px 0 8px;font-weight:700}
+.sit{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.sit::-webkit-scrollbar{display:none}
+.sit button{flex:none;border:1px solid var(--rule);background:var(--panel);border-radius:999px;padding:7px 13px;font-size:13px;cursor:pointer;white-space:nowrap}
+.sit button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.resp{display:grid;gap:6px;margin-top:10px}
+.resp div{background:var(--panel);border:1px solid var(--rule);border-left:5px solid var(--c);border-radius:10px;padding:9px 12px}
+.resp b{display:block;font-size:12px;letter-spacing:.04em;color:var(--c)}
+.resp span{font-size:14.5px;line-height:1.45}
+.list{display:grid;gap:6px}
+.row{display:block;width:100%;text-align:left;background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:10px 34px 10px 12px;cursor:pointer;position:relative}
+.row::after{content:"+";position:absolute;right:12px;top:9px;font-size:18px;color:var(--muted);line-height:1}
+.row.open::after{content:"−"}
+.row .n{font-size:14.5px;font-weight:600}
+.row .x{display:none;font-size:14px;line-height:1.5;margin-top:5px;max-width:62ch;color:var(--muted)}
+.row.open .x{display:block}
+.note{font-size:12px;color:var(--muted);line-height:1.5;margin:20px 0 0;max-width:62ch}
+</style>
+</head>
+<body>
+<header><div class="w"><h1>The Four Agreements</h1><div class="by">A guide to Don Miguel Ruiz's 1997 book</div></div></header>
+<main id="main"><div class="w pg">
+  <p class="lead"><b>Four promises to yourself.</b> Tap a quarter of the medallion to open an agreement, then switch the picture between the old habit and the agreement.</p>
+  <svg id="wheel" viewBox="0 0 240 240" role="group" aria-label="The four agreements"></svg>
+  <div class="card" id="card">
+    <div class="k" id="k"></div><h2 id="t"></h2>
+    <div class="seg" id="seg"><button data-m="0">The old habit</button><button data-m="1">With the agreement</button></div>
+    <div id="art"></div><p id="cap"></p>
+    <h3>The idea</h3><p id="idea"></p>
+    <h3>How the book puts it</h3><p id="book"></p>
+    <h3>Practice</h3><ol id="prac"></ol>
+    <h3>A fair caution</h3><p class="push" id="push"></p>
+  </div>
+  <div class="sec">Try it on a situation</div>
+  <div class="sit" id="sit"></div><div class="resp" id="resp"></div>
+  <div class="sec">Where the agreements come from</div>
+  <div class="list" id="list"></div>
+  <p class="note">This is a summary in plain words of ideas from The Four Agreements by Don Miguel Ruiz (1997), not a reproduction of the book. The four agreement names are the author's. The practice steps, the situations, the cautions and the drawings are this guide's own additions.</p>
+</div></main>
+<script>
+/* =====================  character builder, 200 x 250  ===================== */
+const INK="#22252b", SKIN={a:"#f3cfae",b:"#e0aa80",c:"#b97d54",d:"#8a5636",e:"#f8dcc6"};
+const shade=(hex,k)=>{const n=parseInt(hex.slice(1),16),f=v=>Math.max(0,Math.min(255,Math.round(v*k)));return "#"+[n>>16,(n>>8)&255,n&255].map(v=>f(v).toString(16).padStart(2,"0")).join("");};
+function arm(sx,sy,p,col,skin,short){
+  const [ex,ey,hx,hy]=p; let s=`<path d="M${sx},${sy} L${ex},${ey} L${hx},${hy}" fill="none" stroke="${short?skin:col}" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>`;
+  if(short) s+=`<path d="M${sx},${sy} L${(sx*.45+ex*.55).toFixed(1)},${(sy*.45+ey*.55).toFixed(1)}" stroke="${col}" stroke-width="14.5" stroke-linecap="round"/>`;
+  return s+`<circle cx="${hx}" cy="${hy}" r="7.6" fill="${skin}"/>`;
+}
+function leg(sx,p,col,shoe,dir,skinLeg){
+  const [kx,ky,fx,fy]=p;
+  return `<path d="M${sx},170 L${kx},${ky} L${fx},${fy}" fill="none" stroke="${skinLeg||col}" stroke-width="${skinLeg?12:16}" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="${fx+dir*4}" cy="${fy+6}" rx="12" ry="6.5" fill="${shoe}"/>`;
+}
+const HAIR={
+ short:c=>["",`<path d="M73,68 q-3,-36 27,-36 q30,0 27,36 q-5,-16 -27,-17 q-22,1 -27,17z" fill="${c}"/>`],
+ side:c=>["",`<path d="M73,72 q-4,-40 27,-40 q32,0 27,40 q-3,-14 -12,-20 q-20,8 -37,2 q-4,6 -5,18z" fill="${c}"/>`],
+ slick:c=>["",`<path d="M73,66 q-2,-36 27,-36 q29,0 27,36 q-4,-12 -10,-17 q-17,-6 -34,0 q-6,5 -10,17z" fill="${c}"/><path d="M84,40 q16,-6 32,0" fill="none" stroke="${shade(c,1.5)}" stroke-width="1.5" opacity=".6"/>`],
+ spiky:c=>["",`<path d="M73,68 l-3,-18 l10,6 l0,-18 l11,10 l6,-18 l8,16 l12,-12 l1,16 l11,-6 l-2,24 q-5,-14 -27,-15 q-22,1 -27,15z" fill="${c}"/>`],
+ curly:c=>["",`<g fill="${c}"><circle cx="78" cy="52" r="10"/><circle cx="90" cy="42" r="11"/><circle cx="104" cy="39" r="11"/><circle cx="117" cy="45" r="10"/><circle cx="124" cy="56" r="8"/><circle cx="75" cy="62" r="7"/></g>`],
+ afro:c=>[`<circle cx="100" cy="56" r="40" fill="${c}"/>`,`<path d="M75,66 q4,-22 25,-22 q21,0 25,22 q-10,-10 -25,-10 q-15,0 -25,10z" fill="${c}"/>`],
+ long:c=>[`<path d="M70,72 q-4,-42 30,-42 q34,0 30,42 l4,50 q-34,12 -68,0z" fill="${c}"/>`,`<path d="M74,70 q0,-34 26,-34 q26,0 26,34 q-8,-18 -22,-22 q-16,10 -30,22z" fill="${c}"/>`],
+ bob:c=>[`<path d="M69,72 q-4,-42 31,-42 q35,0 31,42 l1,22 q-32,10 -64,0z" fill="${c}"/>`,`<path d="M74,68 q2,-30 26,-30 q24,0 26,30 q-12,-12 -52,-8z" fill="${c}"/>`],
+ bun:c=>[`<circle cx="100" cy="30" r="12" fill="${c}"/>`,`<path d="M73,68 q-3,-34 27,-34 q30,0 27,34 q-6,-16 -27,-16 q-21,0 -27,16z" fill="${c}"/>`],
+ pony:c=>[`<path d="M122,48 q26,2 22,36 q-2,22 -14,34 q4,-22 -2,-38 q-4,-16 -12,-20z" fill="${c}"/>`,`<path d="M73,70 q-4,-38 27,-38 q31,0 27,38 q-6,-18 -18,-22 q-18,10 -36,22z" fill="${c}"/>`],
+ buzz:c=>["",`<path d="M74,64 q0,-30 26,-30 q26,0 26,30 q-6,-16 -26,-16 q-20,0 -26,16z" fill="${c}" opacity=".85"/>`]
+};
+function face(f={}){
+  const d=INK, b=f.brow||"soft", e=f.eyes||"dot", m=f.mouth||"smile"; let s="";
+  s+={soft:`<path d="M84,61 q6,-3 12,0 M104,61 q6,-3 12,0"`,flat:`<path d="M84,61 h12 M104,61 h12"`,down:`<path d="M84,59 l12,3 M116,59 l-12,3"`,up:`<path d="M84,59 q6,-5 12,-1 M104,58 q6,-4 12,1"`,quirk:`<path d="M84,62 h12 M104,57 q6,-4 12,0"`}[b]+` fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`;
+  s+={dot:`<circle cx="90" cy="70" r="2.8" fill="${d}"/><circle cx="110" cy="70" r="2.8" fill="${d}"/>`,
+      wide:`<circle cx="90" cy="70" r="4.2" fill="#fff"/><circle cx="110" cy="70" r="4.2" fill="#fff"/><circle cx="90.6" cy="70.4" r="2.5" fill="${d}"/><circle cx="110.6" cy="70.4" r="2.5" fill="${d}"/>`,
+      smile:`<path d="M85.500,71 q4.500,-5 9,0 M105.500,71 q4.500,-5 9,0" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      lash:`<circle cx="90" cy="70" r="2.8" fill="${d}"/><circle cx="110" cy="70" r="2.8" fill="${d}"/><path d="M85,67 l-3,-2 M115,67 l3,-2" stroke="${d}" stroke-width="1.8" stroke-linecap="round"/>`}[e];
+  s+=`<path d="M100,73 q3,5 -1,7" fill="none" stroke="#0002" stroke-width="2" stroke-linecap="round"/>`;
+  s+={smile:`<path d="M92,83 q8,6 16,0" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      soft:`<path d="M94,84 q6,3.500 12,0" fill="none" stroke="${d}" stroke-width="2.2" stroke-linecap="round"/>`,
+      flat:`<path d="M94,85 h12" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      smirk:`<path d="M93,85 q7,2 14,-3" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      grin:`<path d="M90,81 q10,13 20,0z" fill="${d}"/><path d="M93,82.500 h14" stroke="#fff" stroke-width="2.6"/>`,
+      o:`<ellipse cx="100" cy="85" rx="4" ry="5" fill="${d}"/>`}[m];
+  if(f.blush) s+=`<circle cx="82" cy="78" r="5" fill="#e8766b" opacity=".32"/><circle cx="118" cy="78" r="5" fill="#e8766b" opacity=".32"/>`;
+  return s;
+}
+function torso(o){
+  const t=o.top, sh=shade(t,.8), st=o.style||"tee"; let s="";
+  const base=c=>`<path d="M76,105 q24,-9 48,0 l6,62 q-30,9 -60,0z" fill="${c}"/>`;
+  const shadow=`<path d="M104,101 q12,0 20,4 l6,62 q-13,4 -26,5z" fill="#000" opacity=".08"/>`;
+  if(st==="dress") return `<path d="M76,105 q24,-9 48,0 l5,40 l15,58 q-44,11 -88,0 l15,-58z" fill="${t}"/><path d="M104,101 q12,0 20,4 l5,40 l15,58 q-20,5 -40,6z" fill="#000" opacity=".08"/>`+(o.belt?`<path d="M72,144 q28,7 56,0 v7 q-28,7 -56,0z" fill="${o.belt}"/>`:"");
+  if(st==="coat"){ s=base(o.inner||"#f4f1ea")+`<path d="M76,105 q10,-5 19,-5 l-3,100 h-24z" fill="${t}"/><path d="M124,105 q-10,-5 -19,-5 l3,100 h24z" fill="${t}"/><path d="M108,100 l3,100 h21 l-8,-95z" fill="#000" opacity=".08"/><path d="M95,100 l-6,24 M105,100 l6,24" stroke="${sh}" stroke-width="2.5" stroke-linecap="round"/>`; return s; }
+  s=base(st==="jacket"||st==="vest"||st==="overalls"||st==="shirt"?(o.inner||"#f4f1ea"):t);
+  if(st==="suit") s+=`<path d="M91,100 l9,26 l9,-26z" fill="#fbfaf7"/><path d="M98,104 h4 l2.500,20 l-4.500,6 l-4.500,-6z" fill="${o.tie||"#b3262e"}"/><path d="M91,100 l9,26 M109,100 l-9,26" stroke="${sh}" stroke-width="3" stroke-linecap="round"/><circle cx="100" cy="144" r="1.8" fill="${sh}"/><circle cx="100" cy="156" r="1.8" fill="${sh}"/>`;
+  if(st==="shirt") s+=`<path d="M90,100 l10,9 l10,-9 l3,8 l-13,6 l-13,-6z" fill="${shade(o.inner||"#f4f1ea",.9)}"/><path d="M98,108 h4 l3,34 l-5,7 l-5,-7z" fill="${o.tie||t}"/><path d="M100,150 v20" stroke="#0001" stroke-width="2"/>`;
+  if(st==="jacket") s+=`<path d="M76,105 q9,-5 17,-5 l-5,68 q-8,0 -18,-1z" fill="${t}"/><path d="M124,105 q-9,-5 -17,-5 l5,68 q8,0 18,-1z" fill="${t}"/><path d="M93,100 l-4,22 M107,100 l4,22" stroke="${sh}" stroke-width="2.5" stroke-linecap="round"/>`;
+  if(st==="vest") s+=`<path d="M78,105 q8,-4 14,-5 l8,30 l8,-30 q6,1 14,5 l5,62 q-27,8 -54,0z" fill="${t}"/><path d="M98,106 h4 l2,16 l-4,5 l-4,-5z" fill="${o.tie||"#8f2f25"}"/><circle cx="100" cy="142" r="1.8" fill="${sh}"/><circle cx="100" cy="154" r="1.8" fill="${sh}"/>`;
+  if(st==="overalls") s+=`<path d="M86,122 h28 l10,46 q-24,7 -48,0z" fill="${t}"/><path d="M88,122 l-5,-18 M112,122 l5,-18" stroke="${t}" stroke-width="6" stroke-linecap="round"/><circle cx="88" cy="124" r="2.4" fill="#e6c25a"/><circle cx="112" cy="124" r="2.4" fill="#e6c25a"/><rect x="92" y="132" width="16" height="12" rx="2" fill="${sh}"/>`;
+  if(st==="hoodie") s+=`<path d="M86,146 h28 l4,16 h-36z" fill="${sh}"/><path d="M95,104 v16 M105,104 v16" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".8"/>`;
+  if(st==="turtle") s+=`<rect x="88" y="91" width="24" height="15" rx="6" fill="${t}"/><path d="M88,99 h24" stroke="${sh}" stroke-width="1.5"/>`;
+  if(st==="sweater") s+=`<path d="M88,101 q12,9 24,0" fill="none" stroke="${sh}" stroke-width="4" stroke-linecap="round"/><path d="M72,160 q28,9 56,0" fill="none" stroke="${sh}" stroke-width="5"/>`;
+  if(st==="stripe") s+=`<g stroke="${o.stripe||"#fff"}" stroke-width="4" opacity=".9"><path d="M77,116 q23,-6 46,0"/><path d="M76,130 q24,-5 48,0"/><path d="M75,144 q25,-4 50,0"/><path d="M74,158 q26,-3 52,0"/></g>`;
+  if(o.graphic) s+=o.graphic;
+  return s+shadow;
+}
+function fig(o){
+  const skin=SKIN[o.skin||"a"], bottom=o.bottom||"#2f3440", shoe=o.shoes||"#22252b";
+  const la=o.la||[66,140,70,166], ra=o.ra||[134,140,130,166], ll=o.ll||[87,202,86,232], rl=o.rl||[113,202,114,232];
+  const [hb,hf]=HAIR[o.hair||"short"](o.hairCol||"#3a2a20"), short=o.sleeve==="short";
+  const long=o.style==="dress"||o.style==="coat", skirt=o.style==="dress";
+  const legs=leg(90,ll,bottom,shoe,-1,skirt?skin:null)+leg(110,rl,bottom,shoe,1,skirt?skin:null);
+  const hips=skirt?"":`<path d="M71,164 q29,9 58,0 l2,14 q-31,8 -62,0z" fill="${bottom}"/>`;
+  const armCol=o.armCol||o.top;
+  const armL=arm(79,111,la,armCol,skin,short), armR=arm(121,111,ra,armCol,skin,short);
+  return `<svg viewBox="0 0 200 250" role="img" aria-label="${o.label||""}">
+   <circle cx="100" cy="122" r="96" fill="${o.bg||"#eee"}"/>${o.back||""}
+   <ellipse cx="100" cy="${o.jump?244:240}" rx="${o.jump?34:48}" ry="6" fill="#000" opacity=".14"/>
+   ${hb}${o.behind||""}${legs}${hips}${o.armsBack?armL+armR:""}${torso(o)}${o.armsBack?"":armL+armR}
+   <rect x="93" y="88" width="14" height="18" rx="5" fill="${shade(SKIN[o.skin||"a"],.88)}"/>${o.style==="turtle"?`<rect x="88" y="91" width="24" height="15" rx="6" fill="${o.top}"/>`:""}${o.style==="hoodie"?`<path d="M80,104 q20,-14 40,0 q-20,10 -40,0z" fill="${shade(o.top,.8)}"/>`:""}
+   <circle cx="74" cy="72" r="5.500" fill="${skin}"/><circle cx="126" cy="72" r="5.500" fill="${skin}"/><circle cx="100" cy="68" r="27" fill="${skin}"/><path d="M110,42 a27,27 0 0 1 0,52 a34,34 0 0 0 0,-52z" fill="#000" opacity=".06"/>
+   ${o.beard?`<path d="M75,74 q2,26 25,26 q23,0 25,-26 q-8,14 -25,14 q-17,0 -25,-14z" fill="${o.hairCol}"/>`:""}${hf}${face(o.face)}${o.acc||""}${o.front||""}</svg>`;
+}
+/* small drawing helpers for props and backdrops */
+const star=(x,y,r,c,o=1)=>{let p="";for(let i=0;i<8;i++){const a=i*Math.PI/4,q=i%2?r*.38:r;p+=(x+q*Math.cos(a)).toFixed(1)+","+(y+q*Math.sin(a)).toFixed(1)+" ";}return `<polygon points="${p}" fill="${c}" opacity="${o}"/>`;};
+const gear=(x,y,r,c,o=1)=>{let t="";for(let i=0;i<8;i++)t+=`<rect x="${x-r*.16}" y="${y-r*1.22}" width="${r*.32}" height="${r*.5}" rx="1.5" transform="rotate(${i*45} ${x} ${y})"/>`;return `<g fill="${c}" opacity="${o}">${t}<circle cx="${x}" cy="${y}" r="${r}"/></g><circle cx="${x}" cy="${y}" r="${r*.42}" fill="#fff" opacity="${o*.7}"/>`;};
+const note=(x,y,c)=>`<g fill="${c}"><ellipse cx="${x}" cy="${y}" rx="5" ry="4" transform="rotate(-20 ${x} ${y})"/><rect x="${x+3.500}" y="${y-18}" width="2.200" height="18"/><path d="M${x+3.500},${y-18} q9,2 9,10 q-3,-5 -9,-4z"/></g>`;
+const heart=(x,y,s,c,o=1)=>`<path d="M${x},${y+s*.9} l${-s},${-s} a${s*.56},${s*.56} 0 0 1 ${s},${-s*.62} a${s*.56},${s*.56} 0 0 1 ${s},${s*.62}z" fill="${c}" opacity="${o}"/>`;
+const glasses=(sq)=>sq?`<rect x="81" y="63" width="17" height="13" rx="3" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.200"/><rect x="102" y="63" width="17" height="13" rx="3" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.200"/><path d="M98,68 h4 M81,68 l-6,-2 M119,68 l6,-2" stroke="${INK}" stroke-width="2.200"/>`:`<circle cx="90" cy="70" r="8.500" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.200"/><circle cx="110" cy="70" r="8.500" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.200"/><path d="M98.500,69 h3 M81.500,69 l-6,-2 M118.500,69 l6,-2" stroke="${INK}" stroke-width="2.200"/>`;
+
+
+const cloud=(x,y,s,c,o)=>`<g fill="${c}" opacity="${o}"><circle cx="${x}" cy="${y}" r="${12*s}"/><circle cx="${x+14*s}" cy="${y-6*s}" r="${14*s}"/><circle cx="${x+30*s}" cy="${y}" r="${12*s}"/><rect x="${x}" y="${y}" width="${30*s}" height="${12*s}"/></g>`;
+const mini=(x,y,c,s,hc)=>`<path d="M${x-13},${y+34} q0,-22 13,-22 q13,0 13,22z" fill="${c}"/><circle cx="${x}" cy="${y}" r="9.5" fill="${s}"/><path d="M${x-9},${y-2} q9,-12 18,0 q-9,-5 -18,0z" fill="${hc}"/>`;
+const dart=(x,y,r,c)=>`<g transform="rotate(${r} ${x} ${y})"><path d="M${x-30},${y} h26" stroke="${c}" stroke-width="3.5" stroke-linecap="round"/><path d="M${x},${y} l-9,-5 v10z" fill="${c}"/><path d="M${x-30},${y} l-6,-5 M${x-30},${y} l-6,5" stroke="${c}" stroke-width="2.5" stroke-linecap="round"/></g>`;
+const BASE={skin:"c",hair:"long",hairCol:"#2b1f1a",style:"sweater",top:"#1f8f8a",bottom:"#3a2f38",shoes:"#2b211a"};
+const SK="#b97d54";
+// each agreement: [old habit scene, agreement scene]
+const SCN=[
+ [{bg:"#e9dfe6",ra:[142,112,122,92],face:{brow:"quirk",mouth:"smirk"},
+   front:`<path d="M134,40 l10,-10 l8,10 l12,-8 l4,12 l14,-2 l-4,13 l12,6 l-10,9 l6,12 l-14,0 l-2,13 l-12,-7 l-8,10 l-6,-12 l-14,3 l4,-13 l-11,-8 l12,-7z" fill="#5a3d6b"/><path d="M148,58 q6,-8 12,0 q6,8 12,0" fill="none" stroke="#fff" stroke-width="2.500" stroke-linecap="round"/><path d="M150,72 h18" stroke="#fff" stroke-width="2.500" stroke-linecap="round"/><path d="M128,84 l-8,6" stroke="#5a3d6b" stroke-width="3" stroke-linecap="round"/>`,
+   back:mini(30,196,"#6f6254","#f3cfae","#5a4a3c")+`<path d="M22,170 q8,-10 16,0" fill="none" stroke="#c2552d" stroke-width="2.500" stroke-linecap="round"/><path d="M16,160 l4,6 M44,160 l-4,6" stroke="#c2552d" stroke-width="2.500" stroke-linecap="round"/>`},
+  {bg:"#f8e6cf",la:[66,138,95,132],ra:[144,124,160,112],face:{brow:"soft",mouth:"smile"},
+   front:`<rect x="128" y="34" width="62" height="42" rx="16" fill="#fff" stroke="#2b211a" stroke-width="2"/><path d="M142,74 l-8,14 l20,-13z" fill="#fff" stroke="#2b211a" stroke-width="2" stroke-linejoin="round"/><path d="M140,75 h14" stroke="#fff" stroke-width="3"/>`+heart(159,46,9,"#c2552d"),
+   back:star(34,70,7,"#e0a52e")+star(52,104,4,"#e0a52e",.8)+mini(30,196,"#e0a52e","#f3cfae","#5a4a3c")+`<path d="M24,198 q6,5 12,0" fill="none" stroke="#2b211a" stroke-width="1.800" stroke-linecap="round"/>`}],
+ [{bg:"#e9dfe6",la:[62,136,82,128],ra:[138,136,118,128],face:{brow:"up",mouth:"flat"},
+   back:`<rect x="6" y="30" width="54" height="34" rx="13" fill="#5a3d6b"/><path d="M44,62 l10,14 l2,-15z" fill="#5a3d6b"/><path d="M16,50 q5,-10 10,0 q5,10 10,0 q5,-10 10,0" fill="none" stroke="#fff" stroke-width="2.500"/>`,
+   front:dart(78,120,18,"#c2552d")+dart(84,150,-6,"#c2552d")+dart(70,96,34,"#c2552d")+`<rect x="89" y="80" width="22" height="9" fill="#b97d54"/><path d="M92,87 q8,-7 16,0" fill="none" stroke="#22252b" stroke-width="2.600" stroke-linecap="round"/><path d="M76,80 q-3,7 0,10" fill="none" stroke="#7fc4e6" stroke-width="3" stroke-linecap="round"/>`},
+  {bg:"#f8e6cf",la:[58,134,80,152],ra:[142,134,120,152],face:{brow:"soft",mouth:"smile"},
+   back:`<ellipse cx="100" cy="130" rx="62" ry="112" fill="#e0a52e" opacity=".18"/><rect x="2" y="8" width="54" height="34" rx="13" fill="#5a3d6b" opacity=".5"/><path d="M12,28 q5,-10 10,0 q5,10 10,0 q5,-10 10,0" fill="none" stroke="#fff" stroke-width="2.500"/>`,
+   front:`<ellipse cx="100" cy="130" rx="62" ry="112" fill="none" stroke="#e0a52e" stroke-width="3" stroke-dasharray="2 8" stroke-linecap="round"/>`+dart(12,104,188,"#c2552d")+dart(12,152,170,"#c2552d")+dart(20,64,214,"#c2552d")}],
+ [{bg:"#e9dfe6",ra:[144,104,128,52],face:{brow:"up",eyes:"wide",mouth:"flat"},
+   back:cloud(118,30,1.7,"#cdbfd6",1)+`<circle cx="138" cy="58" r="5" fill="#cdbfd6"/><path d="M130,22 q10,-14 18,0 q8,14 16,-2 q8,-12 12,4 q-10,12 -18,-2 q-8,12 -18,4" fill="none" stroke="#5a3d6b" stroke-width="2.800" stroke-linecap="round"/><text x="18" y="96" font-size="40" font-family="Georgia,serif" fill="#5a3d6b" opacity=".55">?!</text>`+mini(40,196,"#6f6254","#f3cfae","#5a4a3c")},
+  {bg:"#f8e6cf",ra:[144,122,164,110],face:{brow:"up",mouth:"smile"},
+   front:`<rect x="124" y="30" width="56" height="40" rx="15" fill="#1f8f8a"/><path d="M138,68 l-8,14 l20,-14z" fill="#1f8f8a"/><text x="152" y="60" font-size="28" font-weight="700" text-anchor="middle" fill="#fff" font-family="Georgia,serif">?</text>`,
+   back:mini(40,196,"#e0a52e","#f3cfae","#5a4a3c")+`<rect x="10" y="142" width="56" height="30" rx="12" fill="#fff" stroke="#2b211a" stroke-width="2"/><path d="M40,170 l4,12 l8,-12z" fill="#fff" stroke="#2b211a" stroke-width="2" stroke-linejoin="round"/><path d="M41,171 h10" stroke="#fff" stroke-width="3"/><path d="M22,152 h32 M22,162 h20" stroke="#1f8f8a" stroke-width="3" stroke-linecap="round"/>`}],
+ [{bg:"#e9dfe6",face:{brow:"up",mouth:"flat"},
+   back:cloud(110,34,1.8,"#5a3d6b",.9)+`<path d="M128,34 l10,3 M160,34 l-10,3" stroke="#fff" stroke-width="2.500" stroke-linecap="round"/><path d="M134,50 q10,-7 20,0" fill="none" stroke="#fff" stroke-width="2.500" stroke-linecap="round"/><g fill="#7a4a2e"><path d="M22,236 h32 l-4,-24 h-24z"/></g><path d="M38,212 q-2,-20 10,-30" fill="none" stroke="#8a8f6a" stroke-width="3" stroke-linecap="round"/><path d="M48,182 q10,2 12,12 q-10,0 -12,-12" fill="#8a8f6a"/><path d="M40,200 q-10,0 -14,8 q10,2 14,-8" fill="#8a8f6a"/>`,
+   front:`<path d="M70,80 q-3,8 0,12 M130,80 q3,8 0,12" fill="none" stroke="#7fc4e6" stroke-width="3" stroke-linecap="round"/><rect x="89" y="80" width="22" height="9" fill="#b97d54"/><path d="M92,87 q8,-7 16,0" fill="none" stroke="#22252b" stroke-width="2.600" stroke-linecap="round"/>`},
+  {bg:"#f8e6cf",la:[60,138,58,158],ra:[142,122,150,100],face:{brow:"soft",eyes:"smile",mouth:"smile",blush:1},
+   back:`<circle cx="160" cy="46" r="18" fill="#e0a52e"/><g stroke="#e0a52e" stroke-width="3.500" stroke-linecap="round"><path d="M160,18 v-8 M186,46 h8 M180,26 l6,-6 M140,26 l-6,-6 M134,46 h-8"/></g><g fill="#7a4a2e"><path d="M18,236 h36 l-4,-24 h-28z"/></g><path d="M36,212 v-44" stroke="#2f7d6b" stroke-width="3.500" stroke-linecap="round"/><path d="M36,190 q-16,-2 -18,-18 q16,2 18,18 M36,180 q16,-4 16,-20 q-16,4 -16,20 M36,168 q-8,-10 0,-22 q8,12 0,22" fill="#2f7d6b"/><circle cx="36" cy="142" r="7" fill="#c2552d"/>`,
+   front:`<path d="M44,150 h26 l-3,22 h-20z" fill="#7fc4e6" stroke="#2b211a" stroke-width="2" stroke-linejoin="round"/><path d="M44,156 l-14,-8" stroke="#2b211a" stroke-width="3" stroke-linecap="round"/><path d="M70,154 q10,2 6,12" fill="none" stroke="#2b211a" stroke-width="2.500"/><path d="M28,150 l-3,8 M24,146 l-5,7" stroke="#7fc4e6" stroke-width="2.500" stroke-linecap="round"/><circle cx="60" cy="160" r="7.600" fill="${SK}"/><path d="M150,100 v-14" stroke="${SK}" stroke-width="6.500" stroke-linecap="round"/>`}]
+];
+const A=[
+ {n:"Be impeccable with your word",c:"var(--terra)",caps:["Words used as weapons: gossip, blame, and harsh talk about yourself.","Words used with care: say what you mean, and speak with kindness."],
+  idea:"Your word is the most powerful tool you have. It can build people up or poison them, and that includes what you say about yourself. Use it truthfully and in the direction of good.",
+  book:"Ruiz calls the word a kind of magic that can cast a spell for good or ill. One careless remark to a child can shape what they believe about themselves for years. He calls gossip the worst misuse of the word, a poison passed from person to person.",
+  prac:["Go one full day without gossip. Notice how often you are tempted.","Catch one harsh thing you say about yourself and restate it fairly.","Before speaking, check: is it true, and is it kind?"],
+  push:"Impeccable does not mean silent or always nice. Honest criticism, said with care, fits the agreement. Staying quiet about real problems does not."},
+ {n:"Don't take anything personally",c:"var(--teal)",caps:["Every remark lands as an arrow. You absorb it and suffer.","The arrows are about the person who fired them. You let them pass."],
+  idea:"What other people say and do comes out of their own beliefs, moods and history. It is about them, not you. When you stop taking it in, insults and even praise lose their power over you.",
+  book:"Ruiz says each person lives in their own dream, their own private version of reality. When someone attacks you, they are reacting to their dream. Taking it personally means agreeing with whatever they said, and swallowing their poison.",
+  prac:["When a remark stings, ask what might be going on for the other person.","Notice that praise is also about the giver. Enjoy it, and do not depend on it.","Pause before replying to anything that feels like an attack."],
+  push:"This is the agreement most often misused. It is not a licence to ignore feedback. If several people tell you the same thing, it is worth checking whether they are right."},
+ {n:"Don't make assumptions",c:"var(--gold)",caps:["A gap in what you know gets filled with a story, usually the worst one.","You ask. A clear question replaces the story with the facts."],
+  idea:"We fill gaps in our knowledge with guesses, treat the guesses as truth, and then react to them. Most drama starts here. The cure is simple and takes courage: ask questions and say clearly what you want.",
+  book:"Ruiz says we assume because we are afraid to ask. In relationships we assume the other person knows what we want without being told, then feel hurt when they do not deliver.",
+  prac:["When you catch yourself guessing someone's motive, ask them instead.","Say what you want out loud. Do not expect people to read your mind.","Repeat back what you think you heard before you act on it."],
+  push:"Some assumptions are unavoidable and useful, and you cannot question everything. The agreement is aimed at the ones that carry emotional weight."},
+ {n:"Always do your best",c:"var(--plum)",caps:["A harsh inner judge: nothing is ever enough, so you give up or burn out.","Your best for today, whatever today allows. No self-punishment."],
+  idea:"Do the best you can in each moment, knowing your best changes. It is different when you are ill than when you are well, tired than rested. Doing your best, no more and no less, leaves no room for regret or self-blame.",
+  book:"Ruiz presents this as the agreement that makes the other three work. You will break them often at first. If you did your best, the inner judge has nothing to convict you of, and you simply begin again.",
+  prac:["Each morning, set your aim by how you actually feel today.","When you slip on another agreement, note it and restart without scolding yourself.","Do things because you want to, not only for the reward."],
+  push:"\"Your best\" is easy to stretch into perfectionism or shrink into an excuse. The useful test is honest effort for today's conditions."}
+];
+const SITS=[
+ ["A colleague snaps at you",["Answer calmly and factually. Do not vent about them to others afterwards.","Their sharpness is about their day, their pressure. You do not have to carry it.","Do not guess the reason. Later, ask: \"Was something wrong earlier?\"","Handle it as well as you can right now. If you snapped back, repair it and move on."]],
+ ["A friend has not replied for days",["Send a message that says plainly what you mean, without sarcasm or hints.","Their silence is about what is happening in their life.","Notice the story you are telling yourself. Ask if they are all right.","Reach out once, kindly. That is your part done."]],
+ ["You made a mistake at work",["Describe what happened accurately. No excuses, and no calling yourself an idiot.","A manager's frustration is about the problem and their own stress, not your worth.","Do not assume you are about to be fired. Ask what is needed to put it right.","Fix what you can today. Punishing yourself once is enough, and usually too much."]],
+ ["You hear a rumour about someone",["Do not pass it on. Gossip is the clearest misuse of the word.","If the rumour is about you, remember it reflects the people repeating it.","You do not know it is true. Treat it as unverified.","If you already repeated it, stop there and do better next time."]]
+];
+const BG=[
+ ["Domestication","Ruiz's word for how children are trained, through reward and punishment, to accept the beliefs of family and society. We learn what is good and bad, who we should be, and how to judge ourselves."],
+ ["The dream of the planet","The shared set of rules, beliefs and customs a society lives by. Each of us is born into it and absorbs it before we are able to choose."],
+ ["Agreements","Every belief you accepted is an agreement: \"I am not good at this\", \"this is how people should behave\". Most were made in childhood without thought, and many cause needless suffering."],
+ ["The Judge and the Victim","Two inner voices. The Judge condemns everything you do against the rulebook you absorbed. The Victim carries the guilt and shame. Together they keep you punishing yourself repeatedly for the same mistake."],
+ ["The mitote","A word Ruiz uses for the fog of a thousand voices talking in the mind at once, which keeps you from seeing who you are."],
+ ["Breaking old agreements","Change takes awareness of what you believe, the will to replace it, and repetition. The four agreements are meant as the new set that crowds out the old."],
+ ["The Toltec tradition","Ruiz presents the book as wisdom from the Toltec, an ancient people of central Mexico, passed down through his family. Historians know little about Toltec beliefs, so the book is best read as his own teaching in that spirit."],
+ ["The fifth agreement","A later book by Ruiz and his son adds one more: be sceptical, but learn to listen. Do not believe everything you hear, including from yourself, and listen for what lies behind the words."]
+];
+
+const $=id=>document.getElementById(id), h=(t,c,x)=>{const e=document.createElement(t); if(c)e.className=c; if(x!=null)e.textContent=x; return e;};
+const ICON=[`<path d="M-13,-9 h26 a6,6 0 0 1 6,6 v10 a6,6 0 0 1 -6,6 h-12 l-9,8 v-8 h-5 a6,6 0 0 1 -6,-6 v-10 a6,6 0 0 1 6,-6z"/>`,`<path d="M0,-17 l15,6 v9 q0,13 -15,20 q-15,-7 -15,-20 v-9z"/>`,`<path d="M-8,-8 q0,-9 8,-9 q9,0 9,8 q0,6 -6,9 q-3,2 -3,7"/><circle cx="0" cy="16" r="1.5"/>`,`<path d="M0,18 v-22 M0,2 q-13,0 -14,-13 q13,0 14,13 M0,-4 q0,-13 14,-14 q0,13 -14,14"/>`];
+const POS=[[76,76],[164,76],[76,164],[164,164]], ARC=["M116,116 H24 A92,92 0 0 1 116,24z","M124,116 V24 A92,92 0 0 1 216,116z","M116,124 V216 A92,92 0 0 1 24,124z","M124,124 H216 A92,92 0 0 1 124,216z"];
+$("wheel").innerHTML=A.map((a,i)=>`<g class="q" data-i="${i}" tabindex="0" role="button" aria-label="${i+1}. ${a.n}" style="--c:${a.c}"><path class="s" d="${ARC[i]}"/><g class="ic" transform="translate(${POS[i][0]},${POS[i][1]-6})">${ICON[i]}</g><text x="${POS[i][0]}" y="${POS[i][1]+32}" text-anchor="middle">${i+1}</text></g>`).join("")+`<circle cx="120" cy="120" r="17" fill="#e0a52e" stroke="#f6efe2" stroke-width="5"/>`;
+let cur=0, mode=1;
+function draw(){
+  const a=A[cur]; $("card").style.setProperty("--a",a.c);
+  [...$("wheel").querySelectorAll(".q")].forEach((q,i)=>q.classList.toggle("on",i===cur));
+  $("k").textContent="Agreement "+(cur+1)+" of 4"; $("t").textContent=a.n;
+  [...$("seg").children].forEach(b=>b.setAttribute("aria-pressed",+b.dataset.m===mode));
+  $("art").innerHTML=fig(Object.assign({label:a.n},BASE,SCN[cur][mode])); $("cap").textContent=a.caps[mode];
+  $("idea").textContent=a.idea; $("book").textContent=a.book; $("push").textContent=a.push;
+  $("prac").textContent=""; a.prac.forEach(p=>$("prac").appendChild(h("li",null,p)));
+}
+$("wheel").addEventListener("click",e=>{const q=e.target.closest(".q"); if(q){cur=+q.dataset.i; mode=1; draw();}});
+$("wheel").addEventListener("keydown",e=>{const q=e.target.closest(".q"); if(q&&(e.key==="Enter"||e.key===" ")){e.preventDefault(); cur=+q.dataset.i; mode=1; draw();}});
+$("seg").addEventListener("click",e=>{const b=e.target.closest("button"); if(b){mode=+b.dataset.m; draw();}});
+let sit=0;
+function drawSit(){[...$("sit").children].forEach((b,i)=>b.setAttribute("aria-pressed",i===sit)); const r=$("resp"); r.textContent="";
+  SITS[sit][1].forEach((x,i)=>{const d=h("div"); d.style.setProperty("--c",A[i].c); d.append(h("b",null,(i+1)+". "+A[i].n),h("span",null,x)); r.appendChild(d);});}
+SITS.forEach((s,i)=>{const b=h("button",null,s[0]); b.onclick=()=>{sit=i;drawSit();}; $("sit").appendChild(b);});
+BG.forEach(([n,x])=>{const b=h("button","row"); b.setAttribute("aria-expanded","false"); b.append(h("div","n",n),h("div","x",x)); b.onclick=()=>b.setAttribute("aria-expanded",b.classList.toggle("open")); $("list").appendChild(b);});
+draw(); drawSit();
+</script>
+</body>
+</html>

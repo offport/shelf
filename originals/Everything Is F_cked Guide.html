@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Everything Is F*cked Guide</title>
+<style>
+/* Layout: one scrolling page. Nine illustrated chapter cards that open into a sheet, one interactive demo,
+   and the book's recurring ideas. Colour follows the book's cover. Single theme by choice. */
+:root{
+  --bg:#f1f8fd; --panel:#ffffff; --ink:#14212b; --muted:#5b6b78; --rule:#d5e6f2; --a:#1f8fd6; --on:#ffffff; --tint:#e6f3fc;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color-scheme: light;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);display:flex;flex-direction:column;overflow:hidden}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+header{flex:none;background:var(--a);color:var(--on);padding:12px 14px}
+.w{max-width:720px;margin:0 auto}
+h1{font-size:19px;margin:0;font-weight:800;letter-spacing:-.01em;line-height:1.15}
+.by{font-size:12px;opacity:.85;margin-top:2px}
+main{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.pg{padding:0 14px 40px}
+.lead{font-size:14.5px;line-height:1.5;color:var(--muted);margin:14px 0 4px;max-width:64ch}
+.lead b{color:var(--ink)}
+.sec{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:24px 0 8px;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (min-width:600px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.cd{background:var(--panel);border:1px solid var(--rule);border-radius:14px;padding:6px 8px 12px;cursor:pointer;text-align:center;position:relative}
+.cd svg{display:block;width:100%;height:auto}
+.cd i{position:absolute;left:8px;top:8px;font-style:normal;font-weight:800;font-size:13px;background:var(--a);color:var(--on);border-radius:50%;width:24px;height:24px;display:grid;place-items:center}
+.cd b{display:block;font-size:14px;line-height:1.3;margin-top:2px;text-wrap:balance}
+.box{background:var(--panel);border:1px solid var(--rule);border-top:5px solid var(--a);border-radius:14px;padding:12px 14px 14px}
+.box p{font-size:14.5px;line-height:1.5;margin:0 0 10px;max-width:62ch}
+.box p b{color:var(--a)}
+.list{display:grid;gap:6px}
+.row{display:block;width:100%;text-align:left;background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:10px 34px 10px 12px;cursor:pointer;position:relative}
+.row::after{content:"+";position:absolute;right:12px;top:9px;font-size:18px;color:var(--muted);line-height:1}
+.row.open::after{content:"−"}
+.row .n{font-size:14.5px;font-weight:600}
+.row .x{display:none;font-size:14px;line-height:1.5;margin-top:5px;max-width:62ch;color:var(--muted)}
+.row.open .x{display:block}
+.note{font-size:12px;color:var(--muted);line-height:1.5;margin:20px 0 0;max-width:64ch}
+#shade{position:fixed;inset:0;background:#0008;opacity:0;pointer-events:none;transition:opacity .2s}
+#sheet{position:fixed;left:0;right:0;bottom:0;max-height:90%;overflow-y:auto;background:var(--panel);border-radius:18px 18px 0 0;padding:10px 18px 24px;transform:translateY(105%);transition:transform .25s ease}
+body.open #shade{opacity:1;pointer-events:auto}
+body.open #sheet{transform:none}
+@media (prefers-reduced-motion: reduce){#sheet,#shade{transition:none}}
+.si{max-width:560px;margin:0 auto}
+.sh{display:grid;grid-template-columns:128px 1fr auto;gap:10px;align-items:center}
+#s-art svg{display:block;width:100%;height:auto}
+#s-k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--a);font-weight:800}
+#s-n{font-size:21px;font-weight:800;line-height:1.2;margin-top:3px;letter-spacing:-.01em;text-wrap:balance}
+#close{align-self:flex-start;border:1px solid var(--rule);background:transparent;border-radius:50%;width:34px;height:34px;font-size:18px;cursor:pointer}
+#s-body h3{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:16px 0 3px}
+#s-body p{font-size:15px;line-height:1.5;margin:0;max-width:62ch}
+#s-body p.try{background:var(--tint);border-radius:10px;padding:10px 12px}
+#s-body p.push{border-left:3px solid var(--a);padding-left:10px;color:var(--muted)}
+.nav{display:flex;gap:8px;margin-top:18px}
+.nav button{flex:1;border:1px solid var(--rule);background:transparent;border-radius:9px;padding:9px;font-size:13.5px;cursor:pointer}
+.nav button:disabled{opacity:.35}
+.dots{display:grid;grid-template-columns:repeat(8,1fr);gap:7px;max-width:330px;margin:4px auto 10px}.dots i{aspect-ratio:1;border-radius:50%;display:block;border:3px solid transparent}.dots i.c{border-color:var(--ink)}input[type=range]{width:100%;accent-color:var(--a)}.ends{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}#dres b{color:var(--a)}</style>
+</head>
+<body>
+<header><div class="w"><h1>Everything Is F*cked</h1><div class="by">A guide to Mark Manson's 2019 book about hope</div></div></header>
+<main id="main"><div class="w pg">
+  <p class="lead"><b>A book about hope.</b> The follow-up asks why people feel hopeless when life has never been materially better, and argues that the answer is to stop hoping for a better world and start acting well in this one.</p>
+  <div class="sec">The nine chapters · tap one</div>
+  <div class="grid" id="grid"></div>
+  <div class="sec">The blue dot effect</div>
+  <div class="box"><p>In the study the book describes, people were asked to pick out the blue dots. When blue dots became rare, they started calling purple ones blue. Drag the slider to make real problems rarer, and watch what gets counted.</p><div class="dots" id="dots"></div><input type="range" id="rare" min="3" max="24" value="24" aria-label="Number of truly blue dots" style="direction:rtl"><div class="ends"><span>Blue dots common</span><span>Blue dots rare</span></div><p id="dres" style="margin:10px 0 0"></p></div>
+  <div class="sec">Ideas that run through the book</div>
+  <div class="list" id="ideas"></div>
+  <p class="note">This is a summary in plain words of ideas from Everything Is F*cked: A Book About Hope by Mark Manson (2019), not a reproduction of the book. Chapter names are shortened. The takeaways, objections, the dot demo and the drawings are this guide's own additions. The demo illustrates the idea and is not the original experiment.</p>
+</div></main>
+<div id="shade"></div>
+<div id="sheet" role="dialog" aria-modal="true" aria-labelledby="s-n"><div class="si">
+  <div class="sh"><div id="s-art"></div><div><div id="s-k"></div><div id="s-n"></div></div><button id="close" aria-label="Close">×</button></div>
+  <div id="s-body"></div>
+  <div class="nav"><button id="sp">‹ Previous</button><button id="sn">Next ›</button></div>
+</div></div>
+<script>
+/* =====================  character builder, 200 x 250  ===================== */
+const INK="#22252b", SKIN={a:"#f3cfae",b:"#e0aa80",c:"#b97d54",d:"#8a5636",e:"#f8dcc6"};
+const shade=(hex,k)=>{const n=parseInt(hex.slice(1),16),f=v=>Math.max(0,Math.min(255,Math.round(v*k)));return "#"+[n>>16,(n>>8)&255,n&255].map(v=>f(v).toString(16).padStart(2,"0")).join("");};
+function arm(sx,sy,p,col,skin,short){
+  const [ex,ey,hx,hy]=p; let s=`<path d="M${sx},${sy} L${ex},${ey} L${hx},${hy}" fill="none" stroke="${short?skin:col}" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>`;
+  if(short) s+=`<path d="M${sx},${sy} L${(sx*.45+ex*.55).toFixed(1)},${(sy*.45+ey*.55).toFixed(1)}" stroke="${col}" stroke-width="14.5" stroke-linecap="round"/>`;
+  return s+`<circle cx="${hx}" cy="${hy}" r="7.6" fill="${skin}"/>`;
+}
+function leg(sx,p,col,shoe,dir,skinLeg){
+  const [kx,ky,fx,fy]=p;
+  return `<path d="M${sx},170 L${kx},${ky} L${fx},${fy}" fill="none" stroke="${skinLeg||col}" stroke-width="${skinLeg?12:16}" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="${fx+dir*4}" cy="${fy+6}" rx="12" ry="6.5" fill="${shoe}"/>`;
+}
+const HAIR={
+ short:c=>["",`<path d="M73,68 q-3,-36 27,-36 q30,0 27,36 q-5,-16 -27,-17 q-22,1 -27,17z" fill="${c}"/>`],
+ side:c=>["",`<path d="M73,72 q-4,-40 27,-40 q32,0 27,40 q-3,-14 -12,-20 q-20,8 -37,2 q-4,6 -5,18z" fill="${c}"/>`],
+ slick:c=>["",`<path d="M73,66 q-2,-36 27,-36 q29,0 27,36 q-4,-12 -10,-17 q-17,-6 -34,0 q-6,5 -10,17z" fill="${c}"/><path d="M84,40 q16,-6 32,0" fill="none" stroke="${shade(c,1.5)}" stroke-width="1.5" opacity=".6"/>`],
+ spiky:c=>["",`<path d="M73,68 l-3,-18 l10,6 l0,-18 l11,10 l6,-18 l8,16 l12,-12 l1,16 l11,-6 l-2,24 q-5,-14 -27,-15 q-22,1 -27,15z" fill="${c}"/>`],
+ curly:c=>["",`<g fill="${c}"><circle cx="78" cy="52" r="10"/><circle cx="90" cy="42" r="11"/><circle cx="104" cy="39" r="11"/><circle cx="117" cy="45" r="10"/><circle cx="124" cy="56" r="8"/><circle cx="75" cy="62" r="7"/></g>`],
+ afro:c=>[`<circle cx="100" cy="56" r="40" fill="${c}"/>`,`<path d="M75,66 q4,-22 25,-22 q21,0 25,22 q-10,-10 -25,-10 q-15,0 -25,10z" fill="${c}"/>`],
+ long:c=>[`<path d="M70,72 q-4,-42 30,-42 q34,0 30,42 l4,50 q-34,12 -68,0z" fill="${c}"/>`,`<path d="M74,70 q0,-34 26,-34 q26,0 26,34 q-8,-18 -22,-22 q-16,10 -30,22z" fill="${c}"/>`],
+ bob:c=>[`<path d="M69,72 q-4,-42 31,-42 q35,0 31,42 l1,22 q-32,10 -64,0z" fill="${c}"/>`,`<path d="M74,68 q2,-30 26,-30 q24,0 26,30 q-12,-12 -52,-8z" fill="${c}"/>`],
+ bun:c=>[`<circle cx="100" cy="30" r="12" fill="${c}"/>`,`<path d="M73,68 q-3,-34 27,-34 q30,0 27,34 q-6,-16 -27,-16 q-21,0 -27,16z" fill="${c}"/>`],
+ pony:c=>[`<path d="M122,48 q26,2 22,36 q-2,22 -14,34 q4,-22 -2,-38 q-4,-16 -12,-20z" fill="${c}"/>`,`<path d="M73,70 q-4,-38 27,-38 q31,0 27,38 q-6,-18 -18,-22 q-18,10 -36,22z" fill="${c}"/>`],
+ buzz:c=>["",`<path d="M74,64 q0,-30 26,-30 q26,0 26,30 q-6,-16 -26,-16 q-20,0 -26,16z" fill="${c}" opacity=".85"/>`]
+};
+function face(f={}){
+  const d=INK, b=f.brow||"soft", e=f.eyes||"dot", m=f.mouth||"smile"; let s="";
+  s+={soft:`<path d="M84,61 q6,-3 12,0 M104,61 q6,-3 12,0"`,flat:`<path d="M84,61 h12 M104,61 h12"`,down:`<path d="M84,59 l12,3 M116,59 l-12,3"`,up:`<path d="M84,59 q6,-5 12,-1 M104,58 q6,-4 12,1"`,quirk:`<path d="M84,62 h12 M104,57 q6,-4 12,0"`}[b]+` fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`;
+  s+={dot:`<circle cx="90" cy="70" r="2.8" fill="${d}"/><circle cx="110" cy="70" r="2.8" fill="${d}"/>`,
+      wide:`<circle cx="90" cy="70" r="4.2" fill="#fff"/><circle cx="110" cy="70" r="4.2" fill="#fff"/><circle cx="90.6" cy="70.4" r="2.5" fill="${d}"/><circle cx="110.6" cy="70.4" r="2.5" fill="${d}"/>`,
+      smile:`<path d="M85.500,71 q4.500,-5 9,0 M105.500,71 q4.500,-5 9,0" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      lash:`<circle cx="90" cy="70" r="2.8" fill="${d}"/><circle cx="110" cy="70" r="2.8" fill="${d}"/><path d="M85,67 l-3,-2 M115,67 l3,-2" stroke="${d}" stroke-width="1.8" stroke-linecap="round"/>`}[e];
+  s+=`<path d="M100,73 q3,5 -1,7" fill="none" stroke="#0002" stroke-width="2" stroke-linecap="round"/>`;
+  s+={smile:`<path d="M92,83 q8,6 16,0" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      soft:`<path d="M94,84 q6,3.500 12,0" fill="none" stroke="${d}" stroke-width="2.2" stroke-linecap="round"/>`,
+      flat:`<path d="M94,85 h12" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      smirk:`<path d="M93,85 q7,2 14,-3" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      grin:`<path d="M90,81 q10,13 20,0z" fill="${d}"/><path d="M93,82.500 h14" stroke="#fff" stroke-width="2.6"/>`,
+      o:`<ellipse cx="100" cy="85" rx="4" ry="5" fill="${d}"/>`}[m];
+  if(f.blush) s+=`<circle cx="82" cy="78" r="5" fill="#e8766b" opacity=".32"/><circle cx="118" cy="78" r="5" fill="#e8766b" opacity=".32"/>`;
+  return s;
+}
+function torso(o){
+  const t=o.top, sh=shade(t,.8), st=o.style||"tee"; let s="";
+  const base=c=>`<path d="M76,105 q24,-9 48,0 l6,62 q-30,9 -60,0z" fill="${c}"/>`;
+  const shadow=`<path d="M104,101 q12,0 20,4 l6,62 q-13,4 -26,5z" fill="#000" opacity=".08"/>`;
+  if(st==="dress") return `<path d="M76,105 q24,-9 48,0 l5,40 l15,58 q-44,11 -88,0 l15,-58z" fill="${t}"/><path d="M104,101 q12,0 20,4 l5,40 l15,58 q-20,5 -40,6z" fill="#000" opacity=".08"/>`+(o.belt?`<path d="M72,144 q28,7 56,0 v7 q-28,7 -56,0z" fill="${o.belt}"/>`:"");
+  if(st==="coat"){ s=base(o.inner||"#f4f1ea")+`<path d="M76,105 q10,-5 19,-5 l-3,100 h-24z" fill="${t}"/><path d="M124,105 q-10,-5 -19,-5 l3,100 h24z" fill="${t}"/><path d="M108,100 l3,100 h21 l-8,-95z" fill="#000" opacity=".08"/><path d="M95,100 l-6,24 M105,100 l6,24" stroke="${sh}" stroke-width="2.5" stroke-linecap="round"/>`; return s; }
+  s=base(st==="jacket"||st==="vest"||st==="overalls"||st==="shirt"?(o.inner||"#f4f1ea"):t);
+  if(st==="suit") s+=`<path d="M91,100 l9,26 l9,-26z" fill="#fbfaf7"/><path d="M98,104 h4 l2.500,20 l-4.500,6 l-4.500,-6z" fill="${o.tie||"#b3262e"}"/><path d="M91,100 l9,26 M109,100 l-9,26" stroke="${sh}" stroke-width="3" stroke-linecap="round"/><circle cx="100" cy="144" r="1.8" fill="${sh}"/><circle cx="100" cy="156" r="1.8" fill="${sh}"/>`;
+  if(st==="shirt") s+=`<path d="M90,100 l10,9 l10,-9 l3,8 l-13,6 l-13,-6z" fill="${shade(o.inner||"#f4f1ea",.9)}"/><path d="M98,108 h4 l3,34 l-5,7 l-5,-7z" fill="${o.tie||t}"/><path d="M100,150 v20" stroke="#0001" stroke-width="2"/>`;
+  if(st==="jacket") s+=`<path d="M76,105 q9,-5 17,-5 l-5,68 q-8,0 -18,-1z" fill="${t}"/><path d="M124,105 q-9,-5 -17,-5 l5,68 q8,0 18,-1z" fill="${t}"/><path d="M93,100 l-4,22 M107,100 l4,22" stroke="${sh}" stroke-width="2.5" stroke-linecap="round"/>`;
+  if(st==="vest") s+=`<path d="M78,105 q8,-4 14,-5 l8,30 l8,-30 q6,1 14,5 l5,62 q-27,8 -54,0z" fill="${t}"/><path d="M98,106 h4 l2,16 l-4,5 l-4,-5z" fill="${o.tie||"#8f2f25"}"/><circle cx="100" cy="142" r="1.8" fill="${sh}"/><circle cx="100" cy="154" r="1.8" fill="${sh}"/>`;
+  if(st==="overalls") s+=`<path d="M86,122 h28 l10,46 q-24,7 -48,0z" fill="${t}"/><path d="M88,122 l-5,-18 M112,122 l5,-18" stroke="${t}" stroke-width="6" stroke-linecap="round"/><circle cx="88" cy="124" r="2.4" fill="#e6c25a"/><circle cx="112" cy="124" r="2.4" fill="#e6c25a"/><rect x="92" y="132" width="16" height="12" rx="2" fill="${sh}"/>`;
+  if(st==="hoodie") s+=`<path d="M86,146 h28 l4,16 h-36z" fill="${sh}"/><path d="M95,104 v16 M105,104 v16" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".8"/>`;
+  if(st==="turtle") s+=`<rect x="88" y="91" width="24" height="15" rx="6" fill="${t}"/><path d="M88,99 h24" stroke="${sh}" stroke-width="1.5"/>`;
+  if(st==="sweater") s+=`<path d="M88,101 q12,9 24,0" fill="none" stroke="${sh}" stroke-width="4" stroke-linecap="round"/><path d="M72,160 q28,9 56,0" fill="none" stroke="${sh}" stroke-width="5"/>`;
+  if(st==="stripe") s+=`<g stroke="${o.stripe||"#fff"}" stroke-width="4" opacity=".9"><path d="M77,116 q23,-6 46,0"/><path d="M76,130 q24,-5 48,0"/><path d="M75,144 q25,-4 50,0"/><path d="M74,158 q26,-3 52,0"/></g>`;
+  if(o.graphic) s+=o.graphic;
+  return s+shadow;
+}
+function fig(o){
+  const skin=SKIN[o.skin||"a"], bottom=o.bottom||"#2f3440", shoe=o.shoes||"#22252b";
+  const la=o.la||[66,140,70,166], ra=o.ra||[134,140,130,166], ll=o.ll||[87,202,86,232], rl=o.rl||[113,202,114,232];
+  const [hb,hf]=HAIR[o.hair||"short"](o.hairCol||"#3a2a20"), short=o.sleeve==="short";
+  const long=o.style==="dress"||o.style==="coat", skirt=o.style==="dress";
+  const legs=leg(90,ll,bottom,shoe,-1,skirt?skin:null)+leg(110,rl,bottom,shoe,1,skirt?skin:null);
+  const hips=skirt?"":`<path d="M71,164 q29,9 58,0 l2,14 q-31,8 -62,0z" fill="${bottom}"/>`;
+  const armCol=o.armCol||o.top;
+  const armL=arm(79,111,la,armCol,skin,short), armR=arm(121,111,ra,armCol,skin,short);
+  return `<svg viewBox="0 0 200 250" role="img" aria-label="${o.label||""}">
+   <circle cx="100" cy="122" r="96" fill="${o.bg||"#eee"}"/>${o.back||""}
+   <ellipse cx="100" cy="${o.jump?244:240}" rx="${o.jump?34:48}" ry="6" fill="#000" opacity=".14"/>
+   ${hb}${o.behind||""}${legs}${hips}${o.armsBack?armL+armR:""}${torso(o)}${o.armsBack?"":armL+armR}
+   <rect x="93" y="88" width="14" height="18" rx="5" fill="${shade(SKIN[o.skin||"a"],.88)}"/>${o.style==="turtle"?`<rect x="88" y="91" width="24" height="15" rx="6" fill="${o.top}"/>`:""}${o.style==="hoodie"?`<path d="M80,104 q20,-14 40,0 q-20,10 -40,0z" fill="${shade(o.top,.8)}"/>`:""}
+   <circle cx="74" cy="72" r="5.500" fill="${skin}"/><circle cx="126" cy="72" r="5.500" fill="${skin}"/><circle cx="100" cy="68" r="27" fill="${skin}"/><path d="M110,42 a27,27 0 0 1 0,52 a34,34 0 0 0 0,-52z" fill="#000" opacity=".06"/>
+   ${o.beard?`<path d="M75,74 q2,26 25,26 q23,0 25,-26 q-8,14 -25,14 q-17,0 -25,-14z" fill="${o.hairCol}"/>`:""}${hf}${face(o.face)}${o.acc||""}${o.front||""}</svg>`;
+}
+/* small drawing helpers for props and backdrops */
+const star=(x,y,r,c,o=1)=>{let p="";for(let i=0;i<8;i++){const a=i*Math.PI/4,q=i%2?r*.38:r;p+=(x+q*Math.cos(a)).toFixed(1)+","+(y+q*Math.sin(a)).toFixed(1)+" ";}return `<polygon points="${p}" fill="${c}" opacity="${o}"/>`;};
+const gear=(x,y,r,c,o=1)=>{let t="";for(let i=0;i<8;i++)t+=`<rect x="${x-r*.16}" y="${y-r*1.22}" width="${r*.32}" height="${r*.5}" rx="1.5" transform="rotate(${i*45} ${x} ${y})"/>`;return `<g fill="${c}" opacity="${o}">${t}<circle cx="${x}" cy="${y}" r="${r}"/></g><circle cx="${x}" cy="${y}" r="${r*.42}" fill="#fff" opacity="${o*.7}"/>`;};
+const note=(x,y,c)=>`<g fill="${c}"><ellipse cx="${x}" cy="${y}" rx="5" ry="4" transform="rotate(-20 ${x} ${y})"/><rect x="${x+3.500}" y="${y-18}" width="2.200" height="18"/><path d="M${x+3.500},${y-18} q9,2 9,10 q-3,-5 -9,-4z"/></g>`;
+const heart=(x,y,s,c,o=1)=>`<path d="M${x},${y+s*.9} l${-s},${-s} a${s*.56},${s*.56} 0 0 1 ${s},${-s*.62} a${s*.56},${s*.56} 0 0 1 ${s},${s*.62}z" fill="${c}" opacity="${o}"/>`;
+const glasses=(sq)=>sq?`<rect x="81" y="63" width="17" height="13" rx="3" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.200"/><rect x="102" y="63" width="17" height="13" rx="3" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.200"/><path d="M98,68 h4 M81,68 l-6,-2 M119,68 l6,-2" stroke="${INK}" stroke-width="2.200"/>`:`<circle cx="90" cy="70" r="8.500" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.200"/><circle cx="110" cy="70" r="8.500" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.200"/><path d="M98.500,69 h3 M81.500,69 l-6,-2 M118.500,69 l6,-2" stroke="${INK}" stroke-width="2.200"/>`;
+
+
+
+const mini=(x,y,c,s,hc,o)=>`<g opacity="${o||1}"><path d="M${x-13},${y+34} q0,-22 13,-22 q13,0 13,22z" fill="${c}"/><circle cx="${x}" cy="${y}" r="9.5" fill="${s}"/><path d="M${x-9},${y-2} q9,-12 18,0 q-9,-5 -18,0z" fill="${hc}"/></g>`;
+const cloud=(x,y,s,c,o)=>`<g fill="${c}" opacity="${o}"><circle cx="${x}" cy="${y}" r="${12*s}"/><circle cx="${x+14*s}" cy="${y-6*s}" r="${14*s}"/><circle cx="${x+30*s}" cy="${y}" r="${12*s}"/><rect x="${x}" y="${y}" width="${30*s}" height="${12*s}"/></g>`;
+const bubble=(x,y,w,t,c,tc,d)=>`<rect x="${x}" y="${y}" width="${w}" height="28" rx="12" fill="${c}"/><path d="M${x+(d>0?w-24:14)},${y+26} l${d*7},11 l2,-12z" fill="${c}"/><text x="${x+w/2}" y="${y+19}" font-size="13" font-weight="800" text-anchor="middle" fill="${tc}" font-family="system-ui,sans-serif">${t}</text>`;
+
+
+const BASE={skin:"e",hair:"bob",hairCol:"#3a2a20",style:"sweater",top:"#16406b",bottom:"#3a4250",shoes:"#22252b"};
+const SK="#f8dcc6", TINT=["#d3ebfa","#e3f2fc","#c6e3f7","#e9eef5"];
+const brain=(x,y,s)=>`<g transform="translate(${x},${y}) scale(${s})"><path d="M-12,4 q-8,-2 -6,-10 q-2,-8 7,-9 q3,-7 11,-4 q8,-3 11,4 q9,1 7,9 q2,8 -6,10 q-2,7 -12,6 q-10,1 -12,-6z" fill="#f2a6b8" stroke="#22252b" stroke-width="1.800"/><path d="M0,-18 v26 M-8,-8 q4,2 8,0 M0,0 q5,3 10,0" fill="none" stroke="#c9728a" stroke-width="1.600"/></g>`;
+const SCENE=[
+ {la:[62,138,84,146],ra:[138,138,116,146],face:{brow:"up",eyes:"wide",mouth:"soft"},bg:"#1a2748",
+  back:[[30,50],[60,90],[160,44],[176,100],[40,150],[150,160],[100,26],[20,110]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="1.800" fill="#fff"/>`).join("")+star(170,64,6,"#fff")+star(34,76,5,"#fff",.8)+`<circle cx="150" cy="130" r="14" fill="#6aa0d8" opacity=".7"/><ellipse cx="150" cy="130" rx="24" ry="6" fill="none" stroke="#cfe3f5" stroke-width="2" opacity=".7"/>`,
+  front:`<circle cx="100" cy="128" r="22" fill="#ffd45e" opacity=".25"/><rect x="95" y="138" width="10" height="26" fill="#fff" stroke="#22252b" stroke-width="1.800"/><path d="M100,136 q-6,-7 0,-16 q6,9 0,16z" fill="#f08a3c"/><circle cx="88" cy="158" r="7.600" fill="${SK}"/><circle cx="112" cy="158" r="7.600" fill="${SK}"/>`},
+ {la:[62,136,78,154],ra:[138,136,122,154],face:{brow:"up",eyes:"wide",mouth:"o"},
+  back:`<g stroke="#1f8fd6" stroke-width="4" stroke-linecap="round" opacity=".5"><path d="M4,190 h26 M0,206 h20 M8,222 h22"/></g>`,
+  front:`<path d="M30,236 v-34 q0,-16 16,-18 l18,-28 h72 l18,28 q16,2 16,18 v34z" fill="#1f8fd6" stroke="#22252b" stroke-width="2.500" stroke-linejoin="round"/><path d="M70,160 h60 l12,22 h-84z" fill="#d3ebfa" stroke="#22252b" stroke-width="2"/><circle cx="60" cy="236" r="13" fill="#22252b"/><circle cx="140" cy="236" r="13" fill="#22252b"/><circle cx="60" cy="236" r="5" fill="#9aa0a8"/><circle cx="140" cy="236" r="5" fill="#9aa0a8"/><circle cx="84" cy="186" r="12" fill="none" stroke="#22252b" stroke-width="4"/>`+heart(84,180,6,"#d8423a")+brain(124,180,.7)+`<rect x="136" y="166" width="16" height="12" fill="#fff" stroke="#22252b" stroke-width="1.400"/><path d="M139,172 l4,-3 l4,5 l3,-3" fill="none" stroke="#1f8fd6" stroke-width="1.400"/>`},
+ {ra:[144,106,128,56],face:{brow:"up",eyes:"wide",mouth:"o"},
+  back:`<g stroke="#22252b" stroke-width="2.500" fill="none" stroke-linecap="round"><path d="M40,110 v60 M14,124 h52 M14,124 l-8,22 M14,124 l8,22 M66,124 l-8,22 M66,124 l8,22"/></g><path d="M4,146 h20 q-10,9 -20,0z M56,146 h20 q-10,9 -20,0z" fill="#1f8fd6" stroke="#22252b" stroke-width="2"/><text x="132" y="196" font-size="16" font-weight="800" fill="#1f8fd6" font-family="Georgia,serif">F = ma</text>`,
+  front:`<path d="M150,10 v10" stroke="#7a4a2e" stroke-width="2.500"/><circle cx="150" cy="32" r="13" fill="#d8423a" stroke="#22252b" stroke-width="2"/><path d="M152,20 q8,-6 12,0 q-6,6 -12,0z" fill="#3f9a6a"/><path d="M144,50 v10 M152,52 v12 M160,50 v8" stroke="#22252b" stroke-width="1.800" stroke-linecap="round" opacity=".5"/>`},
+ {ra:[146,112,148,86],la:[58,134,80,152],face:{brow:"up",mouth:"grin"},
+  back:`<g stroke="#f2c12e" stroke-width="4" stroke-linecap="round" opacity=".7">${Array.from({length:9},(_,i)=>{const a=Math.PI+(i*Math.PI/8);return `<path d="M${(100+50*Math.cos(a)).toFixed(0)},${(74+50*Math.sin(a)).toFixed(0)} L${(100+66*Math.cos(a)).toFixed(0)},${(74+66*Math.sin(a)).toFixed(0)}"/>`;}).join("")}</g>`,
+  front:`<rect x="60" y="236" width="80" height="12" fill="#b98a5c" stroke="#22252b" stroke-width="2"/><path d="M148,86 l22,-14 v30z" fill="#fff" stroke="#22252b" stroke-width="2" stroke-linejoin="round"/><rect x="140" y="80" width="10" height="12" fill="#1f8fd6" stroke="#22252b" stroke-width="2"/><path d="M176,78 q6,8 0,18 M184,72 q10,14 0,30" fill="none" stroke="#1f8fd6" stroke-width="2.500" stroke-linecap="round"/>`+mini(16,206,"#6a7f9a","#f3cfae","#3a2a20")+mini(40,218,"#9a6a5a","#b97d54","#1d1a1c")+mini(184,214,"#7f8f5a","#e0aa80","#7a4a2e")},
+ {ll:[84,202,76,232],rl:[116,202,126,232],la:[62,132,78,150],ra:[138,132,124,150],face:{brow:"soft",mouth:"smile"},
+  back:`<path d="M20,236 h160" stroke="#22252b" stroke-width="2" opacity=".4"/><path d="M150,236 l30,-60" stroke="#22252b" stroke-width="2" opacity=".3"/>`,
+  front:`<path d="M112,44 q40,-30 62,6" fill="none" stroke="#7a4a2e" stroke-width="3" stroke-linecap="round"/><path d="M174,50 v18" stroke="#22252b" stroke-width="1.600" stroke-dasharray="3 3"/><path d="M168,104 l6,-20 l6,20 q-6,8 -12,0z" fill="#f08a3c" stroke="#22252b" stroke-width="1.600" transform="rotate(180 174 94)"/><path d="M170,82 l-4,-8 M174,82 v-9 M178,82 l4,-8" stroke="#3f9a6a" stroke-width="2.500" stroke-linecap="round"/><path d="M166,72 l16,-8 M166,64 l16,8" stroke="#d8423a" stroke-width="3" stroke-linecap="round"/>`},
+ {la:[66,138,95,132],face:{brow:"soft",mouth:"smile"},
+  back:mini(30,150,"#6a7f9a","#f3cfae","#3a2a20")+mini(170,150,"#9a6a5a","#b97d54","#1d1a1c")+`<path d="M20,198 h20 M160,198 h20" stroke="#1f8fd6" stroke-width="4" stroke-linecap="round"/><text x="30" y="118" font-size="30" font-weight="800" text-anchor="middle" fill="#1f8fd6" font-family="Georgia,serif">=</text><text x="170" y="118" font-size="30" font-weight="800" text-anchor="middle" fill="#1f8fd6" font-family="Georgia,serif">=</text><g fill="none" stroke="#22252b" stroke-width="2.500" stroke-linecap="round"><path d="M150,70 v-30 M144,46 l6,-8 l6,8 M138,70 h24"/></g><path d="M134,62 l32,-16 M134,46 l32,16" stroke="#d8423a" stroke-width="3" stroke-linecap="round"/>`},
+ {ll:[84,202,72,230],rl:[116,200,130,222],la:[62,130,76,148],ra:[140,130,154,116],face:{brow:"down",mouth:"flat"},
+  back:[[26,60,"#1f8fd6"],[52,90,"#5a6fd0"],[30,120,"#7a5fc8"],[170,60,"#1f8fd6"],[150,100,"#8a55c0"],[176,130,"#5a6fd0"],[60,40,"#7a5fc8"]].map(([x,y,c])=>`<circle cx="${x}" cy="${y}" r="8" fill="${c}"/>`).join(""),
+  front:`<path d="M30,238 h140 l10,8 h-160z" fill="#3a4250" stroke="#22252b" stroke-width="2" stroke-linejoin="round"/><path d="M168,238 v-60 h-16" fill="none" stroke="#22252b" stroke-width="4" stroke-linecap="round"/><rect x="140" y="168" width="18" height="12" rx="3" fill="#1f8fd6" stroke="#22252b" stroke-width="1.800"/><path d="M76,76 q-3,7 0,11" fill="none" stroke="#7fc4e6" stroke-width="3" stroke-linecap="round"/>`},
+ {la:[62,138,86,146],ra:[138,138,114,146],face:{brow:"up",eyes:"wide",mouth:"flat"},
+  back:`<g stroke="#d8423a" stroke-width="1.800" stroke-dasharray="3 5" fill="none"><path d="M28,54 q30,40 62,84 M172,50 q-30,40 -62,88 M100,20 v110"/></g><circle cx="28" cy="50" r="14" fill="#d8423a"/><text x="28" y="55" font-size="13" font-weight="800" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif">9+</text>`+heart(172,46,10,"#d8423a")+`<path d="M88,8 h24 l-3,18 h-18z" fill="#f2c12e" stroke="#22252b" stroke-width="1.800"/><path d="M93,8 q7,-10 14,0" fill="none" stroke="#22252b" stroke-width="1.800"/>`,
+  front:`<rect x="90" y="136" width="20" height="34" rx="4" fill="#22252b"/><rect x="92.500" y="140" width="15" height="24" fill="#7fc4e6"/><circle cx="86" cy="156" r="7.600" fill="${SK}"/><circle cx="114" cy="156" r="7.600" fill="${SK}"/>`},
+ {ra:[144,128,156,132],face:{brow:"quirk",mouth:"soft"},
+  front:`<g stroke="#22252b" stroke-width="2"><rect x="150" y="118" width="40" height="54" rx="8" fill="#cfd8e2"/><rect x="154" y="78" width="32" height="30" rx="7" fill="#e3ebf3"/><path d="M170,78 v-12" stroke-width="2.500"/><circle cx="170" cy="62" r="4" fill="#1f8fd6"/><rect x="164" y="108" width="12" height="10" fill="#9aa0a8"/><path d="M158,172 v40 M182,172 v40" stroke-width="7" stroke="#9aa0a8" stroke-linecap="round"/></g><circle cx="163" cy="92" r="4.500" fill="#1f8fd6"/><circle cx="177" cy="92" r="4.500" fill="#1f8fd6"/><path d="M162,100 h16" stroke="#22252b" stroke-width="2" stroke-linecap="round"/><rect x="160" y="130" width="20" height="14" rx="3" fill="#1f8fd6"/><path d="M150,132 h-6" stroke="#9aa0a8" stroke-width="7" stroke-linecap="round"/>`,
+  back:`<g stroke="#1f8fd6" stroke-width="2" opacity=".5" fill="none"><path d="M20,60 h30 v30 h24 M20,120 h20 v-20 M60,40 v24"/><circle cx="20" cy="60" r="3" fill="#1f8fd6"/><circle cx="74" cy="90" r="3" fill="#1f8fd6"/><circle cx="20" cy="120" r="3" fill="#1f8fd6"/><circle cx="60" cy="40" r="3" fill="#1f8fd6"/></g>`}
+];
+const CH=[
+ ["The uncomfortable truth","Seen from far enough away, nothing we do matters to the universe. To keep going, people need hope: a sense of control, something they believe is worth working for, and a community that shares it.","Witold Pilecki, the Polish officer who volunteered to be imprisoned in Auschwitz to organise resistance and report on what was happening there.","Things have improved by most measures, yet people feel more hopeless. Manson calls this the paradox of progress.","His statistics on rising despair are selective. Trends differ a great deal by country and age group."],
+ ["Self-control is an illusion","We have two minds. The Feeling Brain decides, and the Thinking Brain mostly explains the decision afterwards. Willpower alone fails because the wrong one is at the wheel.","\"Elliot\", a patient who lost the ability to feel emotion after brain surgery and, though still intelligent, could no longer make decisions. Manson pictures the mind as a car with feelings driving and reason reading the map.","You cannot order your feelings around. You can only negotiate with them, by making the right action feel good.","The two-brain picture is a simplified version of psychology's dual-process models, which are themselves debated."],
+ ["Newton's laws of emotion","Emotions follow rules of their own. Every action provokes a matching emotional reaction, a wish to even the score. Your sense of worth is the sum of those reactions over time. And your identity stays as it is until a new experience shifts it.","An invented, alternate-history Isaac Newton who studies feelings in place of physics.","We build our values and our identity from how we were treated, and defend them long after they stop serving us.","The Newton story is fiction, which he says. The \"laws\" are metaphors, not findings."],
+ ["How to make your dreams come true","Every belief system works like a religion, whether it is spiritual, political or built around a person. All offer hope, a shared enemy, rituals and a promise.","A tongue-in-cheek, step-by-step guide to founding your own religion.","Since some faith is unavoidable, look hard at what you have put yours in.","Treating science, politics and religion as the same kind of thing flattens real differences in how each tests its claims."],
+ ["Hope is f*cked","Hope always needs something to be wrong, so that a better future can be hoped for. That makes it a source of conflict as well as comfort. The alternative is to accept and love what is.","Friedrich Nietzsche and his friendship with Meta von Salis, his warning that \"God is dead\", and his formula of loving one's fate.","Do not hope for better. Be better, here, with what there is.","Whether a person or a society can function without hope is exactly what his critics doubt."],
+ ["The formula of humanity","The way out is a principle. Treat people, yourself included, never merely as a means to something else, but always as ends in themselves.","Immanuel Kant and his rigid daily routine. Manson maps moral growth onto three stages: the child chases pleasure, the adolescent bargains, the adult acts on principle whatever it costs.","Do the right thing because it is right, not for what you get. That is his definition of being an adult.","Philosophers have argued for two centuries over the hard cases Kant's rule produces. The summary skips them."],
+ ["Pain is the universal constant","However good life gets, the mind finds something to be unhappy about. Since pain cannot be removed, choose pain that makes you stronger.","A psychology experiment in which people asked to spot blue dots began calling purple dots blue once the blue ones became rare. See the demo below.","Aim to be antifragile: seek out the right kinds of difficulty and grow from them.","The dot study shows our judgments shift with context. Stretching it to all human dissatisfaction is his leap."],
+ ["The feelings economy","Modern business sells to the Feeling Brain. Most products distract us from discomfort without making life better, and endless choice is sold as freedom.","Edward Bernays, the nephew of Freud who founded public relations by attaching products to desires and insecurities.","Real freedom is choosing what to give up. Commitment and self-limitation, not more options.","The same commerce has also delivered real improvements in health and comfort, which he grants only in passing."],
+ ["The final religion","Artificial intelligence may come to make better decisions than we do. Manson imagines it as the next thing humanity puts its faith in, and hopes it will be better than us.","Garry Kasparov's defeat by a chess computer in 1997, and how far machines have come since.","Until then, the work is the same: act well without needing a reward for it.","The chapter is speculation, and it gives up on human self-improvement faster than the rest of the book would suggest."]
+];
+const IDEAS=[
+ ["A book about hope","The subtitle is serious. The book asks what hope is, why we need it, and why it so often turns destructive."],
+ ["Thinking Brain and Feeling Brain","His central image. Feelings drive, reason navigates. Lasting change comes from getting the two to cooperate."],
+ ["Everything is a religion","People organise around shared hopes, whether the object is a god, a nation, a cause or a partner."],
+ ["Amor fati","Nietzsche's phrase, love of fate. Wanting things to be as they are, in place of hoping they will be different."],
+ ["Growing up","Maturity, for Manson, is moving from pleasure, to bargaining, to principles held without conditions."],
+ ["Freedom as limitation","More choice is not more freedom. Freedom is deciding what you will commit to and what you will do without."]
+];
+
+
+const $=id=>document.getElementById(id), h=(t,c,x)=>{const e=document.createElement(t); if(c)e.className=c; if(x!=null)e.textContent=x; return e;};
+const art=i=>fig(Object.assign({label:"Chapter "+(i+1)},BASE,{bg:TINT[i%TINT.length]},SCENE[i]));
+CH.forEach((r,i)=>{const b=h("button","cd"); b.innerHTML=art(i); b.append(h("i",null,i+1),h("b",null,r[0])); b.onclick=()=>openCh(i); $("grid").appendChild(b);});
+IDEAS.forEach(([n,x])=>{const b=h("button","row"); b.setAttribute("aria-expanded","false"); b.append(h("div","n",n),h("div","x",x)); b.onclick=()=>b.setAttribute("aria-expanded",b.classList.toggle("open")); $("ideas").appendChild(b);});
+let cur=0;
+function openCh(i){cur=i; const r=CH[i]; $("s-art").innerHTML=art(i); $("s-k").textContent="Chapter "+(i+1)+" of "+CH.length; $("s-n").textContent=r[0];
+  const b=$("s-body"); b.textContent=""; [["The idea",r[1]],["The story it tells",r[2]],["Takeaway",r[3],"try"],["A fair objection",r[4],"push"]].forEach(([k,v,c])=>{b.appendChild(h("h3",null,k)); b.appendChild(h("p",c||null,v));});
+  $("sp").disabled=i===0; $("sn").disabled=i===CH.length-1; $("sheet").scrollTop=0; document.body.classList.add("open");}
+const close=()=>document.body.classList.remove("open");
+$("close").onclick=close; $("shade").onclick=close; addEventListener("keydown",e=>{if(e.key==="Escape")close();});
+$("sp").onclick=()=>openCh(cur-1); $("sn").onclick=()=>openCh(cur+1);
+
+
+const N=48, dots=[]; for(let i=0;i<N;i++){const e=document.createElement("i"); $("dots").appendChild(e); dots.push(e);}
+const order=[...Array(N).keys()].sort((a,b)=>((a*37)%N)-((b*37)%N));
+function drawDots(){const t=+$("rare").value, called=Math.round(t+(24-t)*0.6);
+  order.forEach((idx,rank)=>{const e=dots[idx]; let col; if(rank<t) col="#1f8fd6"; else {const k=Math.min(1,(rank-t)/(N-t)); col=`hsl(${Math.round(232+k*48)},${Math.round(62-k*10)}%,${Math.round(56+k*4)}%)`;} e.style.background=col; e.className=rank<called?"c":"";});
+  $("dres").innerHTML=`<b>${t} dots are truly blue. ${called} get called blue.</b> `+(called>t?"The ringed purple ones were not counted as blue when blue was common. As real problems shrink, the mind widens its definition of a problem.":"While blue is common, only real blue is counted.");}
+$("rare").oninput=drawDots; drawDots();
+
+</script>
+</body>
+</html>

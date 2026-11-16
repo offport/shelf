@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>12 Rules for Life · Shelf</title>
+<!-- library:head -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%2317181c%22/%3E%3Cg fill=%22%23d9a441%22 transform=%22translate%284 4%29%22%3E%3Cpath d=%22M5 2H22V4.6H4.6V10.7H19a3 3 0 0 1 3 3V19a3 3 0 0 1-3 3H2V19.4H19.4V13.3H5a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3z%22/%3E%3Cpath d=%22M6 6h2.2v5H6zM9.3 7h2v4h-2zM12.9 11.2L11.8 6.9l1.95-.5 1.1 4.3zM15.8 14.7h2.2v5h-2.2zM12.7 15.7h2v4h-2zM11.1 19.9l1.1-4.3-1.95-.5-1.1 4.3z%22/%3E%3C/g%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta name="theme-color" content="#17181c">
+<meta name="library:id" content="12-rules-for-life">
+<!-- /library:head -->
+
+<style>
+/* Layout: one scrolling page. Twelve illustrated rule cards; tapping one opens the rule with the idea,
+   the book's argument, something to try and a common objection. Single theme by choice. */
+:root{
+  --bg:#17181c; --panel:#212329; --ink:#f1ede4; --muted:#a9a69d; --rule:#33363e; --a:#d9a441; --tint:#2b2d35; color-scheme:dark;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --serif: Georgia, "Times New Roman", serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);display:flex;flex-direction:column;overflow:hidden}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--a);outline-offset:2px}
+header{flex:none;background:var(--panel);border-bottom:1px solid var(--rule);padding:10px 14px}
+.w{max-width:720px;margin:0 auto}
+h1{font-family:var(--serif);font-size:19px;margin:0;font-weight:400;letter-spacing:.01em}
+.by{font-size:12px;color:var(--muted);margin-top:1px}
+main{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.pg{padding:0 14px 40px}
+.intro{display:grid;grid-template-columns:92px 1fr;gap:14px;align-items:center;background:var(--panel);border:1px solid var(--rule);border-radius:14px;padding:12px;margin-top:14px}
+.intro svg{display:block;width:100%;height:auto}
+.intro p{font-size:14px;line-height:1.5;margin:0;color:var(--muted)}
+.intro b{color:var(--ink)}
+h2{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:22px 0 8px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (min-width:600px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.cd{background:var(--panel);border:1px solid var(--rule);border-radius:14px;padding:6px 8px 12px;cursor:pointer;text-align:center;position:relative}
+.cd svg{display:block;width:100%;height:auto}
+.cd i{position:absolute;left:10px;top:8px;font-style:normal;font-family:var(--serif);font-size:20px;color:var(--a)}
+.cd b{display:block;font-size:14px;line-height:1.3;margin-top:2px;text-wrap:balance}
+.themes{display:grid;gap:6px}
+.row{display:block;width:100%;text-align:left;background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:10px 34px 10px 12px;cursor:pointer;position:relative}
+.row::after{content:"+";position:absolute;right:12px;top:9px;font-size:18px;color:var(--muted);line-height:1}
+.row.open::after{content:"−"}
+.row .n{font-size:14.5px;font-weight:600}
+.row .x{display:none;font-size:14px;line-height:1.5;margin-top:5px;max-width:62ch;color:var(--muted)}
+.row.open .x{display:block}
+.note{font-size:12px;color:var(--muted);line-height:1.5;margin:20px 0 0;max-width:64ch}
+#shade{position:fixed;inset:0;background:#000a;opacity:0;pointer-events:none;transition:opacity .2s}
+#sheet{position:fixed;left:0;right:0;bottom:0;max-height:90%;overflow-y:auto;background:var(--panel);border-radius:18px 18px 0 0;padding:10px 18px 24px;transform:translateY(105%);transition:transform .25s ease}
+body.open #shade{opacity:1;pointer-events:auto}
+body.open #sheet{transform:none}
+@media (prefers-reduced-motion: reduce){#sheet,#shade{transition:none}}
+.si{max-width:560px;margin:0 auto}
+.sh{display:grid;grid-template-columns:128px 1fr auto;gap:10px;align-items:center}
+#s-art svg{display:block;width:100%;height:auto}
+#s-k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--a);font-weight:700}
+#s-n{font-family:var(--serif);font-size:21px;line-height:1.2;margin-top:3px;text-wrap:balance}
+#close{align-self:flex-start;border:1px solid var(--rule);background:transparent;border-radius:50%;width:34px;height:34px;font-size:18px;cursor:pointer}
+#s-body h3{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:16px 0 3px}
+#s-body p{font-size:15px;line-height:1.5;margin:0;max-width:62ch}
+#s-body p.try{background:var(--tint);border-radius:10px;padding:10px 12px}
+#s-body p.push{border-left:3px solid var(--a);padding-left:10px;color:var(--muted)}
+.nav{display:flex;gap:8px;margin-top:18px}
+.nav button{flex:1;border:1px solid var(--rule);background:transparent;border-radius:9px;padding:9px;font-size:13.5px;cursor:pointer}
+.nav button:disabled{opacity:.35}
+</style>
+</head>
+<body>
+<!-- library:bar — added by tools/shelve.py; the original file is in originals/ -->
+<div id="library-bar" role="navigation" aria-label="Shelf" class="" style="display:block;flex:none;--lib-bg:var(--bg);--lib-accent:var(--a);"><template shadowrootmode="open"><style>:host{display:block;flex:none;position:relative;font:500 12.5px/1 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  color:inherit;background:var(--lib-bg,transparent);-webkit-text-size-adjust:100%}
+:host(.lib-sticky){position:sticky;top:0;z-index:50}
+*{box-sizing:border-box}
+.bar{display:flex;align-items:center;gap:4px;height:38px;padding:0 8px 0 6px;max-width:100%;
+  border-bottom:1px solid color-mix(in srgb,currentColor 16%,transparent)}
+a,button{color:inherit;font:inherit;text-decoration:none;background:none;border:0;cursor:pointer;border-radius:6px;
+  display:inline-flex;align-items:center;gap:7px;height:30px;padding:0 8px;-webkit-tap-highlight-color:transparent}
+a:hover,button:hover{background:color-mix(in srgb,currentColor 9%,transparent)}
+:focus-visible{outline:2px solid var(--lib-accent,currentColor);outline-offset:1px}
+.home svg{width:18px;height:18px;fill:var(--lib-accent,currentColor);flex:none}
+.home b{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:13px;letter-spacing:.2em;text-transform:uppercase}
+.no{opacity:.62;font-variant-numeric:tabular-nums;white-space:nowrap;padding-left:9px;margin-left:1px;
+  border-left:1px solid color-mix(in srgb,currentColor 22%,transparent);line-height:16px}
+.sp{flex:1}
+.status i{width:11px;height:11px;border-radius:50%;border:1.6px solid currentColor;flex:none;opacity:.75}
+.status[data-s="reading"] i{background:linear-gradient(90deg,var(--lib-accent,currentColor) 50%,transparent 50%);border-color:var(--lib-accent,currentColor);opacity:1}
+.status[data-s="finished"] i{background:var(--lib-accent,currentColor);border-color:var(--lib-accent,currentColor);opacity:1}
+.step{width:30px;padding:0;justify-content:center;font-size:17px;line-height:1}
+.step[aria-disabled="true"]{opacity:.28;pointer-events:none}
+@media (max-width:400px){.no span{display:none}.home b{letter-spacing:.14em}}
+@media (max-width:330px){.status span{display:none}}</style><div class="bar"><a class="home" href="../index.html#12-rules-for-life" title="Back to the shelf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2H22V4.6H4.6V10.7H19a3 3 0 0 1 3 3V19a3 3 0 0 1-3 3H2V19.4H19.4V13.3H5a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3z"/><path d="M6 6h2.2v5H6zM9.3 7h2v4h-2zM12.9 11.2L11.8 6.9l1.95-.5 1.1 4.3zM15.8 14.7h2.2v5h-2.2zM12.7 15.7h2v4h-2zM11.1 19.9l1.1-4.3-1.95-.5-1.1 4.3z"/></svg><b>Shelf</b></a><span class="no" title="No. 6 of 10">No. 6<span> of 10</span></span><span class="sp"></span><button class="status" type="button" data-s="none"><i></i><span>To read</span></button><a class="step" href="how-to-talk-to-anyone.html" title="Previous: How to Talk to Anyone" aria-label="Previous: How to Talk to Anyone">‹</a><a class="step" href="beyond-order.html" title="Next: Beyond Order" aria-label="Next: Beyond Order">›</a></div></template></div>
+<script>(function(){
+  var B={"id": "12-rules-for-life"}, host=document.getElementById("library-bar"); if(!host) return;
+  var root=host.shadowRoot; if(!root){var t=host.querySelector("template"); root=host.attachShadow({mode:"open"}); if(t){root.appendChild(t.content); t.remove();}}
+  var KEY="library.v1", LAB={none:"To read",reading:"Reading",finished:"Finished"}, NEXT={none:"reading",reading:"finished",finished:"none"};
+  function load(){try{var s=JSON.parse(localStorage.getItem(KEY)); if(s&&s.books) return s;}catch(e){} return {books:{}};}
+  function save(s){try{localStorage.setItem(KEY,JSON.stringify(s));}catch(e){}}
+  var btn=root.querySelector(".status");
+  function draw(){var st=(load().books[B.id]||{}).status||"none"; btn.dataset.s=st; btn.querySelector("span").textContent=LAB[st];
+    btn.setAttribute("aria-label","Reading status: "+LAB[st]+". Press to change.");}
+  var s=load(), me=s.books[B.id]||(s.books[B.id]={}); me.opened=Date.now(); save(s); draw();
+  btn.addEventListener("click",function(){var s=load(), me=s.books[B.id]||(s.books[B.id]={}); me.status=NEXT[me.status||"none"]; me.opened=Date.now(); save(s); draw();});
+  addEventListener("storage",function(e){if(e.key===KEY) draw();});
+})();</script>
+<!-- /library:bar -->
+<header><div class="w"><h1>12 Rules for Life</h1><div class="by">A guide to Jordan Peterson's 2018 book</div></div></header>
+<main id="main"><div class="w pg">
+  <div class="intro"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="#f1ede4" stroke="#d9a441" stroke-width="3"/><path d="M50,4 a46,46 0 0 1 0,92 a23,23 0 0 1 0,-46 a23,23 0 0 0 0,-46z" fill="#17181c"/><circle cx="50" cy="27" r="7" fill="#17181c"/><circle cx="50" cy="73" r="7" fill="#f1ede4"/></svg><p><b>An antidote to chaos.</b> Twelve rules for bringing order to a life that has too little of it. Each card opens to the idea, how the book argues it, something to try, and a common objection.</p></div>
+  <h2>The twelve rules · tap one</h2>
+  <div class="grid" id="grid"></div>
+  <h2>Ideas that run through the book</h2>
+  <div class="themes" id="themes"></div>
+  <p class="note">This is a summary in plain words of ideas from 12 Rules for Life by Jordan B. Peterson (2018), not a reproduction of the book. Rule names are shortened. The "try it" lines, the objections and the drawings are this guide's own additions. The book and its author are widely debated; the objections reflect common criticisms, not a verdict.</p>
+</div></main>
+<div id="shade"></div>
+<div id="sheet" role="dialog" aria-modal="true" aria-labelledby="s-n"><div class="si">
+  <div class="sh"><div id="s-art"></div><div><div id="s-k"></div><div id="s-n"></div></div><button id="close" aria-label="Close">×</button></div>
+  <div id="s-body"></div>
+  <div class="nav"><button id="sp">‹ Previous rule</button><button id="sn">Next rule ›</button></div>
+</div></div>
+<script>
+/* =====================  character builder, 200 x 250  ===================== */
+const INK="#22252b", SKIN={a:"#f3cfae",b:"#e0aa80",c:"#b97d54",d:"#8a5636",e:"#f8dcc6"};
+const shade=(hex,k)=>{const n=parseInt(hex.slice(1),16),f=v=>Math.max(0,Math.min(255,Math.round(v*k)));return "#"+[n>>16,(n>>8)&255,n&255].map(v=>f(v).toString(16).padStart(2,"0")).join("");};
+function arm(sx,sy,p,col,skin,short){
+  const [ex,ey,hx,hy]=p; let s=`<path d="M${sx},${sy} L${ex},${ey} L${hx},${hy}" fill="none" stroke="${short?skin:col}" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>`;
+  if(short) s+=`<path d="M${sx},${sy} L${(sx*.45+ex*.55).toFixed(1)},${(sy*.45+ey*.55).toFixed(1)}" stroke="${col}" stroke-width="14.5" stroke-linecap="round"/>`;
+  return s+`<circle cx="${hx}" cy="${hy}" r="7.6" fill="${skin}"/>`;
+}
+function leg(sx,p,col,shoe,dir,skinLeg){
+  const [kx,ky,fx,fy]=p;
+  return `<path d="M${sx},170 L${kx},${ky} L${fx},${fy}" fill="none" stroke="${skinLeg||col}" stroke-width="${skinLeg?12:16}" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="${fx+dir*4}" cy="${fy+6}" rx="12" ry="6.5" fill="${shoe}"/>`;
+}
+const HAIR={
+ short:c=>["",`<path d="M73,68 q-3,-36 27,-36 q30,0 27,36 q-5,-16 -27,-17 q-22,1 -27,17z" fill="${c}"/>`],
+ side:c=>["",`<path d="M73,72 q-4,-40 27,-40 q32,0 27,40 q-3,-14 -12,-20 q-20,8 -37,2 q-4,6 -5,18z" fill="${c}"/>`],
+ slick:c=>["",`<path d="M73,66 q-2,-36 27,-36 q29,0 27,36 q-4,-12 -10,-17 q-17,-6 -34,0 q-6,5 -10,17z" fill="${c}"/><path d="M84,40 q16,-6 32,0" fill="none" stroke="${shade(c,1.5)}" stroke-width="1.5" opacity=".6"/>`],
+ spiky:c=>["",`<path d="M73,68 l-3,-18 l10,6 l0,-18 l11,10 l6,-18 l8,16 l12,-12 l1,16 l11,-6 l-2,24 q-5,-14 -27,-15 q-22,1 -27,15z" fill="${c}"/>`],
+ curly:c=>["",`<g fill="${c}"><circle cx="78" cy="52" r="10"/><circle cx="90" cy="42" r="11"/><circle cx="104" cy="39" r="11"/><circle cx="117" cy="45" r="10"/><circle cx="124" cy="56" r="8"/><circle cx="75" cy="62" r="7"/></g>`],
+ afro:c=>[`<circle cx="100" cy="56" r="40" fill="${c}"/>`,`<path d="M75,66 q4,-22 25,-22 q21,0 25,22 q-10,-10 -25,-10 q-15,0 -25,10z" fill="${c}"/>`],
+ long:c=>[`<path d="M70,72 q-4,-42 30,-42 q34,0 30,42 l4,50 q-34,12 -68,0z" fill="${c}"/>`,`<path d="M74,70 q0,-34 26,-34 q26,0 26,34 q-8,-18 -22,-22 q-16,10 -30,22z" fill="${c}"/>`],
+ bob:c=>[`<path d="M69,72 q-4,-42 31,-42 q35,0 31,42 l1,22 q-32,10 -64,0z" fill="${c}"/>`,`<path d="M74,68 q2,-30 26,-30 q24,0 26,30 q-12,-12 -52,-8z" fill="${c}"/>`],
+ bun:c=>[`<circle cx="100" cy="30" r="12" fill="${c}"/>`,`<path d="M73,68 q-3,-34 27,-34 q30,0 27,34 q-6,-16 -27,-16 q-21,0 -27,16z" fill="${c}"/>`],
+ pony:c=>[`<path d="M122,48 q26,2 22,36 q-2,22 -14,34 q4,-22 -2,-38 q-4,-16 -12,-20z" fill="${c}"/>`,`<path d="M73,70 q-4,-38 27,-38 q31,0 27,38 q-6,-18 -18,-22 q-18,10 -36,22z" fill="${c}"/>`],
+ buzz:c=>["",`<path d="M74,64 q0,-30 26,-30 q26,0 26,30 q-6,-16 -26,-16 q-20,0 -26,16z" fill="${c}" opacity=".85"/>`]
+};
+function face(f={}){
+  const d=INK, b=f.brow||"soft", e=f.eyes||"dot", m=f.mouth||"smile"; let s="";
+  s+={soft:`<path d="M84,61 q6,-3 12,0 M104,61 q6,-3 12,0"`,flat:`<path d="M84,61 h12 M104,61 h12"`,down:`<path d="M84,59 l12,3 M116,59 l-12,3"`,up:`<path d="M84,59 q6,-5 12,-1 M104,58 q6,-4 12,1"`,quirk:`<path d="M84,62 h12 M104,57 q6,-4 12,0"`}[b]+` fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`;
+  s+={dot:`<circle cx="90" cy="70" r="2.8" fill="${d}"/><circle cx="110" cy="70" r="2.8" fill="${d}"/>`,
+      wide:`<circle cx="90" cy="70" r="4.2" fill="#fff"/><circle cx="110" cy="70" r="4.2" fill="#fff"/><circle cx="90.6" cy="70.4" r="2.5" fill="${d}"/><circle cx="110.6" cy="70.4" r="2.5" fill="${d}"/>`,
+      smile:`<path d="M85.500,71 q4.500,-5 9,0 M105.500,71 q4.500,-5 9,0" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      lash:`<circle cx="90" cy="70" r="2.8" fill="${d}"/><circle cx="110" cy="70" r="2.8" fill="${d}"/><path d="M85,67 l-3,-2 M115,67 l3,-2" stroke="${d}" stroke-width="1.8" stroke-linecap="round"/>`}[e];
+  s+=`<path d="M100,73 q3,5 -1,7" fill="none" stroke="#0002" stroke-width="2" stroke-linecap="round"/>`;
+  s+={smile:`<path d="M92,83 q8,6 16,0" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      soft:`<path d="M94,84 q6,3.500 12,0" fill="none" stroke="${d}" stroke-width="2.2" stroke-linecap="round"/>`,
+      flat:`<path d="M94,85 h12" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      smirk:`<path d="M93,85 q7,2 14,-3" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      grin:`<path d="M90,81 q10,13 20,0z" fill="${d}"/><path d="M93,82.500 h14" stroke="#fff" stroke-width="2.6"/>`,
+      o:`<ellipse cx="100" cy="85" rx="4" ry="5" fill="${d}"/>`}[m];
+  if(f.blush) s+=`<circle cx="82" cy="78" r="5" fill="#e8766b" opacity=".32"/><circle cx="118" cy="78" r="5" fill="#e8766b" opacity=".32"/>`;
+  return s;
+}
+function torso(o){
+  const t=o.top, sh=shade(t,.8), st=o.style||"tee"; let s="";
+  const base=c=>`<path d="M76,105 q24,-9 48,0 l6,62 q-30,9 -60,0z" fill="${c}"/>`;
+  const shadow=`<path d="M104,101 q12,0 20,4 l6,62 q-13,4 -26,5z" fill="#000" opacity=".08"/>`;
+  if(st==="dress") return `<path d="M76,105 q24,-9 48,0 l5,40 l15,58 q-44,11 -88,0 l15,-58z" fill="${t}"/><path d="M104,101 q12,0 20,4 l5,40 l15,58 q-20,5 -40,6z" fill="#000" opacity=".08"/>`+(o.belt?`<path d="M72,144 q28,7 56,0 v7 q-28,7 -56,0z" fill="${o.belt}"/>`:"");
+  if(st==="coat"){ s=base(o.inner||"#f4f1ea")+`<path d="M76,105 q10,-5 19,-5 l-3,100 h-24z" fill="${t}"/><path d="M124,105 q-10,-5 -19,-5 l3,100 h24z" fill="${t}"/><path d="M108,100 l3,100 h21 l-8,-95z" fill="#000" opacity=".08"/><path d="M95,100 l-6,24 M105,100 l6,24" stroke="${sh}" stroke-width="2.5" stroke-linecap="round"/>`; return s; }
+  s=base(st==="jacket"||st==="vest"||st==="overalls"||st==="shirt"?(o.inner||"#f4f1ea"):t);
+  if(st==="suit") s+=`<path d="M91,100 l9,26 l9,-26z" fill="#fbfaf7"/><path d="M98,104 h4 l2.500,20 l-4.500,6 l-4.500,-6z" fill="${o.tie||"#b3262e"}"/><path d="M91,100 l9,26 M109,100 l-9,26" stroke="${sh}" stroke-width="3" stroke-linecap="round"/><circle cx="100" cy="144" r="1.8" fill="${sh}"/><circle cx="100" cy="156" r="1.8" fill="${sh}"/>`;
+  if(st==="shirt") s+=`<path d="M90,100 l10,9 l10,-9 l3,8 l-13,6 l-13,-6z" fill="${shade(o.inner||"#f4f1ea",.9)}"/><path d="M98,108 h4 l3,34 l-5,7 l-5,-7z" fill="${o.tie||t}"/><path d="M100,150 v20" stroke="#0001" stroke-width="2"/>`;
+  if(st==="jacket") s+=`<path d="M76,105 q9,-5 17,-5 l-5,68 q-8,0 -18,-1z" fill="${t}"/><path d="M124,105 q-9,-5 -17,-5 l5,68 q8,0 18,-1z" fill="${t}"/><path d="M93,100 l-4,22 M107,100 l4,22" stroke="${sh}" stroke-width="2.5" stroke-linecap="round"/>`;
+  if(st==="vest") s+=`<path d="M78,105 q8,-4 14,-5 l8,30 l8,-30 q6,1 14,5 l5,62 q-27,8 -54,0z" fill="${t}"/><path d="M98,106 h4 l2,16 l-4,5 l-4,-5z" fill="${o.tie||"#8f2f25"}"/><circle cx="100" cy="142" r="1.8" fill="${sh}"/><circle cx="100" cy="154" r="1.8" fill="${sh}"/>`;
+  if(st==="overalls") s+=`<path d="M86,122 h28 l10,46 q-24,7 -48,0z" fill="${t}"/><path d="M88,122 l-5,-18 M112,122 l5,-18" stroke="${t}" stroke-width="6" stroke-linecap="round"/><circle cx="88" cy="124" r="2.4" fill="#e6c25a"/><circle cx="112" cy="124" r="2.4" fill="#e6c25a"/><rect x="92" y="132" width="16" height="12" rx="2" fill="${sh}"/>`;
+  if(st==="hoodie") s+=`<path d="M86,146 h28 l4,16 h-36z" fill="${sh}"/><path d="M95,104 v16 M105,104 v16" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".8"/>`;
+  if(st==="turtle") s+=`<rect x="88" y="91" width="24" height="15" rx="6" fill="${t}"/><path d="M88,99 h24" stroke="${sh}" stroke-width="1.5"/>`;
+  if(st==="sweater") s+=`<path d="M88,101 q12,9 24,0" fill="none" stroke="${sh}" stroke-width="4" stroke-linecap="round"/><path d="M72,160 q28,9 56,0" fill="none" stroke="${sh}" stroke-width="5"/>`;
+  if(st==="stripe") s+=`<g stroke="${o.stripe||"#fff"}" stroke-width="4" opacity=".9"><path d="M77,116 q23,-6 46,0"/><path d="M76,130 q24,-5 48,0"/><path d="M75,144 q25,-4 50,0"/><path d="M74,158 q26,-3 52,0"/></g>`;
+  if(o.graphic) s+=o.graphic;
+  return s+shadow;
+}
+function fig(o){
+  const skin=SKIN[o.skin||"a"], bottom=o.bottom||"#2f3440", shoe=o.shoes||"#22252b";
+  const la=o.la||[66,140,70,166], ra=o.ra||[134,140,130,166], ll=o.ll||[87,202,86,232], rl=o.rl||[113,202,114,232];
+  const [hb,hf]=HAIR[o.hair||"short"](o.hairCol||"#3a2a20"), short=o.sleeve==="short";
+  const long=o.style==="dress"||o.style==="coat", skirt=o.style==="dress";
+  const legs=leg(90,ll,bottom,shoe,-1,skirt?skin:null)+leg(110,rl,bottom,shoe,1,skirt?skin:null);
+  const hips=skirt?"":`<path d="M71,164 q29,9 58,0 l2,14 q-31,8 -62,0z" fill="${bottom}"/>`;
+  const armCol=o.armCol||o.top;
+  const armL=arm(79,111,la,armCol,skin,short), armR=arm(121,111,ra,armCol,skin,short);
+  return `<svg viewBox="0 0 200 250" role="img" aria-label="${o.label||""}">
+   <circle cx="100" cy="122" r="96" fill="${o.bg||"#eee"}"/>${o.back||""}
+   <ellipse cx="100" cy="${o.jump?244:240}" rx="${o.jump?34:48}" ry="6" fill="#000" opacity=".14"/>
+   ${hb}${o.behind||""}${legs}${hips}${o.armsBack?armL+armR:""}${torso(o)}${o.armsBack?"":armL+armR}
+   <rect x="93" y="88" width="14" height="18" rx="5" fill="${shade(SKIN[o.skin||"a"],.88)}"/>${o.style==="turtle"?`<rect x="88" y="91" width="24" height="15" rx="6" fill="${o.top}"/>`:""}${o.style==="hoodie"?`<path d="M80,104 q20,-14 40,0 q-20,10 -40,0z" fill="${shade(o.top,.8)}"/>`:""}
+   <circle cx="74" cy="72" r="5.500" fill="${skin}"/><circle cx="126" cy="72" r="5.500" fill="${skin}"/><circle cx="100" cy="68" r="27" fill="${skin}"/><path d="M110,42 a27,27 0 0 1 0,52 a34,34 0 0 0 0,-52z" fill="#000" opacity=".06"/>
+   ${o.beard?`<path d="M75,74 q2,26 25,26 q23,0 25,-26 q-8,14 -25,14 q-17,0 -25,-14z" fill="${o.hairCol}"/>`:""}${hf}${face(o.face)}${o.acc||""}${o.front||""}</svg>`;
+}
+/* small drawing helpers for props and backdrops */
+const star=(x,y,r,c,o=1)=>{let p="";for(let i=0;i<8;i++){const a=i*Math.PI/4,q=i%2?r*.38:r;p+=(x+q*Math.cos(a)).toFixed(1)+","+(y+q*Math.sin(a)).toFixed(1)+" ";}return `<polygon points="${p}" fill="${c}" opacity="${o}"/>`;};
+const gear=(x,y,r,c,o=1)=>{let t="";for(let i=0;i<8;i++)t+=`<rect x="${x-r*.16}" y="${y-r*1.22}" width="${r*.32}" height="${r*.5}" rx="1.5" transform="rotate(${i*45} ${x} ${y})"/>`;return `<g fill="${c}" opacity="${o}">${t}<circle cx="${x}" cy="${y}" r="${r}"/></g><circle cx="${x}" cy="${y}" r="${r*.42}" fill="#fff" opacity="${o*.7}"/>`;};
+const note=(x,y,c)=>`<g fill="${c}"><ellipse cx="${x}" cy="${y}" rx="5" ry="4" transform="rotate(-20 ${x} ${y})"/><rect x="${x+3.500}" y="${y-18}" width="2.200" height="18"/><path d="M${x+3.500},${y-18} q9,2 9,10 q-3,-5 -9,-4z"/></g>`;
+const heart=(x,y,s,c,o=1)=>`<path d="M${x},${y+s*.9} l${-s},${-s} a${s*.56},${s*.56} 0 0 1 ${s},${-s*.62} a${s*.56},${s*.56} 0 0 1 ${s},${s*.62}z" fill="${c}" opacity="${o}"/>`;
+const glasses=(sq)=>sq?`<rect x="81" y="63" width="17" height="13" rx="3" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.200"/><rect x="102" y="63" width="17" height="13" rx="3" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.200"/><path d="M98,68 h4 M81,68 l-6,-2 M119,68 l6,-2" stroke="${INK}" stroke-width="2.200"/>`:`<circle cx="90" cy="70" r="8.500" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.200"/><circle cx="110" cy="70" r="8.500" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.200"/><path d="M98.500,69 h3 M81.500,69 l-6,-2 M118.500,69 l6,-2" stroke="${INK}" stroke-width="2.200"/>`;
+
+
+
+const inner=o=>fig(o).replace(/^<svg[^>]*>\s*<circle[^>]*\/>/,"").replace("</svg>","");
+const sub=(x,y,k,o,op)=>`<g transform="translate(${x},${y}) scale(${k})" opacity="${op||1}">${inner(o)}</g>`;
+const mini=(x,y,c,s,hc)=>`<path d="M${x-13},${y+34} q0,-22 13,-22 q13,0 13,22z" fill="${c}"/><circle cx="${x}" cy="${y}" r="9.5" fill="${s}"/><path d="M${x-9},${y-2} q9,-12 18,0 q-9,-5 -18,0z" fill="${hc}"/>`;
+const cloud=(x,y,s,c,o)=>`<g fill="${c}" opacity="${o}"><circle cx="${x}" cy="${y}" r="${12*s}"/><circle cx="${x+14*s}" cy="${y-6*s}" r="${14*s}"/><circle cx="${x+30*s}" cy="${y}" r="${12*s}"/><rect x="${x}" y="${y}" width="${30*s}" height="${12*s}"/></g>`;
+
+
+const BASE={skin:"b",hair:"short",hairCol:"#2b2224",style:"sweater",top:"#3d6fb0",bottom:"#3a3f4c"};
+const TINT=["#e9e2d3","#dfe6ea","#ece0d8","#e3e6da"];
+const HOUSE=`<g opacity=".7"><path d="M22,96 l28,-24 l28,24 v38 h-56z" fill="#fff" stroke="#6b7078" stroke-width="2.5" stroke-linejoin="round"/><path d="M16,98 l34,-30 l34,30" fill="none" stroke="#6b7078" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="44" y="112" width="12" height="22" fill="#b97d54"/></g>`;
+const SCENE=[
+ {la:[58,134,80,152],ra:[142,134,120,152],face:{brow:"down",mouth:"smirk"},
+  back:`<path d="M166,196 v-96 M166,98 l-13,17 M166,98 l13,17" stroke="#d9a441" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><g fill="#c43a3f"><ellipse cx="34" cy="186" rx="9" ry="16"/><path d="M27,200 h14 l-3,16 h-8z"/><circle cx="18" cy="160" r="9"/><circle cx="50" cy="160" r="9"/></g><path d="M28,176 l-8,-10 M40,176 l8,-10" stroke="#c43a3f" stroke-width="4.5" stroke-linecap="round"/><path d="M31,170 l-5,-18 M37,170 l5,-18" stroke="#c43a3f" stroke-width="1.6" fill="none"/><path d="M18,160 l-6,-6 M50,160 l6,-6" stroke="#e9e2d3" stroke-width="2.5"/>`},
+ {la:[66,138,95,132],ra:[142,126,150,102],face:{brow:"soft",mouth:"smile"},
+  back:`<g fill="#b97d54"><rect x="12" y="206" width="36" height="18" rx="9"/><circle cx="48" cy="200" r="11"/><path d="M41,192 l-3,-12 l11,7z"/><rect x="17" y="220" width="5.5" height="15" rx="2.5"/><rect x="38" y="220" width="5.5" height="15" rx="2.5"/></g><path d="M12,210 q-10,-4 -8,-15" stroke="#b97d54" stroke-width="4.5" fill="none" stroke-linecap="round"/><circle cx="51" cy="198" r="1.8" fill="#22252b"/><circle cx="58" cy="202" r="2.2" fill="#22252b"/>`+heart(170,70,9,"#c43a3f",.8),
+  front:`<rect x="140" y="72" width="20" height="30" rx="4" fill="#e8873c" stroke="#22252b" stroke-width="2"/><rect x="138" y="64" width="24" height="10" rx="3" fill="#fbfaf7" stroke="#22252b" stroke-width="2"/><rect x="143" y="82" width="14" height="10" fill="#fbfaf7"/><circle cx="150" cy="104" r="7.6" fill="#e0aa80"/>`},
+ {la:[54,128,34,116],ra:[146,128,166,116],face:{brow:"up",mouth:"grin"},
+  front:mini(26,204,"#2f7d6b","#f3cfae","#5a4a3c")+mini(52,216,"#b8497a","#8a5636","#1d1a1c")+mini(148,216,"#d9a441","#f8dcc6","#a8442a")+mini(174,204,"#6a56c2","#b97d54","#2b2224"),back:heart(100,22,7,"#c43a3f",.8)},
+ {ra:[144,122,152,98],face:{brow:"up",mouth:"smile"},
+  back:`<path d="M6,236 h44 v-22 h44" fill="none" stroke="#6b7078" stroke-width="3" opacity=".5"/>`+sub(-8,96,.5,{skin:"b",hair:"short",hairCol:"#2b2224",style:"sweater",top:"#3d6fb0",bottom:"#3a3f4c"},.4)+`<path d="M46,112 q22,-22 40,-4" fill="none" stroke="#d9a441" stroke-width="3" stroke-dasharray="3 5" stroke-linecap="round"/><path d="M86,108 l-11,-2 l6,-9z" fill="#d9a441"/>`,
+  front:`<path d="M152,98 v-14" stroke="#e0aa80" stroke-width="6.500" stroke-linecap="round"/>`},
+ {la:[60,134,60,156],face:{brow:"soft",mouth:"smile"},
+  back:sub(-16,118,.5,{skin:"b",hair:"spiky",hairCol:"#2b2224",style:"tee",sleeve:"short",top:"#f2c12e",bottom:"#c43a3f",shoes:"#22252b",ra:[142,96,150,72],face:{brow:"up",mouth:"grin"}})},
+ {ra:[140,134,146,158],face:{brow:"soft",mouth:"smile"},back:HOUSE+star(150,60,7,"#d9a441")+star(170,84,4,"#d9a441")+star(132,82,4,"#d9a441"),
+  front:`<path d="M144,96 l6,120" stroke="#b98a5c" stroke-width="5" stroke-linecap="round"/><path d="M134,214 h32 l6,24 h-44z" fill="#d9a441" stroke="#22252b" stroke-width="2" stroke-linejoin="round"/><path d="M138,220 v16 M146,220 v16 M154,220 v16 M162,220 v16" stroke="#b98a2e" stroke-width="1.5"/><circle cx="146" cy="158" r="7.6" fill="#e0aa80"/>`},
+ {ll:[84,202,74,232],rl:[116,202,126,232],la:[62,132,78,150],ra:[140,128,150,106],face:{brow:"down",mouth:"smile"},
+  back:`<path d="M22,226 L178,150 V226z" fill="#8a8f7a" opacity=".3"/>`+star(168,56,14,"#d9a441")+star(144,40,5,"#d9a441",.8),behind:`<rect x="66" y="100" width="68" height="62" rx="18" fill="#7a4a2e"/><rect x="74" y="92" width="52" height="16" rx="8" fill="#5a3d2a"/>`},
+ {la:[66,138,95,132],face:{brow:"soft",mouth:"soft"},
+  back:`<g opacity=".5"><rect x="10" y="38" width="56" height="34" rx="12" fill="#6b7078"/><path d="M20,60 q6,-18 12,0 q6,-18 12,0 q6,-18 10,-4" fill="none" stroke="#fff" stroke-width="2.5"/><path d="M12,40 l52,30 M64,40 l-52,30" stroke="#c43a3f" stroke-width="3"/></g>`,
+  front:`<rect x="128" y="30" width="62" height="36" rx="13" fill="#fbfaf7" stroke="#22252b" stroke-width="2"/><path d="M140,64 l-10,14 l20,-13z" fill="#fbfaf7" stroke="#22252b" stroke-width="2" stroke-linejoin="round"/><path d="M138,65 h14" stroke="#fbfaf7" stroke-width="3"/><path d="M140,48 h38" stroke="#2f7d6b" stroke-width="4" stroke-linecap="round"/>`},
+ {ra:[144,112,134,76],face:{brow:"up",eyes:"wide",mouth:"soft"},
+  front:mini(172,200,"#b8497a","#f8dcc6","#7a4a2e")+`<rect x="140" y="150" width="46" height="26" rx="11" fill="#22252b"/><path d="M168,174 l4,12 l6,-12z" fill="#22252b"/><circle cx="153" cy="163" r="3" fill="#fff"/><circle cx="163" cy="163" r="3" fill="#fff"/><circle cx="173" cy="163" r="3" fill="#fff"/><path d="M146,66 q8,8 2,18" fill="none" stroke="#d9a441" stroke-width="2.5" stroke-linecap="round"/>`},
+ {ra:[144,120,152,98],face:{brow:"down",mouth:"smirk"},
+  back:cloud(8,186,1.2,"#6b7078",.25)+cloud(140,196,1,"#6b7078",.2)+`<circle cx="42" cy="104" r="30" fill="#fbfaf7" stroke="#22252b" stroke-width="2"/><circle cx="42" cy="104" r="20" fill="#c43a3f"/><circle cx="42" cy="104" r="10" fill="#fbfaf7"/><circle cx="42" cy="104" r="3.5" fill="#c43a3f"/><path d="M42,104 l28,-22" stroke="#22252b" stroke-width="3" stroke-linecap="round"/><path d="M70,82 l10,-2 l-4,9z M66,78 l8,-10 l4,4z" fill="#d9a441"/>`,
+  front:`<path d="M152,98 l-8,-12" stroke="#e0aa80" stroke-width="5.500" stroke-linecap="round"/>`},
+ {jump:1,hair:"spiky",style:"tee",sleeve:"short",top:"#e2603f",bottom:"#35507a",shoes:"#22252b",ll:[80,198,70,220],rl:[120,198,130,220],la:[56,118,34,104],ra:[144,118,166,104],face:{brow:"up",mouth:"grin"},
+  graphic:star(100,134,9,"#fff"),acc:`<path d="M72,60 q0,-34 28,-34 q28,0 28,34 q-28,-10 -56,0z" fill="#f2c12e" stroke="#22252b" stroke-width="2"/><path d="M84,34 q16,-6 32,0" fill="none" stroke="#22252b" stroke-width="1.6"/>`,
+  back:`<path d="M0,236 q60,0 80,-40" fill="none" stroke="#6b7078" stroke-width="4" opacity=".4"/><g stroke="#6b7078" stroke-width="3.5" stroke-linecap="round" opacity=".4"><path d="M150,150 h36 M158,166 h30 M146,182 h40"/></g>`,
+  front:`<g transform="rotate(-8 100 230)"><rect x="52" y="224" width="96" height="9" rx="4.500" fill="#2f7d6b" stroke="#22252b" stroke-width="2"/><circle cx="70" cy="238" r="5.500" fill="#f2c12e" stroke="#22252b" stroke-width="1.800"/><circle cx="130" cy="238" r="5.500" fill="#f2c12e" stroke="#22252b" stroke-width="1.800"/></g>`},
+ {ra:[144,128,160,124],face:{brow:"soft",eyes:"smile",mouth:"smile",blush:1},
+  back:`<rect x="134" y="152" width="66" height="88" fill="#b98a6c"/><g stroke="#8a6248" stroke-width="2"><path d="M134,172 h66 M134,194 h66 M134,216 h66 M156,152 v20 M178,172 v22 M150,194 v22 M172,216 v24"/></g>`,
+  front:`<path d="M186,150 q14,-6 8,-26" fill="none" stroke="#4a4f58" stroke-width="6" stroke-linecap="round"/><ellipse cx="170" cy="138" rx="17" ry="16" fill="#4a4f58"/><circle cx="166" cy="114" r="14" fill="#4a4f58"/><path d="M154,108 l-1,-14 l10,7z M178,108 l1,-14 l-10,7z" fill="#4a4f58"/><path d="M159,114 q3,3 6,0 M168,114 q3,3 6,0" fill="none" stroke="#fbfaf7" stroke-width="1.800" stroke-linecap="round"/><path d="M164,120 l2,2 l2,-2" fill="none" stroke="#e8a0a0" stroke-width="1.800"/><ellipse cx="170" cy="144" rx="7" ry="9" fill="#fbfaf7" opacity=".85"/><circle cx="158" cy="106" r="7.6" fill="#e0aa80"/>`}
+];
+const RULES=[
+ ["Stand up straight","How you carry yourself changes how people treat you and how you feel. Taking the posture of someone willing to face life's demands can start an upward spiral.","Through lobsters. They compete for status with a nervous system hundreds of millions of years old: winners stand tall, losers shrink. Hierarchy and the chemistry behind it are ancient, Peterson argues.","Shoulders back, eyes up, and say what you actually think in one conversation today.","Biologists say the leap from lobsters to people is a stretch, and human hierarchies are far more varied and changeable than the chapter suggests."],
+ ["Treat yourself like someone you are responsible for helping","People are often better at caring for others than for themselves. You are owed the same care you would give someone you love.","With a striking fact: people fill prescriptions for their pets more reliably than for themselves. He traces this self-neglect to shame, read through the story of Adam and Eve.","Ask what would truly be good for you this week, not what you feel like, and do one piece of it.","The advice is uncontroversial. The long Biblical interpretation used to reach it is the part readers find speculative."],
+ ["Choose friends who want the best for you","The people around you pull you up or down. Loyalty does not mean staying tied to those who drag you under.","Through his youth in a remote northern Canadian town, and friends who drifted downward while others moved on.","Notice who is pleased when things go well for you, and spend more time with them.","It can become an excuse to drop people who are struggling. Telling who needs help from who exploits it is hard."],
+ ["Compare yourself to who you were yesterday","There will always be someone better than you at any one thing. The only fair comparison is with your own past self.","By describing the inner critic that judges every domain at once, and proposing small, self-set aims instead: ask what one thing you could and would do to improve today.","Pick one small improvement, do it, and give yourself a modest reward.","Comparison with others is sometimes useful information. And for some people, yesterday's self is a harsh judge too."],
+ ["Do not let your children do what makes you dislike them","Clear limits are a kindness. Children who never learn them are rejected by other children and adults, and that costs far more than discipline.","Parents stand in for the wider world, he argues. Use few rules, apply them consistently, and use the minimum force needed.","Choose two or three rules that matter and hold them calmly every time.","Critics object to his acceptance of mild physical discipline, which most research on child development advises against."],
+ ["Set your house in order before you criticise the world","Before blaming society for your troubles, fix what is within your own reach. Unexamined resentment can turn destructive.","With the example of Aleksandr Solzhenitsyn, who in a Soviet labour camp examined his own part in his fate, set against people consumed by bitterness.","Stop doing one thing you already know is wrong. Start today.","People with untidy lives can still be right about injustice. The rule can be used to wave away fair criticism."],
+ ["Pursue what is meaningful, not what is expedient","Expedience is the quick gain and the dodge. Meaning comes from giving something up now for a better future and carrying real responsibility.","Through the idea of sacrifice: humanity's discovery that giving up something today can improve tomorrow, told through Biblical stories.","In one decision this week, take the harder right option over the easier wrong one.","What counts as meaningful stays vague, and the argument leans on religious symbolism not every reader shares."],
+ ["Tell the truth, or at least do not lie","Small lies bend your character and blur your view of reality. Honest speech keeps you oriented.","From his own decision to stop saying things he did not believe, and from the argument that tyrannies rest on millions of everyday lies.","Catch one thing you say that you do not mean, and stop saying it.","Kindness and tact sometimes pull against bluntness. Truthful is not the same as saying everything."],
+ ["Assume the person you are listening to knows something you do not","Real conversation is shared exploration, not a contest. Listening properly helps the other person think, and teaches you.","From his clinical practice, and Carl Rogers's method of summarising what someone has said, to their satisfaction, before you answer.","In your next disagreement, restate the other side until they say yes, that is it.","Few object. It is simply hard to do when you are angry or sure you are right."],
+ ["Be precise in your speech","Vague dread grows. Name a problem exactly and it shrinks to something you can deal with.","With a children's story about a dragon that grows each time the family denies it exists, and with marriages that fail from things never said.","Say exactly what is bothering you and exactly what you want instead.","Some troubles cannot be pinned down at once and need time before they can be named."],
+ ["Leave children alone when they are skateboarding","People need risk to become competent. Overprotecting them makes them weaker, not safer.","It starts with skateboarders doing dangerous tricks, then widens into an argument that boys and men are being discouraged from toughness, and a critique of some academic ideas.","Let someone, or yourself, take a reasonable risk without stepping in.","This is the book's most political chapter. Critics say it caricatures feminism and the social sciences."],
+ ["Pet a cat when you meet one in the street","Life contains real suffering. Notice the small good moments that are still there.","Through his daughter's severe childhood illness, and the thought that limits and fragility are part of what makes a life valuable.","When things are overwhelming, shorten your horizon to today, and notice one small good thing.","It is consolation, not a cure. Some find it thin against serious suffering, though that is partly the point."]
+];
+const THEMES=[
+ ["Order and chaos","Order is the known: routine, structure, tradition. Chaos is the unknown: novelty, possibility, danger. Too much of either is harmful, and Peterson says a good life is lived on the border between them. This book mostly addresses people with too much chaos."],
+ ["Responsibility before rights","The book's core claim is that meaning comes from taking on responsibility: for yourself, your family and what is in front of you."],
+ ["Suffering is built in","Life is hard for everyone, and bitterness makes it worse. The question the book asks is how to act well anyway."],
+ ["Stories as maps","Myths and religious stories are treated as distilled wisdom about how to live. Much of each chapter is interpretation of them, which readers either value or find heavy going."]
+];
+
+
+const $=id=>document.getElementById(id), h=(t,c,x)=>{const e=document.createElement(t); if(c)e.className=c; if(x!=null)e.textContent=x; return e;};
+const art=i=>fig(Object.assign({label:"Rule "+(i+1)},BASE,{bg:TINT[i%TINT.length]},SCENE[i]));
+RULES.forEach((r,i)=>{const b=h("button","cd"); b.innerHTML=art(i); b.append(h("i",null,i+1),h("b",null,r[0])); b.onclick=()=>openRule(i); $("grid").appendChild(b);});
+THEMES.forEach(([n,x])=>{const b=h("button","row"); b.setAttribute("aria-expanded","false"); b.append(h("div","n",n),h("div","x",x)); b.onclick=()=>b.setAttribute("aria-expanded",b.classList.toggle("open")); $("themes").appendChild(b);});
+let cur=0;
+function openRule(i){cur=i; const r=RULES[i]; $("s-art").innerHTML=art(i); $("s-k").textContent="Rule "+(i+1)+" of 12"; $("s-n").textContent=r[0];
+  const b=$("s-body"); b.textContent=""; [["The idea",r[1]],["How the book argues it",r[2]],["Try it",r[3],"try"],["A common objection",r[4],"push"]].forEach(([k,v,c])=>{b.appendChild(h("h3",null,k)); b.appendChild(h("p",c||null,v));});
+  $("sp").disabled=i===0; $("sn").disabled=i===11; $("sheet").scrollTop=0; document.body.classList.add("open");}
+const close=()=>document.body.classList.remove("open");
+$("close").onclick=close; $("shade").onclick=close; addEventListener("keydown",e=>{if(e.key==="Escape")close();});
+$("sp").onclick=()=>openRule(cur-1); $("sn").onclick=()=>openRule(cur+1);
+
+</script>
+</body>
+</html>
