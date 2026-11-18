@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Maps of Meaning · Shelf</title>
+<!-- library:head -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%232f4f7a%22/%3E%3Cg fill=%22%23e0b450%22 transform=%22translate%284 4%29%22%3E%3Cpath d=%22M5 2H22V4.6H4.6V10.7H19a3 3 0 0 1 3 3V19a3 3 0 0 1-3 3H2V19.4H19.4V13.3H5a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3z%22/%3E%3Cpath d=%22M6 6h2.2v5H6zM9.3 7h2v4h-2zM12.9 11.2L11.8 6.9l1.95-.5 1.1 4.3zM15.8 14.7h2.2v5h-2.2zM12.7 15.7h2v4h-2zM11.1 19.9l1.1-4.3-1.95-.5-1.1 4.3z%22/%3E%3C/g%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta name="theme-color" content="#2f4f7a">
+<meta name="library:id" content="maps-of-meaning">
+<!-- /library:head -->
+
+<style>
+:root{--bg:#f5f0e3;--panel:#fffaf0;--ink:#1c1d22;--mut:#6d6a62;--line:#ddd3bd;--red:#b3262f;--gold:#c9972e;--night:#22252b;--blue:#2f4f7a;
+--serif:Georgia,"Palatino Linotype",serif;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16.5px;line-height:1.6}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 80px}
+button{font:inherit;color:inherit;cursor:pointer}
+h1,h2,h3{font-family:var(--serif);margin:0}
+header{margin:0 -16px;background:var(--night);color:#f5f0e3;padding:26px 20px 22px;text-align:center;border-bottom:5px solid var(--red)}
+header small{letter-spacing:.3em;font-size:11px;color:var(--gold);text-transform:uppercase}
+header h1{font-size:clamp(34px,10vw,52px);letter-spacing:.02em;line-height:1.05;margin:6px 0}
+header p{margin:6px auto 0;max-width:460px;color:#cfc8b6;font-size:15px}
+nav{position:sticky;top:0;z-index:9;margin:0 -16px;background:rgba(245,240,227,.96);border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:8px 12px;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav a{flex:none;text-decoration:none;color:var(--ink);font-size:13px;border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:var(--panel)}
+.sec{padding-top:34px}
+.sec>small{display:block;letter-spacing:.26em;font-size:11px;color:var(--red);text-transform:uppercase;font-weight:700}
+.sec>h2{font-size:27px;line-height:1.2;margin:2px 0 8px}
+.lead{margin:0 0 14px;color:#3a3a3f}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+.scene{border-radius:12px;overflow:hidden;border:2px solid var(--ink);background:#efe6d2}
+.scene svg{display:block;width:100%;height:auto}
+.hs{cursor:pointer}.hs circle.d{fill:var(--red);stroke:#fff;stroke-width:2.5}.hs.seen circle.d{fill:var(--blue)}
+.hs text{fill:#fff;font:700 12px var(--sans);text-anchor:middle;pointer-events:none}
+.hs .r{fill:none;stroke:#fff;stroke-width:2;animation:pu 2.2s ease-out infinite}
+@keyframes pu{0%{r:9;opacity:.8}100%{r:22;opacity:0}}
+.hint{font-size:13px;color:var(--mut);text-align:center;margin:8px 0 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(min-width:620px){.grid.g3{grid-template-columns:repeat(3,1fr)}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px 8px 10px;text-align:left;display:block;width:100%}
+.card .scene{border-width:1.5px;border-radius:8px}
+.card h3{font-size:16px;margin-top:8px}.card small{color:var(--mut);font-size:13px;line-height:1.3;display:block}
+.tog{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0}
+.tog button{border:1.5px solid var(--ink);border-radius:8px;padding:8px;background:var(--panel);font-weight:600;font-size:14px}
+.tog button.on{background:var(--ink);color:#fff}
+.tog button.on.dark{background:var(--red);border-color:var(--red)}
+/* stepper */
+.dots{display:flex;gap:6px;justify-content:center;margin:10px 0}
+.dots button{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--ink);background:var(--panel);font-weight:700;font-size:14px}
+.dots button.on{background:var(--red);color:#fff;border-color:var(--red)}
+.stepnav{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.stepnav button,.sft button{background:var(--ink);color:#fff;border:0;border-radius:8px;padding:11px;font-size:14px;font-weight:600}
+.curve svg{width:100%;height:auto;display:block}
+/* accordion */
+.acc{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:9px;overflow:hidden}
+.acc>button{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;width:100%;text-align:left;background:none;border:0;padding:12px}
+.acc .no{font-family:var(--serif);font-size:20px;color:var(--red);min-width:26px;text-align:center}
+.acc h3{font-size:16.5px}.acc small{color:var(--mut);font-size:13px;display:block;font-family:var(--sans);font-weight:400}
+.acc .pm{font-size:20px;color:var(--mut)}
+.acc .body{display:none;padding:0 14px 14px;font-size:15.5px}
+.acc.open .body{display:block}.acc.open .pm{transform:rotate(45deg)}
+.acc .body p{margin:8px 0}.acc ul{margin:6px 0;padding-left:20px}.acc li{margin:5px 0}
+.tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:4px;padding:2px 7px;color:#fff;background:var(--blue);vertical-align:middle}
+.tag.r{background:var(--red)}.tag.g{background:#8a6a1a}
+/* slider */
+input[type=range]{width:100%;accent-color:var(--red)}
+.ends{display:flex;justify-content:space-between;font-size:12.5px;color:var(--mut);font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{border:1.5px solid var(--ink);background:var(--panel);border-radius:999px;padding:6px 12px;font-size:14px}
+.chip.on{background:var(--ink);color:#fff}
+.note{border-left:4px solid var(--gold);background:#f9efd4;padding:9px 12px;border-radius:0 8px 8px 0;font-size:14.5px;margin-top:12px}
+/* sheet */
+#veil{position:fixed;inset:0;background:rgba(20,20,24,.55);opacity:0;pointer-events:none;transition:opacity .2s;z-index:20}
+#veil.on{opacity:1;pointer-events:auto}
+#sheet{position:fixed;left:0;right:0;bottom:0;max-height:88vh;background:var(--panel);border-top:5px solid var(--red);border-radius:16px 16px 0 0;transform:translateY(103%);transition:transform .26s;z-index:21;display:flex;flex-direction:column;max-width:760px;margin:0 auto}
+#sheet.on{transform:none}
+.shd{display:flex;gap:10px;padding:14px 16px 6px}.shd h3{flex:1;font-size:21px;line-height:1.2}
+.x{flex:none;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:16px}
+.sbd{overflow-y:auto;padding:0 16px 14px}.sbd p{margin:8px 0;font-size:15.5px}
+.kv{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--red);font-weight:700;margin-top:12px}
+.sft{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--line)}
+footer{margin-top:30px;border-top:1px solid var(--line);padding-top:12px;font-size:13px;color:var(--mut)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style></head><body>
+<!-- library:bar — added by tools/shelve.py; the original file is in originals/ -->
+<div id="library-bar" role="navigation" aria-label="Shelf" class="" style="display:block;flex:none;--lib-bg:var(--bg);--lib-accent:var(--gold);"><template shadowrootmode="open"><style>:host{display:block;flex:none;position:relative;font:500 12.5px/1 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  color:inherit;background:var(--lib-bg,transparent);-webkit-text-size-adjust:100%}
+:host(.lib-sticky){position:sticky;top:0;z-index:50}
+*{box-sizing:border-box}
+.bar{display:flex;align-items:center;gap:4px;height:38px;padding:0 8px 0 6px;max-width:100%;
+  border-bottom:1px solid color-mix(in srgb,currentColor 16%,transparent)}
+a,button{color:inherit;font:inherit;text-decoration:none;background:none;border:0;cursor:pointer;border-radius:6px;
+  display:inline-flex;align-items:center;gap:7px;height:30px;padding:0 8px;-webkit-tap-highlight-color:transparent}
+a:hover,button:hover{background:color-mix(in srgb,currentColor 9%,transparent)}
+:focus-visible{outline:2px solid var(--lib-accent,currentColor);outline-offset:1px}
+.home svg{width:18px;height:18px;fill:var(--lib-accent,currentColor);flex:none}
+.home b{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:13px;letter-spacing:.2em;text-transform:uppercase}
+.no{opacity:.62;font-variant-numeric:tabular-nums;white-space:nowrap;padding-left:9px;margin-left:1px;
+  border-left:1px solid color-mix(in srgb,currentColor 22%,transparent);line-height:16px}
+.sp{flex:1}
+.status i{width:11px;height:11px;border-radius:50%;border:1.6px solid currentColor;flex:none;opacity:.75}
+.status[data-s="reading"] i{background:linear-gradient(90deg,var(--lib-accent,currentColor) 50%,transparent 50%);border-color:var(--lib-accent,currentColor);opacity:1}
+.status[data-s="finished"] i{background:var(--lib-accent,currentColor);border-color:var(--lib-accent,currentColor);opacity:1}
+.step{width:30px;padding:0;justify-content:center;font-size:17px;line-height:1}
+.step[aria-disabled="true"]{opacity:.28;pointer-events:none}
+@media (max-width:400px){.no span{display:none}.home b{letter-spacing:.14em}}
+@media (max-width:330px){.status span{display:none}}</style><div class="bar"><a class="home" href="../index.html#maps-of-meaning" title="Back to the shelf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2H22V4.6H4.6V10.7H19a3 3 0 0 1 3 3V19a3 3 0 0 1-3 3H2V19.4H19.4V13.3H5a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3z"/><path d="M6 6h2.2v5H6zM9.3 7h2v4h-2zM12.9 11.2L11.8 6.9l1.95-.5 1.1 4.3zM15.8 14.7h2.2v5h-2.2zM12.7 15.7h2v4h-2zM11.1 19.9l1.1-4.3-1.95-.5-1.1 4.3z"/></svg><b>Shelf</b></a><span class="no" title="No. 11 of 12">No. 11<span> of 12</span></span><span class="sp"></span><button class="status" type="button" data-s="none"><i></i><span>To read</span></button><a class="step" href="everything-is-f-cked.html" title="Previous: Everything Is F*cked" aria-label="Previous: Everything Is F*cked">‹</a><a class="step" href="art-of-thinking-clearly.html" title="Next: The Art of Thinking Clearly" aria-label="Next: The Art of Thinking Clearly">›</a></div></template></div>
+<script>(function(){
+  var B={"id": "maps-of-meaning"}, host=document.getElementById("library-bar"); if(!host) return;
+  var root=host.shadowRoot; if(!root){var t=host.querySelector("template"); root=host.attachShadow({mode:"open"}); if(t){root.appendChild(t.content); t.remove();}}
+  var KEY="library.v1", LAB={none:"To read",reading:"Reading",finished:"Finished"}, NEXT={none:"reading",reading:"finished",finished:"none"};
+  function load(){try{var s=JSON.parse(localStorage.getItem(KEY)); if(s&&s.books) return s;}catch(e){} return {books:{}};}
+  function save(s){try{localStorage.setItem(KEY,JSON.stringify(s));}catch(e){}}
+  var btn=root.querySelector(".status");
+  function draw(){var st=(load().books[B.id]||{}).status||"none"; btn.dataset.s=st; btn.querySelector("span").textContent=LAB[st];
+    btn.setAttribute("aria-label","Reading status: "+LAB[st]+". Press to change.");}
+  var s=load(), me=s.books[B.id]||(s.books[B.id]={}); me.opened=Date.now(); save(s); draw();
+  btn.addEventListener("click",function(){var s=load(), me=s.books[B.id]||(s.books[B.id]={}); me.status=NEXT[me.status||"none"]; me.opened=Date.now(); save(s); draw();});
+  addEventListener("storage",function(e){if(e.key===KEY) draw();});
+})();</script>
+<!-- /library:bar -->
+<div class="wrap">
+<header><small>Jordan B. Peterson · 1999</small><h1>Maps of Meaning</h1><p>An illustrated guide to a dense book about why people need stories, and what happens when a story breaks.</p></header>
+<nav><a href="#idea">The idea</a><a href="#map">The map</a><a href="#cast">The cast</a><a href="#cycle">When it breaks</a><a href="#ch">Chapters</a><a href="#myth">The myths</a><a href="#fail">Two ways to fail</a><a href="#words">Vocabulary</a><a href="#use">Using it</a><a href="#crit">Objections</a></nav>
+
+<section class="sec" id="idea"><small>Start here</small><h2>The idea in one minute</h2>
+<p class="lead">Science tells you what things <i>are</i>. It does not tell you what to <i>do</i>. Peterson argues that myths and religious stories are humanity's oldest answer to the second question. They are not failed science. They are maps of how to act, built up over thousands of years of watching what works.</p>
+<div class="panel">
+<p style="margin:0 0 8px"><b>Three claims carry the whole book.</b></p>
+<p style="margin:6px 0"><b>1.</b> Everyone lives inside a story: where I am, where I should be, how to get there. That story decides what you notice and what you feel.</p>
+<p style="margin:6px 0"><b>2.</b> Every story meets things it did not predict. Your nervous system treats the unexpected as threat and promise at once. Myths picture this as chaos, a dragon guarding treasure.</p>
+<p style="margin:6px 0"><b>3.</b> The right response is to face the unexpected voluntarily and update. Myths call the one who does this the hero. Refusing to look is the root of personal misery and, at scale, of political atrocity.</p>
+</div>
+<div class="note">Peterson wrote it over about thirteen years while haunted by the Cold War: how could people be so sure of their beliefs that they would risk destroying the world for them? The book is his attempt at an answer.</div>
+</section>
+
+<section class="sec" id="map"><small>The central picture</small><h2>The world as a place to act</h2>
+<p class="lead">In myth the world has three permanent parts, wrapped in a fourth. Tap each numbered point.</p>
+<div class="scene" id="world"></div><p class="hint" id="whint">Four points. They turn blue once read.</p>
+</section>
+
+<section class="sec" id="cast"><small>The characters</small><h2>Each one has two faces</h2>
+<p class="lead">This is the part readers tend to remember. Nothing in the mythic world is simply good or bad. Open a card and flip between its bright and dark side.</p>
+<div class="grid" id="castgrid"></div>
+</section>
+
+<section class="sec" id="cycle"><small>The engine of the book</small><h2>What happens when your map breaks</h2>
+<p class="lead">Peterson says nearly every great story has this shape: paradise, fall, redemption. Step through it.</p>
+<div class="panel">
+<div class="curve" id="curve"></div>
+<div class="dots" id="dots"></div>
+<div class="scene" id="cyscene"></div>
+<h3 id="cyt" style="font-size:19px;margin-top:10px"></h3><p id="cyp" style="margin:6px 0 0;font-size:15.5px"></p>
+<div class="stepnav"><button id="cyprev">‹ Back</button><button id="cynext">Next ›</button></div>
+</div>
+<div class="note"><b>Normal and revolutionary.</b> Small surprises get fixed inside the current story: try another route to the same goal. Large ones break the goal itself, and the whole map has to be redrawn. Peterson borrows the distinction from the historian of science Thomas Kuhn.</div>
+</section>
+
+<section class="sec" id="ch"><small>Chapter by chapter</small><h2>How the argument is built</h2>
+<p class="lead">Five long chapters between a personal preface and a short conclusion. Summaries are in my own words.</p>
+<div id="chlist"></div>
+</section>
+
+<section class="sec" id="myth"><small>The evidence he uses</small><h2>Five stories, one pattern</h2>
+<p class="lead">Peterson reads very different traditions as versions of the same lesson. Tap a story for his reading.</p>
+<div class="grid g3" id="mythgrid"></div>
+</section>
+
+<section class="sec" id="fail"><small>The warning</small><h2>Two ways to fail</h2>
+<p class="lead">The book's villain is not chaos and not order. It is the refusal to deal honestly with the unknown, which shows up in two opposite forms. Drag the slider.</p>
+<div class="panel">
+<div class="scene" id="fscene"></div>
+<input type="range" id="fs" min="0" max="100" value="50" aria-label="Order to chaos">
+<div class="ends"><span>All order</span><span>The border</span><span>All chaos</span></div>
+<h3 id="ft" style="font-size:19px;margin-top:10px"></h3><p id="fp" style="margin:6px 0 0;font-size:15.5px"></p>
+</div>
+</section>
+
+<section class="sec" id="words"><small>Vocabulary</small><h2>His words, in plain ones</h2>
+<div class="chips" id="wchips"></div><div class="panel" id="wdef" style="margin-top:10px;min-height:96px"></div>
+</section>
+
+<section class="sec" id="use"><small>My addition</small><h2>Using the map on Monday</h2>
+<p class="lead">The book is theory. These six questions are my own translation of it into practice, not Peterson's list.</p>
+<div id="uselist"></div>
+</section>
+
+<section class="sec" id="crit"><small>A fair hearing</small><h2>Strengths and objections</h2>
+<p class="lead">Peterson is a divisive author and this is his most academic book. Here is what admirers and critics each say.</p>
+<div id="critlist"></div>
+</section>
+
+<footer>Written from memory of the book, in my own words, with no quotations. Chapter titles are the book's. The illustrations and the "Using it" section are mine. For the full argument, read the original or watch Peterson's university lectures of the same name.</footer>
+</div>
+<div id="veil"></div><div id="sheet" role="dialog" aria-modal="true" aria-labelledby="st"><div class="shd"><h3 id="st"></h3><button class="x" id="sx" aria-label="Close">✕</button></div><div class="sbd" id="sb"></div><div class="sft"><button id="prev">‹ Previous</button><button id="next">Next ›</button></div></div>
+<script>
+/* =====================  character builder, 200 x 250  ===================== */
+const INK="#22252b", SKIN={a:"#f3cfae",b:"#e0aa80",c:"#b97d54",d:"#8a5636",e:"#f8dcc6"};
+const shade=(hex,k)=>{const n=parseInt(hex.slice(1),16),f=v=>Math.max(0,Math.min(255,Math.round(v*k)));return "#"+[n>>16,(n>>8)&255,n&255].map(v=>f(v).toString(16).padStart(2,"0")).join("");};
+function arm(sx,sy,p,col,skin,short){
+  const [ex,ey,hx,hy]=p; let s=`<path d="M${sx},${sy} L${ex},${ey} L${hx},${hy}" fill="none" stroke="${short?skin:col}" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>`;
+  if(short) s+=`<path d="M${sx},${sy} L${(sx*.45+ex*.55).toFixed(1)},${(sy*.45+ey*.55).toFixed(1)}" stroke="${col}" stroke-width="14.5" stroke-linecap="round"/>`;
+  return s+`<circle cx="${hx}" cy="${hy}" r="7.6" fill="${skin}"/>`;
+}
+function leg(sx,p,col,shoe,dir,skinLeg){
+  const [kx,ky,fx,fy]=p;
+  return `<path d="M${sx},170 L${kx},${ky} L${fx},${fy}" fill="none" stroke="${skinLeg||col}" stroke-width="${skinLeg?12:16}" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="${fx+dir*4}" cy="${fy+6}" rx="12" ry="6.5" fill="${shoe}"/>`;
+}
+const HAIR={
+ short:c=>["",`<path d="M73,68 q-3,-36 27,-36 q30,0 27,36 q-5,-16 -27,-17 q-22,1 -27,17z" fill="${c}"/>`],
+ side:c=>["",`<path d="M73,72 q-4,-40 27,-40 q32,0 27,40 q-3,-14 -12,-20 q-20,8 -37,2 q-4,6 -5,18z" fill="${c}"/>`],
+ slick:c=>["",`<path d="M73,66 q-2,-36 27,-36 q29,0 27,36 q-4,-12 -10,-17 q-17,-6 -34,0 q-6,5 -10,17z" fill="${c}"/><path d="M84,40 q16,-6 32,0" fill="none" stroke="${shade(c,1.5)}" stroke-width="1.5" opacity=".6"/>`],
+ spiky:c=>["",`<path d="M73,68 l-3,-18 l10,6 l0,-18 l11,10 l6,-18 l8,16 l12,-12 l1,16 l11,-6 l-2,24 q-5,-14 -27,-15 q-22,1 -27,15z" fill="${c}"/>`],
+ curly:c=>["",`<g fill="${c}"><circle cx="78" cy="52" r="10"/><circle cx="90" cy="42" r="11"/><circle cx="104" cy="39" r="11"/><circle cx="117" cy="45" r="10"/><circle cx="124" cy="56" r="8"/><circle cx="75" cy="62" r="7"/></g>`],
+ afro:c=>[`<circle cx="100" cy="56" r="40" fill="${c}"/>`,`<path d="M75,66 q4,-22 25,-22 q21,0 25,22 q-10,-10 -25,-10 q-15,0 -25,10z" fill="${c}"/>`],
+ long:c=>[`<path d="M70,72 q-4,-42 30,-42 q34,0 30,42 l4,50 q-34,12 -68,0z" fill="${c}"/>`,`<path d="M74,70 q0,-34 26,-34 q26,0 26,34 q-8,-18 -22,-22 q-16,10 -30,22z" fill="${c}"/>`],
+ bob:c=>[`<path d="M69,72 q-4,-42 31,-42 q35,0 31,42 l1,22 q-32,10 -64,0z" fill="${c}"/>`,`<path d="M74,68 q2,-30 26,-30 q24,0 26,30 q-12,-12 -52,-8z" fill="${c}"/>`],
+ bun:c=>[`<circle cx="100" cy="30" r="12" fill="${c}"/>`,`<path d="M73,68 q-3,-34 27,-34 q30,0 27,34 q-6,-16 -27,-16 q-21,0 -27,16z" fill="${c}"/>`],
+ pony:c=>[`<path d="M122,48 q26,2 22,36 q-2,22 -14,34 q4,-22 -2,-38 q-4,-16 -12,-20z" fill="${c}"/>`,`<path d="M73,70 q-4,-38 27,-38 q31,0 27,38 q-6,-18 -18,-22 q-18,10 -36,22z" fill="${c}"/>`],
+ buzz:c=>["",`<path d="M74,64 q0,-30 26,-30 q26,0 26,30 q-6,-16 -26,-16 q-20,0 -26,16z" fill="${c}" opacity=".85"/>`]
+};
+function face(f={}){
+  const d=INK, b=f.brow||"soft", e=f.eyes||"dot", m=f.mouth||"smile"; let s="";
+  s+={soft:`<path d="M84,61 q6,-3 12,0 M104,61 q6,-3 12,0"`,flat:`<path d="M84,61 h12 M104,61 h12"`,down:`<path d="M84,59 l12,3 M116,59 l-12,3"`,up:`<path d="M84,59 q6,-5 12,-1 M104,58 q6,-4 12,1"`,quirk:`<path d="M84,62 h12 M104,57 q6,-4 12,0"`}[b]+` fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`;
+  s+={dot:`<circle cx="90" cy="70" r="2.8" fill="${d}"/><circle cx="110" cy="70" r="2.8" fill="${d}"/>`,
+      wide:`<circle cx="90" cy="70" r="4.2" fill="#fff"/><circle cx="110" cy="70" r="4.2" fill="#fff"/><circle cx="90.6" cy="70.4" r="2.5" fill="${d}"/><circle cx="110.6" cy="70.4" r="2.5" fill="${d}"/>`,
+      smile:`<path d="M85.5,71 q4.5,-5 9,0 M105.5,71 q4.5,-5 9,0" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      lash:`<circle cx="90" cy="70" r="2.8" fill="${d}"/><circle cx="110" cy="70" r="2.8" fill="${d}"/><path d="M85,67 l-3,-2 M115,67 l3,-2" stroke="${d}" stroke-width="1.8" stroke-linecap="round"/>`}[e];
+  s+=`<path d="M100,73 q3,5 -1,7" fill="none" stroke="#0002" stroke-width="2" stroke-linecap="round"/>`;
+  s+={smile:`<path d="M92,83 q8,6 16,0" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      soft:`<path d="M94,84 q6,3.5 12,0" fill="none" stroke="${d}" stroke-width="2.2" stroke-linecap="round"/>`,
+      flat:`<path d="M94,85 h12" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      smirk:`<path d="M93,85 q7,2 14,-3" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      grin:`<path d="M90,81 q10,13 20,0z" fill="${d}"/><path d="M93,82.5 h14" stroke="#fff" stroke-width="2.6"/>`,
+      o:`<ellipse cx="100" cy="85" rx="4" ry="5" fill="${d}"/>`}[m];
+  if(f.blush) s+=`<circle cx="82" cy="78" r="5" fill="#e8766b" opacity=".32"/><circle cx="118" cy="78" r="5" fill="#e8766b" opacity=".32"/>`;
+  return s;
+}
+function torso(o){
+  const t=o.top, sh=shade(t,.8), st=o.style||"tee"; let s="";
+  const base=c=>`<path d="M76,105 q24,-9 48,0 l6,62 q-30,9 -60,0z" fill="${c}"/>`;
+  const shadow=`<path d="M104,101 q12,0 20,4 l6,62 q-13,4 -26,5z" fill="#000" opacity=".08"/>`;
+  if(st==="dress") return `<path d="M76,105 q24,-9 48,0 l5,40 l15,58 q-44,11 -88,0 l15,-58z" fill="${t}"/><path d="M104,101 q12,0 20,4 l5,40 l15,58 q-20,5 -40,6z" fill="#000" opacity=".08"/>`+(o.belt?`<path d="M72,144 q28,7 56,0 v7 q-28,7 -56,0z" fill="${o.belt}"/>`:"");
+  if(st==="coat"){ s=base(o.inner||"#f4f1ea")+`<path d="M76,105 q10,-5 19,-5 l-3,100 h-24z" fill="${t}"/><path d="M124,105 q-10,-5 -19,-5 l3,100 h24z" fill="${t}"/><path d="M108,100 l3,100 h21 l-8,-95z" fill="#000" opacity=".08"/><path d="M95,100 l-6,24 M105,100 l6,24" stroke="${sh}" stroke-width="2.5" stroke-linecap="round"/>`; return s; }
+  s=base(st==="jacket"||st==="vest"||st==="overalls"||st==="shirt"?(o.inner||"#f4f1ea"):t);
+  if(st==="suit") s+=`<path d="M91,100 l9,26 l9,-26z" fill="#fbfaf7"/><path d="M98,104 h4 l2.5,20 l-4.5,6 l-4.5,-6z" fill="${o.tie||"#b3262e"}"/><path d="M91,100 l9,26 M109,100 l-9,26" stroke="${sh}" stroke-width="3" stroke-linecap="round"/><circle cx="100" cy="144" r="1.8" fill="${sh}"/><circle cx="100" cy="156" r="1.8" fill="${sh}"/>`;
+  if(st==="shirt") s+=`<path d="M90,100 l10,9 l10,-9 l3,8 l-13,6 l-13,-6z" fill="${shade(o.inner||"#f4f1ea",.9)}"/><path d="M98,108 h4 l3,34 l-5,7 l-5,-7z" fill="${o.tie||t}"/><path d="M100,150 v20" stroke="#0001" stroke-width="2"/>`;
+  if(st==="jacket") s+=`<path d="M76,105 q9,-5 17,-5 l-5,68 q-8,0 -18,-1z" fill="${t}"/><path d="M124,105 q-9,-5 -17,-5 l5,68 q8,0 18,-1z" fill="${t}"/><path d="M93,100 l-4,22 M107,100 l4,22" stroke="${sh}" stroke-width="2.5" stroke-linecap="round"/>`;
+  if(st==="vest") s+=`<path d="M78,105 q8,-4 14,-5 l8,30 l8,-30 q6,1 14,5 l5,62 q-27,8 -54,0z" fill="${t}"/><path d="M98,106 h4 l2,16 l-4,5 l-4,-5z" fill="${o.tie||"#8f2f25"}"/><circle cx="100" cy="142" r="1.8" fill="${sh}"/><circle cx="100" cy="154" r="1.8" fill="${sh}"/>`;
+  if(st==="overalls") s+=`<path d="M86,122 h28 l10,46 q-24,7 -48,0z" fill="${t}"/><path d="M88,122 l-5,-18 M112,122 l5,-18" stroke="${t}" stroke-width="6" stroke-linecap="round"/><circle cx="88" cy="124" r="2.4" fill="#e6c25a"/><circle cx="112" cy="124" r="2.4" fill="#e6c25a"/><rect x="92" y="132" width="16" height="12" rx="2" fill="${sh}"/>`;
+  if(st==="hoodie") s+=`<path d="M86,146 h28 l4,16 h-36z" fill="${sh}"/><path d="M95,104 v16 M105,104 v16" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".8"/>`;
+  if(st==="turtle") s+=`<rect x="88" y="91" width="24" height="15" rx="6" fill="${t}"/><path d="M88,99 h24" stroke="${sh}" stroke-width="1.5"/>`;
+  if(st==="sweater") s+=`<path d="M88,101 q12,9 24,0" fill="none" stroke="${sh}" stroke-width="4" stroke-linecap="round"/><path d="M72,160 q28,9 56,0" fill="none" stroke="${sh}" stroke-width="5"/>`;
+  if(st==="stripe") s+=`<g stroke="${o.stripe||"#fff"}" stroke-width="4" opacity=".9"><path d="M77,116 q23,-6 46,0"/><path d="M76,130 q24,-5 48,0"/><path d="M75,144 q25,-4 50,0"/><path d="M74,158 q26,-3 52,0"/></g>`;
+  if(o.graphic) s+=o.graphic;
+  return s+shadow;
+}
+function fig(o){
+  const skin=SKIN[o.skin||"a"], bottom=o.bottom||"#2f3440", shoe=o.shoes||"#22252b";
+  const la=o.la||[66,140,70,166], ra=o.ra||[134,140,130,166], ll=o.ll||[87,202,86,232], rl=o.rl||[113,202,114,232];
+  const [hb,hf]=HAIR[o.hair||"short"](o.hairCol||"#3a2a20"), short=o.sleeve==="short";
+  const long=o.style==="dress"||o.style==="coat", skirt=o.style==="dress";
+  const legs=leg(90,ll,bottom,shoe,-1,skirt?skin:null)+leg(110,rl,bottom,shoe,1,skirt?skin:null);
+  const hips=skirt?"":`<path d="M71,164 q29,9 58,0 l2,14 q-31,8 -62,0z" fill="${bottom}"/>`;
+  const armCol=o.armCol||o.top;
+  const armL=arm(79,111,la,armCol,skin,short), armR=arm(121,111,ra,armCol,skin,short);
+  return `<svg viewBox="0 0 200 250" role="img" aria-label="${o.label||""}">
+   <circle cx="100" cy="122" r="96" fill="${o.bg||"#eee"}"/>${o.back||""}
+   <ellipse cx="100" cy="${o.jump?244:240}" rx="${o.jump?34:48}" ry="6" fill="#000" opacity=".14"/>
+   ${hb}${o.behind||""}${legs}${hips}${o.armsBack?armL+armR:""}${torso(o)}${o.armsBack?"":armL+armR}
+   <rect x="93" y="88" width="14" height="18" rx="5" fill="${shade(SKIN[o.skin||"a"],.88)}"/>${o.style==="turtle"?`<rect x="88" y="91" width="24" height="15" rx="6" fill="${o.top}"/>`:""}${o.style==="hoodie"?`<path d="M80,104 q20,-14 40,0 q-20,10 -40,0z" fill="${shade(o.top,.8)}"/>`:""}
+   <circle cx="74" cy="72" r="5.5" fill="${skin}"/><circle cx="126" cy="72" r="5.5" fill="${skin}"/><circle cx="100" cy="68" r="27" fill="${skin}"/><path d="M110,42 a27,27 0 0 1 0,52 a34,34 0 0 0 0,-52z" fill="#000" opacity=".06"/>
+   ${o.beard?`<path d="M75,74 q2,26 25,26 q23,0 25,-26 q-8,14 -25,14 q-17,0 -25,-14z" fill="${o.hairCol}"/>`:""}${hf}${face(o.face)}${o.acc||""}${o.front||""}</svg>`;
+}
+/* small drawing helpers for props and backdrops */
+const star=(x,y,r,c,o=1)=>{let p="";for(let i=0;i<8;i++){const a=i*Math.PI/4,q=i%2?r*.38:r;p+=(x+q*Math.cos(a)).toFixed(1)+","+(y+q*Math.sin(a)).toFixed(1)+" ";}return `<polygon points="${p}" fill="${c}" opacity="${o}"/>`;};
+const gear=(x,y,r,c,o=1)=>{let t="";for(let i=0;i<8;i++)t+=`<rect x="${x-r*.16}" y="${y-r*1.22}" width="${r*.32}" height="${r*.5}" rx="1.5" transform="rotate(${i*45} ${x} ${y})"/>`;return `<g fill="${c}" opacity="${o}">${t}<circle cx="${x}" cy="${y}" r="${r}"/></g><circle cx="${x}" cy="${y}" r="${r*.42}" fill="#fff" opacity="${o*.7}"/>`;};
+const note=(x,y,c)=>`<g fill="${c}"><ellipse cx="${x}" cy="${y}" rx="5" ry="4" transform="rotate(-20 ${x} ${y})"/><rect x="${x+3.5}" y="${y-18}" width="2.2" height="18"/><path d="M${x+3.5},${y-18} q9,2 9,10 q-3,-5 -9,-4z"/></g>`;
+const heart=(x,y,s,c,o=1)=>`<path d="M${x},${y+s*.9} l${-s},${-s} a${s*.56},${s*.56} 0 0 1 ${s},${-s*.62} a${s*.56},${s*.56} 0 0 1 ${s},${s*.62}z" fill="${c}" opacity="${o}"/>`;
+const glasses=(sq)=>sq?`<rect x="81" y="63" width="17" height="13" rx="3" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.2"/><rect x="102" y="63" width="17" height="13" rx="3" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.2"/><path d="M98,68 h4 M81,68 l-6,-2 M119,68 l6,-2" stroke="${INK}" stroke-width="2.2"/>`:`<circle cx="90" cy="70" r="8.5" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.2"/><circle cx="110" cy="70" r="8.5" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.2"/><path d="M98.5,69 h3 M81.5,69 l-6,-2 M118.5,69 l6,-2" stroke="${INK}" stroke-width="2.2"/>`;
+
+
+/* =====================  scene kit, 400 x 210  ===================== */
+const inner=o=>fig(o).replace(/^<svg[^>]*>\s*<circle[^>]*\/>/,"").replace("</svg>","");
+const G="#e3b54a", RED="#c23a3a", INKC="#22252b";
+const S5=(x,y,r,c,o=1)=>{let p="";for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,q=i%2?r*.45:r;p+=(x+q*Math.cos(a)).toFixed(1)+","+(y+q*Math.sin(a)).toFixed(1)+" ";}return `<polygon points="${p}" fill="${c}" opacity="${o}"/>`;};
+const crown=(x,y,k=1,c=G)=>`<path d="M${x-16*k},${y} l${-3*k},${-18*k} l${9*k},${8*k} l${10*k},${-13*k} l${10*k},${13*k} l${9*k},${-8*k} l${-3*k},${18*k}z" fill="${c}" stroke="${INKC}" stroke-width="2" stroke-linejoin="round"/>`;
+const CH={
+ Y:{skin:"b",hair:"short",hairCol:"#2b2224",style:"jacket",top:"#27365e",inner:"#fbfaf7",bottom:"#3a3f4c"},
+ K:{skin:"a",hair:"side",hairCol:"#8a857a",beard:1,style:"coat",top:"#5a3d7a",inner:"#e3b54a",bottom:"#3a2f4a",acc:crown(100,46,1.15)},
+ Q:{skin:"e",hair:"bun",hairCol:"#a8442a",style:"dress",top:"#1f7a5a",belt:"#e3b54a",bottom:"#1f7a5a",shoes:"#7a4a2e",ll:[88,214,87,232],rl:[112,214,113,232]},
+ R:{skin:"c",hair:"slick",hairCol:"#1d1a1c",style:"suit",top:"#7a2630",tie:"#e3b54a",bottom:"#3a2226"},
+ M:{skin:"d",hair:"curly",hairCol:"#1d1a1c",style:"vest",top:"#c79a2e",inner:"#f4f1ea",armCol:"#f4f1ea",tie:"#7a4a2e",bottom:"#4a4036"},
+ S:{skin:"a",hair:"buzz",hairCol:"#3a332c",style:"turtle",top:"#6b7078",bottom:"#3a3f4c"},
+ F:{skin:"e",hair:"long",hairCol:"#c9a24a",style:"sweater",top:"#c2557a",bottom:"#5a3f52"},
+ O:{skin:"b",hair:"spiky",hairCol:"#e6e1d6",beard:1,style:"coat",top:"#6b4a2e",inner:"#d8cfbe",bottom:"#3a332c"}
+};
+const POSE={stand:{},hips:{la:[58,134,80,152],ra:[142,134,120,152]},point:{ra:[146,108,170,92]},open:{la:[54,128,34,114],ra:[146,128,166,114]},up:{ra:[146,104,152,74]},
+ cheer:{la:[56,100,46,68],ra:[144,100,154,68]},think:{ra:[142,136,116,100]},whisper:{ra:[140,112,122,90]},give:{ra:[146,126,168,120]},heart:{la:[66,138,95,132]},
+ stop:{ra:[146,116,162,92]},bowl:{la:[62,138,86,148],ra:[138,138,114,148]},back:{la:[70,140,84,164],ra:[130,140,116,164]},uphip:{la:[58,134,80,152],ra:[146,104,152,74]}};
+const FACE={soft:{brow:"soft",mouth:"soft"},smile:{brow:"up",mouth:"smile"},grin:{brow:"up",mouth:"grin"},smirk:{brow:"soft",mouth:"smirk"},stern:{brow:"down",mouth:"flat"},worry:{brow:"up",mouth:"flat"},
+ shock:{brow:"up",eyes:"wide",mouth:"o"},sly:{brow:"quirk",mouth:"smirk"},calm:{brow:"soft",eyes:"smile",mouth:"smile"},angry:{brow:"down",eyes:"wide",mouth:"o"},wow:{brow:"up",eyes:"wide",mouth:"grin"}};
+const WALK={ll:[84,202,74,232],rl:[116,202,126,232]};
+function P(x,ch,pose,face,o={}){const s=o.s||.74, y0=208-250*s; const spec=Object.assign({},CH[ch],POSE[pose],{face:FACE[face]},o.w?WALK:{},o.x||{});
+  if(o.f) spec.front=(spec.front||"")+o.f; if(o.b) spec.back=o.b; if(o.h) spec.behind=o.h; if(o.a) spec.acc=(spec.acc||"")+o.a;
+  return `<g transform="translate(${o.m?x+200*s:x},${y0}) scale(${o.m?-s:s},${s})"${o.o?` opacity="${o.o}"`:""}>${inner(spec)}</g>`;}
+const mini=(x,y,c,s,hc,k=1)=>`<g transform="translate(${x},${y}) scale(${k})"><path d="M-13,34 q0,-22 13,-22 q13,0 13,22z" fill="${c}"/><circle r="9.5" fill="${s}"/><path d="M-9,-2 q9,-12 18,0 q-9,-5 -18,0z" fill="${hc}"/></g>`;
+const crowd=(x,y)=>mini(x,y,"#6a7f9a","#f3cfae","#3a2a20")+mini(x+28,y+10,"#9a6a5a","#b97d54","#1d1a1c")+mini(x+56,y,"#7f8f5a","#f8dcc6","#7a4a2e");
+const bub=(x,y,w,t,c,tc,d)=>`<rect x="${x}" y="${y}" width="${w}" height="28" rx="12" fill="${c}"/><path d="M${x+(d>0?w-24:14)},${y+26} l${d*7},11 l2,-12z" fill="${c}"/><text x="${x+w/2}" y="${y+19}" font-size="13" font-weight="800" text-anchor="middle" fill="${tc}" font-family="system-ui,sans-serif">${t}</text>`;
+const scrib=(x,y,w,hh,c,d)=>`<rect x="${x}" y="${y}" width="${w}" height="${hh}" rx="14" fill="${c}"/><path d="M${x+(d>0?w-26:16)},${y+hh-2} l${d*7},12 l2,-13z" fill="${c}"/><path d="M${x+10},${y+hh/2} q6,-12 12,0 q6,12 12,0 q6,-12 12,0 q6,12 12,0${w>80?" q6,-12 12,0 q6,12 12,0":""}" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>`;
+const sword=(x,y,r,c="#cfd4da")=>`<g transform="translate(${x},${y}) rotate(${r})"><path d="M-3,-4 v-44 l3,-8 l3,8 v44z" fill="${c}" stroke="${INKC}" stroke-width="1.6"/><rect x="-11" y="-5" width="22" height="5" rx="2" fill="${G}" stroke="${INKC}" stroke-width="1.4"/><rect x="-2.5" y="0" width="5" height="12" fill="#7a4a2e"/></g>`;
+const coin=(x,y,r=8)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${G}" stroke="${INKC}" stroke-width="1.8"/><circle cx="${x}" cy="${y}" r="${r*.55}" fill="none" stroke="#b98a2e" stroke-width="1.5"/>`;
+const bag=(x,y)=>`<path d="M${x-12},${y+16} q-6,-18 6,-24 h12 q12,6 6,24z" fill="#b98a5c" stroke="${INKC}" stroke-width="2"/><path d="M${x-7},${y-8} h14" stroke="${INKC}" stroke-width="3" stroke-linecap="round"/>`+coin(x,y+6,5);
+const gift=(x,y)=>`<rect x="${x-14}" y="${y-10}" width="28" height="22" rx="2" fill="${G}" stroke="${INKC}" stroke-width="2"/><rect x="${x-3}" y="${y-10}" width="6" height="22" fill="${RED}"/><path d="M${x},${y-10} q-10,-12 -13,-3 q2,5 13,3 q10,-12 13,-3 q-2,5 -13,3z" fill="${RED}" stroke="${INKC}" stroke-width="1.4" stroke-linejoin="round"/>`;
+const flag=(x,y,c,hh=46)=>`<rect x="${x}" y="${y-hh}" width="3" height="${hh}" fill="#5a3d2a"/><path d="M${x+3},${y-hh} h26 l-6,8 l6,8 h-26z" fill="${c}" stroke="${INKC}" stroke-width="1.4" stroke-linejoin="round"/>`;
+const key=(x,y,k=1)=>`<g transform="translate(${x},${y}) scale(${k})" fill="none" stroke="${G}" stroke-width="5" stroke-linecap="round"><circle cx="0" cy="-14" r="9"/><path d="M0,-5 v30 M0,14 h9 M0,24 h7"/></g>`;
+const clock=(x,y,r)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#fbfaf7" stroke="${INKC}" stroke-width="2.5"/><path d="M${x},${y-r*.6} v${r*.6} l${r*.45},${r*.25}" fill="none" stroke="${INKC}" stroke-width="2.5" stroke-linecap="round"/>`;
+const hourglass=(x,y,k=1)=>`<g transform="translate(${x},${y}) scale(${k})"><path d="M-10,-18 h20 l-8,16 l8,16 h-20 l8,-16z" fill="#fbfaf7" stroke="${INKC}" stroke-width="2" stroke-linejoin="round"/><path d="M-5,-15 h10 l-5,10z M-7,13 h14 l-7,-9z" fill="${G}"/><path d="M-12,-18 h24 M-12,14 h24" stroke="${INKC}" stroke-width="3" stroke-linecap="round"/></g>`;
+const sheep=(x,y)=>`<g fill="#f2efe8" stroke="#b9b2a6" stroke-width="1"><circle cx="${x}" cy="${y}" r="11"/><circle cx="${x+12}" cy="${y-3}" r="10"/><circle cx="${x+22}" cy="${y+2}" r="10"/></g><ellipse cx="${x-9}" cy="${y-2}" rx="6" ry="7" fill="#3d3530"/><path d="M${x+2},${y+10} v9 M${x+18},${y+10} v9" stroke="#3d3530" stroke-width="3"/>`;
+const mask=(x,y,happy)=>`<path d="M${x-22},${y-22} q22,-10 44,0 q4,34 -22,48 q-26,-14 -22,-48z" fill="#fbfaf7" stroke="${INKC}" stroke-width="2"/><path d="M${x-13},${y-8} q5,-5 10,0 M${x+3},${y-8} q5,-5 10,0" fill="none" stroke="${INKC}" stroke-width="2.4" stroke-linecap="round"/><path d="M${x-9},${y+8} q9,${happy?10:-8} 18,0" fill="none" stroke="${RED}" stroke-width="2.6" stroke-linecap="round"/>`;
+const target=(x,y,r)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#fbfaf7" stroke="${INKC}" stroke-width="2"/><circle cx="${x}" cy="${y}" r="${r*.66}" fill="${RED}"/><circle cx="${x}" cy="${y}" r="${r*.33}" fill="#fbfaf7"/>`;
+const arrow=(x1,y1,x2,y2,c=INKC,w=3)=>{const a=Math.atan2(y2-y1,x2-x1);return `<path d="M${x1},${y1} L${x2},${y2}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/><path d="M${x2},${y2} l${(-11*Math.cos(a-.45)).toFixed(1)},${(-11*Math.sin(a-.45)).toFixed(1)} M${x2},${y2} l${(-11*Math.cos(a+.45)).toFixed(1)},${(-11*Math.sin(a+.45)).toFixed(1)}" stroke="${c}" stroke-width="${w}" stroke-linecap="round" fill="none"/>`;};
+const spot=(x,w)=>`<path d="M${x},0 l${-w},208 h${w*2}z" fill="#ffe9a8" opacity=".28"/>`;
+const rain=(x,y)=>`<g fill="#7a7f8a"><circle cx="${x}" cy="${y}" r="13"/><circle cx="${x+16}" cy="${y-7}" r="16"/><circle cx="${x+34}" cy="${y}" r="13"/><rect x="${x}" y="${y}" width="34" height="13"/></g><g stroke="#6aa0d8" stroke-width="2.5" stroke-linecap="round"><path d="M${x},${y+20} l-3,9 M${x+12},${y+22} l-3,9 M${x+24},${y+20} l-3,9 M${x+36},${y+22} l-3,9"/></g>`;
+const throne=(x,y)=>`<rect x="${x-22}" y="${y-74}" width="44" height="74" rx="6" fill="#7a2630" stroke="${INKC}" stroke-width="2"/><rect x="${x-28}" y="${y-30}" width="56" height="30" rx="4" fill="#9a3640" stroke="${INKC}" stroke-width="2"/><circle cx="${x-22}" cy="${y-76}" r="5" fill="${G}"/><circle cx="${x+22}" cy="${y-76}" r="5" fill="${G}"/>`;
+const tower=(x,y,w,hh)=>`<path d="M${x},${y} v${-hh} h${w/5} v10 h${w/5} v-10 h${w/5} v10 h${w/5} v-10 h${w/5} v${hh}z" fill="#9aa0a8" stroke="${INKC}" stroke-width="2" stroke-linejoin="round"/><g stroke="#6b7078" stroke-width="1.5"><path d="M${x},${y-hh*.33} h${w} M${x},${y-hh*.66} h${w} M${x+w/3},${y} v${-hh*.33} M${x+w*.66},${y-hh*.33} v${-hh*.33}"/></g>`;
+const glove=(x,y)=>`<circle cx="${x}" cy="${y}" r="9" fill="#fff" stroke="#b9b2a6" stroke-width="1.5"/>`;
+
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+const NIGHT="#22252b",PAPER="#efe6d2";
+const scn=(inner,bg=PAPER,gr="#d9cdb2")=>`<svg viewBox="0 0 400 210"><rect width="400" height="210" fill="${bg}"/><rect y="200" width="400" height="10" fill="${gr}"/>${inner}</svg>`;
+const dark=(x,w=400-x)=>`<rect x="${x}" width="${w}" height="210" fill="${NIGHT}"/>`+[[20,30],[60,70],[100,24],[130,96],[44,130],[150,50],[88,160]].filter(p=>p[0]<w-6).map(p=>`<circle cx="${x+p[0]}" cy="${p[1]}" r="1.6" fill="#fff" opacity=".7"/>`).join('');
+const flame=(x,y)=>`<path d="M${x},${y+26} v-22" stroke="#7a4a2e" stroke-width="5" stroke-linecap="round"/><path d="M${x},${y+6} q-12,-14 0,-32 q12,18 0,32z" fill="#f08a3c" stroke="${INKC}" stroke-width="1.5"/><path d="M${x},${y+4} q-5,-8 0,-16 q5,8 0,16z" fill="#ffe08a"/>`;
+const serpent=(x,y,k=1,c="#2f7d5a")=>`<g transform="translate(${x},${y}) scale(${k})"><path d="M0,60 q-50,-10 -30,-50 q20,-34 60,-10 q30,20 0,40 q-26,16 -34,-6" fill="none" stroke="${c}" stroke-width="16" stroke-linecap="round"/><path d="M0,60 q-50,-10 -30,-50 q20,-34 60,-10 q30,20 0,40 q-26,16 -34,-6" fill="none" stroke="#1d4a36" stroke-width="16" stroke-linecap="round" stroke-dasharray="2 12" opacity=".5"/><path d="M-14,58 l-26,-12 l4,26 z" fill="${c}" stroke="${INKC}" stroke-width="2" stroke-linejoin="round"/><circle cx="-24" cy="56" r="3" fill="#ffe08a"/><path d="M-40,52 l-12,-4 M-38,66 l-12,6" stroke="${RED}" stroke-width="2.5" stroke-linecap="round"/></g>`;
+const sprout=(x,y)=>`<path d="M${x},${y} v-22" stroke="#2f7d5a" stroke-width="4" stroke-linecap="round"/><path d="M${x},${y-16} q-16,-4 -16,-18 q16,0 16,18z M${x},${y-20} q16,-4 16,-18 q-16,0 -16,18z" fill="#4aa66f" stroke="${INKC}" stroke-width="1.5"/>`;
+const eye=(x,y,c=RED)=>`<g transform="translate(${x},${y})"><path d="M-16,0 q16,-14 32,0 q-16,14 -32,0z" fill="#fff" stroke="${c}" stroke-width="2.2"/><circle r="5.5" fill="${c}"/></g>`;
+const smoke=(x,y,up)=>`<path d="M${x},${y} q${up?-8:14},${up?-14:-6} 0,${up?-26:-10} q${up?8:22},${up?-12:6} 0,${up?-26:14}" fill="none" stroke="#9aa0a8" stroke-width="5" stroke-linecap="round" opacity=".8"/>`;
+const QD={x:{top:"#3a2f4a",bottom:"#3a2f4a",belt:"#b3262f",hairCol:"#1d1a1c"}};
+
+/* ---------- scenes ---------- */
+const S={
+ heroP:()=>scn(dark(236)+bub(292,40,44,"?","#f5f0e3","#22252b",-1)+P(60,"Y","up","stern",{w:1,f:flame(152,48)})+`<path d="M236,0 v210" stroke="${G}" stroke-width="3" stroke-dasharray="6 6"/>`+coin(330,188,9)+coin(348,192,7)),
+ heroN:()=>scn(dark(250)+bub(300,36,44,"?","#f5f0e3","#22252b",-1)+P(46,"R","back","sly",{m:1,f:mask(100,70,true)})+scrib(30,6,120,38,RED,1)+`<path d="M214,200 q20,-70 40,0z" fill="#8a8578" stroke="${INKC}" stroke-width="2"/><text x="234" y="190" font-size="16" font-weight="800" text-anchor="middle" fill="#fff" font-family="Georgia">?</text>`),
+ momP:()=>scn(P(40,"Q","give","smile",{f:sprout(170,118)})+mini(280,150,"#6a7f9a","#f3cfae","#3a2a20",1.2)+S5(230,60,7,G)+S5(300,84,5,G)+S5(206,110,4,"#fff")+sprout(330,202)+sprout(250,202),"#e8efd9","#b9cf9a"),
+ momN:()=>scn(rain(230,26)+rain(300,44)+P(40,"Q","open","stern",QD)+serpent(310,128,.8,"#3a2f4a")+`<path d="M270,20 l-10,26 h12 l-12,30" fill="none" stroke="#ffe08a" stroke-width="3.5" stroke-linejoin="round"/>`,"#4a4658","#2e2b3a"),
+ dadP:()=>scn(tower(150,206,220,104)+P(40,"K","open","calm")+mini(250,160,"#6a7f9a","#f3cfae","#3a2a20")+mini(286,166,"#9a6a5a","#b97d54","#1d1a1c")+mini(322,160,"#7f8f5a","#f8dcc6","#7a4a2e")+flag(352,104,G,30)),
+ dadN:()=>scn(throne(110,206)+P(36,"K","stop","angry")+[0,1,2,3,4].map(i=>mini(226+i*34,166+(i%2)*6,"#6b7078","#d9c2a8","#3a332c")).join('')+`<g stroke="${INKC}" stroke-width="4">${[212,246,280,314,348,382].map(x=>`<path d="M${x},96 v110"/>`).join('')}<path d="M206,96 h190"/></g>`,"#d9d3c6","#b9b2a6"),
+ dragon:()=>`<svg viewBox="0 0 400 210"><rect width="400" height="210" fill="${NIGHT}"/>${[[40,30],[90,160],[330,40],[360,150],[60,100],[300,180]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="1.8" fill="#fff" opacity=".7"/>`).join('')}<g transform="translate(200,105)"><circle r="72" fill="none" stroke="#2f7d5a" stroke-width="20"/><circle r="72" fill="none" stroke="#1d4a36" stroke-width="20" stroke-dasharray="3 13"/><path d="M-6,-86 l34,4 l-8,22 l-28,-4z" fill="#2f7d5a" stroke="#0f2a1e" stroke-width="2"/><circle cx="12" cy="-76" r="3.5" fill="#ffe08a"/><path d="M-22,-74 l18,4 l-2,-12z" fill="${NIGHT}"/>${coin(-10,6,12)}${coin(12,12,9)}${coin(0,-12,8)}</g></svg>`,
+ c1:()=>scn(`<path d="M120,198 q90,-30 200,-10" fill="none" stroke="${INKC}" stroke-width="2.5" stroke-dasharray="5 7"/>`+flag(336,196,RED,52)+P(20,"Y","point","smile",{w:1})+S5(350,120,6,G)),
+ c2:()=>scn(`<path d="M120,198 q40,-14 70,-12" fill="none" stroke="${INKC}" stroke-width="2.5" stroke-dasharray="5 7"/><path d="M196,210 l10,-40 l-8,-30 l14,-40 l-6,-40 l10,-60" fill="none" stroke="${NIGHT}" stroke-width="5"/>`+flag(346,196,"#b9b2a6",52)+bub(214,30,50,"?!",NIGHT,"#fff",-1)+P(24,"Y","stop","shock")),
+ c3:()=>scn(rain(40,24)+rain(280,34)+`<path d="M0,120 q200,120 400,0 v90 h-400z" fill="#17181c"/>`+P(128,"Y","open","worry",{s:.6})+`<path d="M60,150 l14,-30 M330,150 l-14,-30" stroke="#6b7078" stroke-width="4" stroke-linecap="round"/><g transform="rotate(50 320 176)">${flag(320,176,"#6b7078",30)}</g>`,"#3a3c46","#17181c"),
+ c4:()=>scn(dark(0)+`<circle cx="150" cy="96" r="84" fill="#ffe9a8" opacity=".16"/>`+P(40,"Y","up","soft",{f:flame(152,48)})+serpent(300,120,.7)+coin(250,190,9)+coin(268,194,7)+key(214,150,.8),NIGHT,"#17181c"),
+ c5:()=>scn(flag(60,196,"#b9b2a6",30)+flag(330,196,RED,70)+P(126,"Y","cheer","grin")+crowd(250,160)+coin(60,60,9)+S5(100,40,6,G)+S5(300,50,7,G)+`<path d="M40,198 q150,-40 300,-4" fill="none" stroke="${INKC}" stroke-width="2.5" stroke-dasharray="5 7"/>`),
+ marduk:()=>scn(dark(210)+P(30,"Y","up","stern",{x:{style:"coat",top:"#2f4f7a",inner:"#e3b54a",acc:crown(100,46,1)},f:sword(152,74,10)})+serpent(310,110,.95)),
+ osiris:()=>scn(throne(96,206)+P(22,"K","stand","calm",{x:{face:{brow:"soft",eyes:"closed",mouth:"flat"}}})+P(150,"R","whisper","sly",{s:.6,m:1})+P(268,"Y","up","stern",{s:.56,m:1,f:eye(152,56)})),
+ buddha:()=>scn(tower(0,206,150,120)+`<path d="M150,198 h240" stroke="${INKC}" stroke-width="2" stroke-dasharray="4 6"/>`+P(120,"Y","stand","worry",{w:1,s:.66,x:{style:"coat",top:"#c9972e",inner:"#fbfaf7"}})+P(262,"O","back","worry",{m:1,s:.62,x:{la:[62,138,70,170]},f:`<path d="M70,170 v60" stroke="#7a4a2e" stroke-width="5" stroke-linecap="round"/>`})),
+ cain:()=>scn(`<rect x="80" y="170" width="50" height="30" fill="#9aa0a8" stroke="${INKC}" stroke-width="2"/><rect x="270" y="170" width="50" height="30" fill="#9aa0a8" stroke="${INKC}" stroke-width="2"/>`+smoke(105,166,true)+smoke(295,166,false)+P(-30,"M","up","smile",{s:.66})+P(262,"R","hips","angry",{s:.66,m:1})+S5(105,60,6,G)),
+ alch:()=>scn(P(30,"O","up","smile",{f:`<circle cx="152" cy="50" r="30" fill="${G}" opacity=".25"/><path d="M146,30 h12 v12 l12,22 q2,8 -8,8 h-20 q-10,0 -8,-8 l12,-22z" fill="#bfe3ef" stroke="${INKC}" stroke-width="2" stroke-linejoin="round"/><path d="M140,58 h24 l4,8 q0,4 -6,4 h-20 q-6,0 -6,-4z" fill="${G}"/>`})+`<path d="M230,196 q20,-40 40,0z" fill="#3a3c46" stroke="${INKC}" stroke-width="2"/>`+arrow(280,170,318,150,INKC,2.5)+coin(344,140,16)+S5(344,104,6,G)+S5(372,128,4,G)),
+ dec:()=>scn(P(110,"F","back","smirk",{x:{ll:[80,206,60,226],rl:[120,206,140,226]}})+`<g transform="rotate(64 300 190)">${flag(300,190,"#b9b2a6",40)}</g><g stroke="#9aa0a8" stroke-width="3" stroke-linecap="round"><path d="M40,196 l16,-8 M70,200 l10,-14 M330,198 l18,-4 M250,196 l-12,-10"/></g>`+bub(250,30,64,"meh","#6b7078","#fff",-1)+dark(330,70),"#e9e3d6","#cfc8b6")
+};
+
+/* ---------- world diagram ---------- */
+const W=[
+{x:118,y:150,t:"The Known: explored territory",h:`<p><b>In plain words.</b> Everything you already know how to handle: your routines, your skills, your culture's rules, the house with the lights on. Here, what you do produces what you expect.</p><p><b>In myth.</b> The walled city, the kingdom, the father, the wise king. Also the tyrant, because walls that protect can also imprison.</p><p><b>What it feels like.</b> Calm, or boredom. Your attention is free because nothing demands it.</p>`},
+{x:286,y:150,t:"The Unknown: unexplored territory",h:`<p><b>In plain words.</b> Whatever you have not mapped: the stranger, the diagnosis, the failed exam, the idea that contradicts you. Here, what you do produces something you did not expect.</p><p><b>In myth.</b> The sea, the forest, the night, the underworld, the mother who gives life and takes it back. Both the monster and the treasure it guards.</p><p><b>What it feels like.</b> Fear and curiosity at the same instant. Peterson leans on brain research into the "orienting reflex": novelty first freezes you, then draws you in.</p>`},
+{x:246,y:196,t:"The Knower: the one who explores",h:`<p><b>In plain words.</b> You, or more exactly the part of you that goes to the edge of what you know, looks, and comes back changed. Consciousness as an activity.</p><p><b>In myth.</b> The hero, the son of the great parents, the one who leaves the city, kills the dragon, and returns with something the city needs.</p><p><b>The point.</b> The hero does not live in order or in chaos. The hero walks the line between them. Peterson's claim is that this, more than any fixed set of beliefs, is what is worth identifying with.</p>`},
+{x:252,y:36,t:"The Dragon of Chaos",h:`<p><b>In plain words.</b> What everything is before anyone has sorted it into known and unknown, safe and dangerous. Raw potential.</p><p><b>In myth.</b> The serpent biting its own tail, the watery abyss before creation, the dragon sitting on gold. Creation stories often begin with a god cutting such a creature in two to make the world.</p><p><b>Why a snake with treasure.</b> It is Peterson's favourite compression: the thing you are most afraid to look at is where the most valuable information is.</p>`}
+];
+$('#world').innerHTML=`<svg viewBox="0 0 400 300" role="img" aria-label="The known, the unknown, the knower and the dragon of chaos">
+<rect width="400" height="300" fill="#e9dfc8"/>
+<g transform="translate(200,158)"><circle r="130" fill="none" stroke="#2f7d5a" stroke-width="16"/><circle r="130" fill="none" stroke="#1d4a36" stroke-width="16" stroke-dasharray="3 12"/>
+<path d="M-8,-146 l34,4 l-8,22 l-30,-4z" fill="#2f7d5a" stroke="#0f2a1e" stroke-width="2"/><circle cx="10" cy="-136" r="3.5" fill="#ffe08a"/>
+<circle r="112" fill="#fffaf0"/><path d="M0,-112 a112,112 0 0 1 0,224 a56,56 0 0 1 0,-112 a56,56 0 0 0 0,-112z" fill="${NIGHT}"/><circle r="112" fill="none" stroke="${INKC}" stroke-width="3"/>
+<g fill="none" stroke="#b9ad92" stroke-width="1.2">${[-80,-60,-40].map(x=>`<path d="M${x},-60 v120"/>`).join('')}${[-40,-10,20,50].map(y=>`<path d="M-100,${y} h70"/>`).join('')}</g>
+<g transform="translate(-92,6) scale(.36)">${tower(0,100,120,90)}</g>
+${[[60,-50],[84,10],[50,60],[30,-84],[96,-30],[70,84]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="1.8" fill="#fff"/>`).join('')}
+<path d="M40,30 q10,-8 20,0 t20,0 M36,44 q10,-8 20,0 t20,0" fill="none" stroke="#6aa0d8" stroke-width="2.5" stroke-linecap="round"/>
+<text x="-66" y="-66" font-family="Georgia" font-size="13" font-style="italic" fill="#5a5448" text-anchor="middle">order</text><text x="64" y="-62" font-family="Georgia" font-size="13" font-style="italic" fill="#cfc8b6" text-anchor="middle">chaos</text>
+</g>
+<g transform="translate(162,84) scale(.42)">${inner(Object.assign({},CH.Y,POSE.up,WALK,{face:FACE.stern,front:flame(152,48)}))}</g>
+${W.map((d,i)=>`<g class="hs" data-i="${i}" tabindex="0" role="button" aria-label="${d.t}"><circle class="r" cx="${d.x}" cy="${d.y}" r="9"/><circle class="d" cx="${d.x}" cy="${d.y}" r="12"/><text x="${d.x}" y="${d.y+4.5}">${i+1}</text></g>`).join('')}</svg>`;
+W.forEach(d=>d.h=`<p style="margin-top:0;color:var(--mut)">One of the four permanent parts of experience.</p>`+d.h);
+$$('#world .hs').forEach(g=>{const go=()=>{g.classList.add('seen');sheet(W,+g.dataset.i);$('#whint').textContent=$$('#world .hs.seen').length+' of 4 read'};g.onclick=go;g.onkeydown=e=>{if(e.key=='Enter'||e.key==' '){e.preventDefault();go()}}});
+
+/* ---------- sheet ---------- */
+let SL=[],SI=0,lastF=null;
+function sheet(list,i){SL=list;SI=i;const d=list[i];if(!$('#sheet').classList.contains('on'))lastF=document.activeElement;
+ $('#st').textContent=d.t;$('#sb').innerHTML=d.h;$('#sb').scrollTop=0;$('#sheet').classList.add('on');$('#veil').classList.add('on');$('.sft').style.display=list.length>1?'grid':'none';if(d.on)d.on();$('#sx').focus({preventScroll:true})}
+function closeS(){$('#sheet').classList.remove('on');$('#veil').classList.remove('on');if(lastF)lastF.focus({preventScroll:true})}
+$('#sx').onclick=closeS;$('#veil').onclick=closeS;$('#prev').onclick=()=>sheet(SL,(SI-1+SL.length)%SL.length);$('#next').onclick=()=>sheet(SL,(SI+1)%SL.length);
+document.addEventListener('keydown',e=>{if(!$('#sheet').classList.contains('on'))return;if(e.key=='Escape')closeS();if(e.key=='ArrowRight')$('#next').click();if(e.key=='ArrowLeft')$('#prev').click()});
+
+/* ---------- cast ---------- */
+const CAST=[
+ {t:"The Unknown",sub:"The Great Mother",a:"momP",b:"momN",an:"Creative",bn:"Destructive",
+  ap:`<p><b>The source of everything new.</b> Every skill you have, every friend, every good idea was once unknown to you. Nature that feeds, the surprise that turns out well, the opportunity hidden in a problem.</p><p><b>In life.</b> The job offer in a city you have never seen. A conversation with someone unlike you. The first day of anything.</p>`,
+  bp:`<p><b>The source of everything that destroys.</b> Illness, accident, betrayal, the flood. The same nature, taking back what it gave. Myths show this face as the devouring goddess or the monster in the deep.</p><p><b>In life.</b> The phone call at three in the morning. Also the smothering kind of care that keeps a child from ever leaving, which Peterson treats as the unknown refusing to let the hero be born.</p>`},
+ {t:"The Known",sub:"The Great Father",a:"dadP",b:"dadN",an:"Protective",bn:"Tyrannical",
+  ap:`<p><b>Culture as shelter.</b> Language, law, craft, manners, institutions: the accumulated answers of the dead. You did not have to invent fire or fairness. Walls keep the chaos out so you can sleep.</p><p><b>In life.</b> A good teacher's discipline. A profession's standards. The routine that carries you on a bad day.</p>`,
+  bp:`<p><b>Culture as prison.</b> Rules that outlived their reasons, authority that punishes questions, tradition that crushes the new. The old king who has gone blind and will not step down.</p><p><b>In life.</b> "We have always done it this way." At the extreme, the totalitarian state that claims to have explained everything already.</p>`},
+ {t:"The Knower",sub:"The Hero and the Adversary",a:"heroP",b:"heroN",an:"The hero",bn:"The adversary",
+  ap:`<p><b>Goes toward what frightens him.</b> Admits the map is wrong, steps into the dark on purpose, learns, and brings it home. In doing so he renews the father's kingdom and makes use of the mother's gifts.</p><p><b>In life.</b> Saying "I was wrong." Having the difficult conversation. Reading the argument against your own position.</p>`,
+  bp:`<p><b>Refuses to look.</b> The hero's hostile brother. He meets the same anomaly and denies it, hides it, or blames someone. He lies to protect the old map, and the lie has to grow to cover each new crack.</p><p><b>In life.</b> The excuse. The cover-up. Resentment at a world that failed to match your theory. Peterson sees pride behind it: the claim that what I already know is all there is to know.</p>`},
+ {t:"The Dragon of Chaos",sub:"What comes before",a:"dragon",b:"dragon",an:"Treasure",bn:"Terror",
+  ap:`<p><b>Pure potential.</b> The hoard. Before you have investigated something it could turn out to be anything, including exactly what you need. Myths put gold, a captive, or the water of life behind the dragon.</p>`,
+  bp:`<p><b>Pure threat.</b> Before you have investigated something it could also be anything bad. This is why the unexamined problem at the back of your mind feels so much larger than the examined one. It still contains every possibility.</p>`}
+];
+CAST.forEach((c,i)=>{c.h=`<div class="scene" id="cs"></div><div class="tog"><button data-f="a" class="on">${c.an}</button><button data-f="b" class="dark">${c.bn}</button></div><div id="cb"></div>`;
+ c.on=()=>{const set=f=>{$('#cs').innerHTML=S[c[f]]();$('#cb').innerHTML=c[f+'p'];$$('.tog button').forEach(b=>b.classList.toggle('on',b.dataset.f==f))};$$('.tog button').forEach(b=>b.onclick=()=>set(b.dataset.f));set('a')};
+ const b=el('button','card',`<div class="scene">${S[c.a]()}</div><h3>${c.t}</h3><small>${c.sub}<br>${c.an} / ${c.bn}</small>`);b.onclick=()=>sheet(CAST,i);$('#castgrid').appendChild(b)});
+
+/* ---------- cycle ---------- */
+const CY=[
+ ["The map works","c1",`You have a story: where you are, where you want to be, how to get there. While it works, the world shrinks to what matters for the goal. Things that help feel good, things in the way feel bad, everything else is invisible. This is "paradise" in the mythic sense: not bliss, just predictability.`],
+ ["Something unexpected","c2",`An outcome you did not predict. The plan fails, a belief is contradicted, someone behaves in a way your picture of them cannot explain. Peterson calls it anomaly. Your body reacts before you think: attention snaps to it, heart rate rises. The size of the reaction tracks how much of your map is now in doubt.`],
+ ["Descent","c3",`If the anomaly is big enough, the story itself fails. A betrayal does not only hurt; it makes you unsure of your past, your judgement and your future all at once. Things you had filed away as settled become question marks again. Myths call this the underworld, the belly of the whale, the flood.`],
+ ["Exploration","c4",`The only way out is through. You investigate what went wrong, carefully, in pieces, with attention. This is frightening and also interesting, which is the nervous system telling you that information is here. In myth the hero fights the dragon and finds what it was guarding.`],
+ ["A better map","c5",`You come back with a story that accounts for what the old one could not. It is usually more complex and more humble. In the full version, the hero shares it, so the whole community's map improves. Then the cycle waits to run again, because no map is final.`]
+];
+let ci=0;
+$('#curve').innerHTML=`<svg viewBox="0 0 400 110"><path d="M20,26 H110 C150,26 150,90 200,90 C250,90 250,18 290,18 H380" fill="none" stroke="${INKC}" stroke-width="3"/><g font-family="Georgia" font-size="11" font-style="italic" fill="#6d6a62"><text x="24" y="16">order</text><text x="178" y="106">chaos</text><text x="322" y="12">new order</text></g>${[[60,26],[122,34],[200,90],[262,44],[340,18]].map((p,i)=>`<circle id="cd${i}" cx="${p[0]}" cy="${p[1]}" r="8" fill="#fff" stroke="${INKC}" stroke-width="2.5"/>`).join('')}</svg>`;
+function drawCy(){const d=$('#dots');d.innerHTML='';CY.forEach((c,i)=>{const b=el('button',i==ci?'on':'');b.textContent=i+1;b.setAttribute('aria-label',c[0]);b.onclick=()=>{ci=i;drawCy()};d.appendChild(b);$('#cd'+i).setAttribute('fill',i==ci?'#b3262f':'#fff')});
+ $('#cyscene').innerHTML=S[CY[ci][1]]();$('#cyt').textContent=(ci+1)+'. '+CY[ci][0];$('#cyp').textContent=CY[ci][2]}
+$('#cyprev').onclick=()=>{ci=(ci+4)%5;drawCy()};$('#cynext').onclick=()=>{ci=(ci+1)%5;drawCy()};drawCy();
+
+/* ---------- chapters ---------- */
+const CH_=[
+ ["P","Preface: Descent into Hell","How the book began",`<p>A personal account. As a young man Peterson lost his childhood faith, tried socialist politics, and found he no longer believed the things he heard himself say. He began to feel physically weak when he spoke falsely. He had violent dreams about nuclear war.</p><p>His question formed there: why do belief systems matter so much to people that they will kill and die to protect them? His first clue came from Carl Jung: beliefs are not just opinions about facts. They regulate emotion. Threaten the belief and you release the terror it was holding back.</p>`],
+ ["1","Maps of Experience","Object and meaning",`<p>There are two ways to see the world. As a <b>place of things</b>, described by science. And as a <b>forum for action</b>, described by story, where everything shows up already marked as useful, dangerous or irrelevant.</p><ul><li>Before modern science, people did not separate the two. A myth about the sun was about what the sun means, not what it is made of.</li><li>We now trust the scientific picture and have lost confidence in the other, but we still have to act, and facts alone do not say how.</li><li>So the old stories deserve to be read as accumulated knowledge about action and value.</li></ul>`],
+ ["2","Maps of Meaning","Three levels of analysis",`<p>The longest chapter and the core of the theory. Peterson describes the same structure three ways.</p><ul><li><b>The story.</b> Every plan has a present, a wanted future, and a path. Emotion is the read-out: positive when you advance, negative when you are blocked.</li><li><b>The brain.</b> Drawing on research into novelty and attention, he argues that the unexpected is processed first as emotion and movement, only later as a named thing. He links careful exploration to one side of the brain and settled routine to the other.</li><li><b>The myth.</b> The known, the unknown and the knower appear worldwide as father, mother and son. He walks through the Babylonian creation epic and the Egyptian story of Osiris and Horus as worked examples.</li></ul>`],
+ ["3","Apprenticeship and Enculturation","Adopting a shared map",`<p>Before you can be a hero you have to be an apprentice. A child cannot face the unknown alone, so a group's map is installed first: its language, discipline and loyalties.</p><ul><li>Submitting to a tradition is not the opposite of freedom. It is how you acquire the tools freedom needs.</li><li>But the group is a stage, not the destination. Someone who never grows past it mistakes their tribe's map for the world.</li><li>Maturity is a third step: being able to stand at the edge of the group's knowledge and add to it.</li></ul>`],
+ ["4","The Appearance of Anomaly","Challenge to the shared map",`<p>What threatens a culture's map? Peterson lists four forms, in rising order of danger.</p><ul><li><b>The strange.</b> A natural event the map cannot explain: plague, famine, an eclipse.</li><li><b>The stranger.</b> A person from elsewhere who lives by other rules and seems fine.</li><li><b>The strange idea.</b> A thought that undermines the assumptions everything else rests on.</li><li><b>The revolutionary hero.</b> One of your own who sees the flaw and says so. The most threatening, and the one a healthy culture most needs.</li></ul><p>He adds a fifth, private one: awareness of our own death, the anomaly no map removes. The story of Eden and the story of the young Buddha leaving his sheltered palace are both read as accounts of that discovery.</p>`],
+ ["5","The Hostile Brothers","Two responses to the unknown",`<p>The moral centre of the book. Faced with anomaly, a person takes one of two paths, pictured in myth as brothers.</p><ul><li><b>The adversary</b> denies. From denial come the lie, then resentment, then cruelty. Peterson follows this into the twentieth century through the prison-camp writings of Solzhenitsyn and others, arguing that the great tyrannies were held up by millions of small personal lies.</li><li><b>The hero</b> faces it. Here Peterson turns to Christ as the Western picture of someone who accepts suffering and tells the truth regardless, and then to medieval alchemy.</li><li>Following Jung, he reads the alchemists' search to turn base matter into gold as an unconscious account of this process: go into what is rejected and despised, and find the valuable thing there.</li></ul>`],
+ ["C","Conclusion: The Divinity of Interest","What to do",`<p>The practical answer is short. Meaning is not something you invent. It is a signal, felt as interest, that you are on the border where what you know meets what you do not.</p><ul><li>Follow what truly interests you, and tell the truth while you do.</li><li>Do not pretend not to know what you know. Do not hide from what you have noticed.</li><li>The individual who lives this way does more against tyranny than any ideology, because lies need participants.</li></ul>`]
+];
+CH_.forEach(c=>{const d=el('div','acc',`<button><span class="no">${c[0]}</span><span><h3>${c[1]}</h3><small>${c[2]}</small></span><span class="pm">+</span></button><div class="body">${c[3]}</div>`);d.querySelector('button').onclick=()=>d.classList.toggle('open');$('#chlist').appendChild(d)});
+
+/* ---------- myths ---------- */
+const MY=[
+ ["Marduk and Tiamat","Babylon","marduk",`<p><b>The story.</b> The older gods are threatened by Tiamat, the sea-dragon mother of all. None can face her. Young Marduk, who has eyes all around his head and speaks words of power, agrees to fight if he is made king. He cuts her in two and builds the sky and the earth from the halves.</p><p><b>Peterson's reading.</b> Sight and speech defeat chaos: attention and language turn the unknown into a habitable world. And the gods elect this capacity as their ruler. Whatever else a society values, it should put the ability to confront the unknown at the top.</p>`],
+ ["Osiris, Set and Horus","Egypt","osiris",`<p><b>The story.</b> Osiris, the great founding king, is old and does not see the malice of his brother Set, who kills him and scatters his body. Isis gathers the pieces and bears a son, Horus. Horus fights Set and loses an eye. He wins, but instead of taking the throne alone he goes to the underworld and gives the eye to his dead father, restoring his sight.</p><p><b>Peterson's reading.</b> Tradition is wise and wilfully blind. Evil thrives on that blindness. The young must not discard the old order; they must revive it with what they have learned by looking. The best ruler is tradition and vision joined.</p>`],
+ ["The Buddha leaves the palace","India","buddha",`<p><b>The story.</b> A prince is raised inside walls where nothing old, sick or dead is allowed. Curious, he rides out and sees an old man, a sick man and a corpse. Unable to go back to comfort, he leaves to find an answer.</p><p><b>Peterson's reading.</b> A parable of growing up. Every sheltered world ends when its occupant meets the fact of suffering. The palace cannot be rebuilt. The only way is forward, toward a view that can include what he saw.</p>`],
+ ["Cain and Abel","Genesis","cain",`<p><b>The story.</b> Two brothers make offerings. One is accepted and one is not. The rejected brother, instead of asking what he should change, kills the favoured one.</p><p><b>Peterson's reading.</b> The first picture of the hostile brothers. Life has disappointed Cain and he decides the fault lies with existence itself. Resentment turns to revenge against what is good precisely because it is good.</p>`],
+ ["The alchemist's gold","Medieval Europe","alch",`<p><b>The story.</b> Alchemists believed the cure for all things was hidden in the most worthless material, and that long, patient work could release it.</p><p><b>Peterson's reading.</b> Taken from Jung: the chemistry was wrong but the psychology was right. What you avoid and despise is where you have not yet looked, so it is where the missing information is. The alchemists also treated matter as worth studying, which he suggests helped prepare the ground for science.</p>`]
+].map(m=>({t:m[0],h:`<div class="scene">${S[m[2]]()}</div><p style="color:var(--mut);margin:6px 0 0">${m[1]}</p>${m[3]}`,m}));
+MY.forEach((d,i)=>{const b=el('button','card',`<div class="scene">${S[d.m[2]]()}</div><h3>${d.t}</h3><small>${d.m[1]}</small>`);b.onclick=()=>sheet(MY,i);$('#mythgrid').appendChild(b)});
+
+/* ---------- failure slider ---------- */
+const F=[
+ [0,22,"dadN","The fascist","Clings to the known. Treats the group's map as complete and anything outside it as an enemy. Gains certainty and belonging, and pays with his own judgement. He avoids chaos by letting someone else think for him. At scale this builds the totalitarian state, which claims that nothing unexplained remains."],
+ [22,40,"dadP","Leaning on order","Disciplined, loyal, useful. This is the apprentice stage, and it is necessary. The danger is staying here forever and starting to resent anyone who questions the walls."],
+ [40,60,"heroP","The border","One foot in what you know, one foot in what you do not. Secure enough to act, open enough to learn. Peterson's claim is that meaning is felt most strongly here, and that this is no accident: it is the nervous system's signal for the right amount of challenge."],
+ [60,78,"c4","Leaning on chaos","Curious, experimental, willing to question. Also necessary. The danger is tearing down every structure before you have built anything to stand on."],
+ [78,101,"dec","The decadent","Rejects the known. Sees through every tradition and commits to none. It looks like sophistication and works as avoidance, because discipline is hard and responsibility is heavy. With no map there is nothing to aim at, and the result is drift and nihilism. Peterson notes that the decadent's collapse often invites the fascist's rise."]
+];
+function drawF(){const v=+$('#fs').value,f=F.find(x=>v>=x[0]&&v<x[1]);$('#fscene').innerHTML=S[f[2]]();$('#ft').textContent=f[3];$('#fp').textContent=f[4]}
+$('#fs').oninput=drawF;drawF();
+
+/* ---------- vocabulary ---------- */
+const WD=[
+ ["Anomaly","Anything your current map did not predict. Small ones are irritations. Large ones are crises."],
+ ["Archetype","A character or situation that turns up in stories everywhere because the problem it pictures is everywhere. The term is Jung's."],
+ ["Explored territory","The situations where you know what to do and it works. Not a place; a relationship between you and a place."],
+ ["Forum for action","The world seen as a stage for doing things, where objects come with their meanings attached. Contrasted with the world as a set of things to measure."],
+ ["Logos","Borrowed from Greek and Christian thought: truthful speech and conscious attention, taken as the force that makes order out of chaos."],
+ ["Meaning","For Peterson, a felt signal and not an opinion. It appears when you are properly placed between security and challenge."],
+ ["Orienting reflex","The automatic stop-and-look response to anything unexpected. Studied by Russian physiologists and central to his brain chapter."],
+ ["The lie","Acting or speaking against what you know to be so, in order to avoid a painful update. The book's definition of the root of evil."],
+ ["Uroboros","The snake eating its tail. A symbol of the undivided whole before it is separated into known and unknown."],
+ ["Revolutionary story","A narrative that does not just find a new route to the goal but changes the goal. The pattern of every conversion, breakdown and breakthrough."]
+];
+let wi=0;function drawW(){const c=$('#wchips');c.innerHTML='';WD.forEach((w,i)=>{const b=el('button','chip'+(i==wi?' on':''));b.textContent=w[0];b.onclick=()=>{wi=i;drawW()};c.appendChild(b)});$('#wdef').innerHTML=`<h3 style="font-size:18px">${WD[wi][0]}</h3><p style="margin:6px 0 0">${WD[wi][1]}</p>`}drawW();
+
+/* ---------- use ---------- */
+[
+ ["What is my current story?","Write three lines: where I am, where I am trying to get, what I am doing about it. If you cannot write the second line, that is the finding."],
+ ["What am I pretending not to know?","The thing you avoid opening: the bank statement, the symptom, the conversation. In the book's terms that is your dragon, and it grows while unexamined."],
+ ["Is this a detour or a broken map?","When something fails, ask whether the route was wrong or the destination. Much suffering comes from redrawing the whole map over a detour, or from treating a broken map as a detour for years."],
+ ["Which side am I leaning on?","Too much routine and you are bored and brittle. Too much novelty and you are anxious and scattered. Adjust toward the border."],
+ ["What did I say today that I did not believe?","Peterson's own starting practice. Notice it without drama. Then say a little less of it tomorrow."],
+ ["What interests me, really?","Not what should. What does. Treat that as information about where your next piece of unexplored territory is."]
+].forEach((u,i)=>{const d=el('div','acc',`<button><span class="no">${i+1}</span><span><h3>${u[0]}</h3></span><span class="pm">+</span></button><div class="body"><p>${u[1]}</p></div>`);d.querySelector('button').onclick=()=>d.classList.toggle('open');$('#uselist').appendChild(d)});
+
+/* ---------- critique ---------- */
+[
+ ["b","Strength","A serious attempt to join fields","Few books try to connect brain science, comparative religion, literature and political history in one framework. Readers who finish it often say it changed how they read stories."],
+ ["b","Strength","The account of belief and emotion","The idea that a worldview works as an anxiety regulator, and that threats to it feel like physical danger, fits a good deal of later psychology on threat and uncertainty."],
+ ["b","Strength","The moral seriousness about lying","Tying large-scale atrocity to ordinary self-deception gives the reader something to do about it."],
+ ["r","Objection","It cannot be tested","Critics say archetypal readings are too flexible. If any story can be read as known, unknown and knower, the scheme explains everything and predicts nothing. Jung's ideas have little standing in academic psychology for this reason."],
+ ["r","Objection","The myths are cherry-picked","Scholars of religion object that he reads Babylonian, Egyptian, Buddhist and Christian material through one lens and passes over what does not fit, a complaint also made against Joseph Campbell."],
+ ["r","Objection","Chaos as feminine, order as masculine","He presents this as what the myths say and as symbolism, not a claim about men and women. Critics reply that building a theory of meaning on it carries old assumptions along, and that plenty of traditions do not divide things this way."],
+ ["r","Objection","The neuroscience has aged","The tidy split between a brain half for novelty and one for routine is far simpler than current evidence supports."],
+ ["r","Objection","The prose","Long, abstract and repetitive, by the author's own later admission. Many readers get more from his lectures on the same material."],
+ ["g","Dispute","Does it smuggle in religion?","Some secular critics see a defence of Christianity dressed as psychology. Some religious critics see the opposite: faith reduced to useful psychology. Peterson says he is describing what the stories do, and leaves the metaphysics open."]
+].forEach(c=>{const d=el('div','acc',`<button><span class="tag ${c[0]=='b'?'':c[0]}">${c[1]}</span><span><h3>${c[2]}</h3></span><span class="pm">+</span></button><div class="body"><p>${c[3]}</p></div>`);d.querySelector('button').onclick=()=>d.classList.toggle('open');$('#critlist').appendChild(d)});
+</script></body></html>

@@ -11,8 +11,8 @@
     "Power",
     "Strategy"
    ],
-   "blurb": "Robert Greene's 48 laws laid out on a chessboard, one square each and sorted into six themes. Open any law for the idea, the book's example and what is worth remembering.",
-   "source": "48-laws-of-power-guide.html",
+   "blurb": "Robert Greene's 48 laws, each with its own illustrated scene. Jump to any law from the board, then open it for the idea, the story the book tells, how it is meant to work, when it reverses and what it costs.",
+   "source": "The 48 Laws of Power Illustrated.html",
    "added": "2026-11-13",
    "cover": {
     "bg": "#2f5d50",
@@ -258,6 +258,58 @@
     "accent": "var(--a)"
    },
    "emblem": "<circle cx=\"11\" cy=\"11\" r=\"3.2\"/><circle cx=\"24\" cy=\"11\" r=\"3.2\"/><circle cx=\"37\" cy=\"11\" r=\"3.2\"/><circle cx=\"11\" cy=\"24\" r=\"3.2\"/><circle cx=\"24\" cy=\"24\" r=\"3.2\" fill=\"currentColor\"/><circle cx=\"37\" cy=\"24\" r=\"3.2\"/><circle cx=\"11\" cy=\"37\" r=\"3.2\"/><circle cx=\"24\" cy=\"37\" r=\"3.2\"/><circle cx=\"37\" cy=\"37\" r=\"3.2\"/>",
+   "section": "books"
+  },
+  {
+   "id": "maps-of-meaning",
+   "no": 11,
+   "title": "Maps of Meaning",
+   "author": "Jordan B. Peterson",
+   "year": 1999,
+   "kind": "Guide",
+   "tags": [
+    "Psychology",
+    "Mythology"
+   ],
+   "blurb": "Peterson's dense first book made walkable: why people need stories, the map of the known and the unknown, the cast of mythic characters, and what happens when a story breaks. With chapters, vocabulary and objections.",
+   "source": "Maps of Meaning_ an illustrated guide.html",
+   "added": "2026-11-18",
+   "cover": {
+    "bg": "#2f4f7a",
+    "fg": "#f5f0e3",
+    "line": "#e0b450"
+   },
+   "bar": {
+    "bg": "var(--bg)",
+    "accent": "var(--gold)"
+   },
+   "emblem": "<circle cx=\"24\" cy=\"24\" r=\"17\"/><path d=\"M24 11l4.2 13L24 37l-4.2-13z\"/><path d=\"M11 24h3.5M33.500 24H37\"/>",
+   "section": "books"
+  },
+  {
+   "id": "art-of-thinking-clearly",
+   "no": 12,
+   "title": "The Art of Thinking Clearly",
+   "author": "Rolf Dobelli",
+   "year": 2013,
+   "kind": "Guide",
+   "tags": [
+    "Psychology",
+    "Thinking"
+   ],
+   "blurb": "Dobelli's 99 thinking errors sorted into seven families, each with a plain definition, an everyday example and one thing to do about it. Includes a test-yourself round, his method and the objections.",
+   "source": "The Art of Thinking Clearly_ 99 thinking errors.html",
+   "added": "2026-11-18",
+   "cover": {
+    "bg": "#f7f6f2",
+    "fg": "#1b1d22",
+    "line": "#e0452b"
+   },
+   "bar": {
+    "bg": "var(--bg)",
+    "accent": "var(--acc)"
+   },
+   "emblem": "<path d=\"M17.500 30.500a11.500 11.500 0 1 1 13 0c-1.200 1-1.800 2.200-1.800 3.500h-9.400c0-1.300-.6-2.500-1.800-3.500z\"/><path d=\"M19.500 38.500h9M21.500 42.500h5\"/>",
    "section": "books"
   },
   {

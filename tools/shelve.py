@@ -40,7 +40,7 @@ STORE_KEY = "library.v1"
 # The mark: an S that is also a bookcase, books standing on its two shelves. 24 x 24, drawn in currentColor.
 MARK = ('<path d="M5 2H22V4.6H4.6V10.7H19a3 3 0 0 1 3 3V19a3 3 0 0 1-3 3H2V19.4H19.4V13.3H5a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3z"/>'
         '<path d="M6 6h2.2v5H6zM9.3 7h2v4h-2zM12.9 11.2L11.8 6.9l1.95-.5 1.1 4.3zM15.8 14.7h2.2v5h-2.2zM12.7 15.7h2v4h-2zM11.1 19.9l1.1-4.3-1.95-.5-1.1 4.3z"/>')
-ACCENT_VARS = ["--a", "--accent", "--gold", "--red", "--rose", "--seal", "--l1", "--now", "--ww1"]
+ACCENT_VARS = ["--a", "--accent", "--acc", "--gold", "--red", "--rose", "--seal", "--l1", "--now", "--ww1"]
 
 
 # ---------------------------------------------------------------------------------------------------------------
@@ -224,7 +224,10 @@ def favicon(bg: str, fg: str) -> str:
 
 def frame(src: str, e: dict, prev, nxt, total: int) -> str:
     body = body_rule(src)
-    sticky = "hidden" not in (body.get("overflow", "") + body.get("overflow-y", ""))
+    # A page that scrolls gets the bar stuck to the top, unless it already sticks a menu of its own there: then the
+    # bar stays at the top of the page and scrolls away, so the two never sit on top of each other.
+    own_sticky = re.search(r"position\s*:\s*sticky\s*;\s*top\s*:\s*0", src)
+    sticky = "hidden" not in (body.get("overflow", "") + body.get("overflow-y", "")) and not own_sticky
     c = e["cover"]
     head = ("<!-- library:head -->\n"
             f'<link rel="icon" href="{html.escape(favicon(c["bg"], c["line"]))}">\n'

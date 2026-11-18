@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Art of Thinking Clearly: 99 thinking errors</title>
+<style>
+:root{--bg:#f7f6f2;--panel:#fff;--ink:#1b1d22;--mut:#6a6d75;--line:#e2dfd6;--acc:#e0452b;
+--serif:Georgia,"Palatino Linotype",serif;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16.5px;line-height:1.58}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 80px}
+button,input{font:inherit;color:inherit}button{cursor:pointer}
+h1,h2,h3{font-family:var(--serif);margin:0}
+header{margin:0 -16px;padding:28px 20px 20px;background:var(--panel);border-bottom:6px solid var(--acc);text-align:center}
+header small{letter-spacing:.28em;font-size:11px;color:var(--acc);text-transform:uppercase;font-weight:700}
+header h1{font-size:clamp(30px,9vw,48px);line-height:1.08;margin:6px 0}
+header p{margin:6px auto 0;max-width:470px;color:var(--mut);font-size:15px}
+.big{font-family:var(--serif);font-size:64px;color:var(--acc);line-height:1}
+nav{position:sticky;top:0;z-index:9;margin:0 -16px;background:rgba(247,246,242,.96);border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:8px 12px;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav a{flex:none;text-decoration:none;color:var(--ink);font-size:13px;border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:var(--panel)}
+.sec{padding-top:34px}.sec>small{display:block;letter-spacing:.24em;font-size:11px;color:var(--acc);text-transform:uppercase;font-weight:700}
+.sec>h2{font-size:26px;line-height:1.2;margin:2px 0 8px}.lead{margin:0 0 14px;color:#3b3d44}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+.scene{border-radius:10px;overflow:hidden;border:2px solid var(--ink);background:#f1ede2}.scene svg{display:block;width:100%;height:auto}
+.fam{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(min-width:620px){.fam{grid-template-columns:repeat(3,1fr)}}
+.fcard{background:var(--panel);border:1px solid var(--line);border-top:5px solid var(--c);border-radius:12px;padding:8px 8px 10px;text-align:left}
+.fcard .scene{border-width:1.5px}.fcard h3{font-size:16px;margin-top:8px}.fcard small{color:var(--mut);font-size:13px;line-height:1.3;display:block}
+.tools{position:sticky;top:45px;z-index:8;background:linear-gradient(var(--bg) 88%,transparent);padding:6px 0 10px}
+.search{width:100%;border:1.5px solid var(--ink);border-radius:10px;padding:10px 12px;background:var(--panel);font-size:16px}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-top:8px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1.5px solid var(--line);background:var(--panel);border-radius:999px;padding:6px 12px;font-size:13.5px;white-space:nowrap}
+.chip.on{background:var(--c,var(--ink));border-color:var(--c,var(--ink));color:#fff;font-weight:600}
+.meta{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--mut);margin:2px 0 8px}
+.meta button{border:1.5px solid var(--ink);border-radius:8px;background:var(--panel);padding:5px 10px;font-size:13px;font-weight:600;color:var(--ink)}
+.list{display:grid;gap:7px}@media(min-width:620px){.list{grid-template-columns:1fr 1fr}}
+.row{display:grid;grid-template-columns:38px 1fr;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--c);border-radius:10px;padding:9px 10px;text-align:left;width:100%}
+.row .n{font-family:var(--serif);font-size:19px;color:var(--c);text-align:center;font-weight:700}
+.row h3{font-family:var(--sans);font-size:15.5px;font-weight:650}.row small{display:block;color:var(--mut);font-size:13.5px;line-height:1.35}
+.row.seen{background:#f3f1ea}.row.seen h3:after{content:" ✓";color:var(--c)}
+.acc{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:9px;overflow:hidden}
+.acc>button{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;width:100%;text-align:left;background:none;border:0;padding:12px}
+.acc h3{font-size:16.5px}.acc .pm{font-size:20px;color:var(--mut)}.acc .body{display:none;padding:0 14px 14px;font-size:15.5px}
+.acc.open .body{display:block}.acc.open .pm{transform:rotate(45deg)}.acc .body p{margin:6px 0}
+.tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:4px;padding:2px 7px;color:#fff;background:#2f6f6a}.tag.r{background:var(--acc)}
+.no{font-family:var(--serif);font-size:20px;color:var(--acc);min-width:24px;text-align:center}
+.quiz h3{font-size:18px}.opts{display:grid;gap:7px;margin-top:10px}
+.opts button{border:1.5px solid var(--ink);border-radius:10px;background:var(--panel);padding:10px 12px;text-align:left;font-size:15px}
+.opts button.ok{background:#e3f3ea;border-color:#2f7d5a}.opts button.bad{background:#fbe5e0;border-color:var(--acc)}
+.qexp{margin-top:10px;font-size:15px;display:none;border-left:4px solid var(--acc);padding-left:10px}
+.qnav{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:13.5px;color:var(--mut)}
+.qnav button,.sft button{background:var(--ink);color:#fff;border:0;border-radius:8px;padding:10px 16px;font-weight:600;font-size:14px}
+#veil{position:fixed;inset:0;background:rgba(20,20,24,.5);opacity:0;pointer-events:none;transition:opacity .2s;z-index:20}#veil.on{opacity:1;pointer-events:auto}
+#sheet{position:fixed;left:0;right:0;bottom:0;max-height:86vh;background:var(--panel);border-top:6px solid var(--c,var(--acc));border-radius:16px 16px 0 0;transform:translateY(103%);transition:transform .26s;z-index:21;display:flex;flex-direction:column;max-width:760px;margin:0 auto}
+#sheet.on{transform:none}.shd{display:flex;gap:10px;padding:14px 16px 4px}.shd h3{flex:1;font-size:22px;line-height:1.2}
+.x{flex:none;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--bg);font-size:16px}
+.sbd{overflow-y:auto;padding:0 16px 14px}.sbd p{margin:6px 0;font-size:15.5px}
+.kv{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--c,var(--acc));font-weight:700;margin-top:12px}
+.sft{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--line)}
+footer{margin-top:30px;border-top:1px solid var(--line);padding-top:12px;font-size:13px;color:var(--mut)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style></head><body><div class="wrap">
+<header><small>Rolf Dobelli · 2013</small><h1>The Art of Thinking Clearly</h1><div class="big">99</div><p>thinking errors, each with a plain definition, an everyday example and one thing to do about it.</p></header>
+<nav><a href="#idea">The idea</a><a href="#fam">Seven families</a><a href="#all">All 99</a><a href="#quiz">Test yourself</a><a href="#method">His method</a><a href="#crit">Objections</a></nav>
+
+<section class="sec" id="idea"><small>Start here</small><h2>The idea in one minute</h2>
+<p class="lead">Dobelli does not try to teach you how to think well. He lists the ways thinking reliably goes wrong, on the theory that removing errors is easier than adding brilliance. He compares it to sculpture: you get the statue by chipping away everything that is not the statue.</p>
+<div class="panel"><p style="margin:0"><b>What makes these errors different from ordinary mistakes</b> is that they are systematic. Everyone leans the same way, the lean is predictable, and knowing about it does not switch it off. The best you can do is recognise the situations where a given error is likely and slow down there.</p></div>
+</section>
+
+<section class="sec" id="fam"><small>A way in</small><h2>Seven families</h2>
+<p class="lead">The book runs through its 99 chapters in no particular order. The grouping below is mine, to make them easier to hold in your head. Tap a family to filter the list.</p>
+<div class="fam" id="famgrid"></div>
+</section>
+
+<section class="sec" id="all"><small>The catalogue</small><h2>All 99</h2>
+<div class="tools"><input class="search" id="q" type="search" placeholder="Search: sunk cost, anchor, luck…" aria-label="Search the 99 errors"><div class="chips" id="chips"></div></div>
+<div class="meta"><span id="count"></span><button id="rand">Random one</button></div>
+<div class="list" id="list"></div>
+</section>
+
+<section class="sec" id="quiz"><small>Six questions</small><h2>Test yourself</h2>
+<p class="lead">Answer with your first instinct. These are the kind of puzzles the research behind the book is built on.</p>
+<div class="panel quiz" id="quizbox"></div>
+</section>
+
+<section class="sec" id="method"><small>What to do with it</small><h2>Dobelli's method</h2>
+<div id="mlist"></div>
+</section>
+
+<section class="sec" id="crit"><small>A fair hearing</small><h2>Strengths and objections</h2>
+<div id="clist"></div>
+</section>
+
+<footer>Written from memory of the book, in my own words, with no quotations. The names of the 99 errors follow the book. The family grouping, most of the everyday examples and the quiz wording are mine; a few examples are the classic experiments the book itself draws on.</footer>
+</div>
+<div id="veil"></div><div id="sheet" role="dialog" aria-modal="true" aria-labelledby="st"><div class="shd"><h3 id="st"></h3><button class="x" id="sx" aria-label="Close">✕</button></div><div class="sbd" id="sb"></div><div class="sft"><button id="prev">‹ Previous</button><button id="next">Next ›</button></div></div>
+<script>
+/* =====================  character builder, 200 x 250  ===================== */
+const INK="#22252b", SKIN={a:"#f3cfae",b:"#e0aa80",c:"#b97d54",d:"#8a5636",e:"#f8dcc6"};
+const shade=(hex,k)=>{const n=parseInt(hex.slice(1),16),f=v=>Math.max(0,Math.min(255,Math.round(v*k)));return "#"+[n>>16,(n>>8)&255,n&255].map(v=>f(v).toString(16).padStart(2,"0")).join("");};
+function arm(sx,sy,p,col,skin,short){
+  const [ex,ey,hx,hy]=p; let s=`<path d="M${sx},${sy} L${ex},${ey} L${hx},${hy}" fill="none" stroke="${short?skin:col}" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>`;
+  if(short) s+=`<path d="M${sx},${sy} L${(sx*.45+ex*.55).toFixed(1)},${(sy*.45+ey*.55).toFixed(1)}" stroke="${col}" stroke-width="14.5" stroke-linecap="round"/>`;
+  return s+`<circle cx="${hx}" cy="${hy}" r="7.6" fill="${skin}"/>`;
+}
+function leg(sx,p,col,shoe,dir,skinLeg){
+  const [kx,ky,fx,fy]=p;
+  return `<path d="M${sx},170 L${kx},${ky} L${fx},${fy}" fill="none" stroke="${skinLeg||col}" stroke-width="${skinLeg?12:16}" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="${fx+dir*4}" cy="${fy+6}" rx="12" ry="6.5" fill="${shoe}"/>`;
+}
+const HAIR={
+ short:c=>["",`<path d="M73,68 q-3,-36 27,-36 q30,0 27,36 q-5,-16 -27,-17 q-22,1 -27,17z" fill="${c}"/>`],
+ side:c=>["",`<path d="M73,72 q-4,-40 27,-40 q32,0 27,40 q-3,-14 -12,-20 q-20,8 -37,2 q-4,6 -5,18z" fill="${c}"/>`],
+ slick:c=>["",`<path d="M73,66 q-2,-36 27,-36 q29,0 27,36 q-4,-12 -10,-17 q-17,-6 -34,0 q-6,5 -10,17z" fill="${c}"/><path d="M84,40 q16,-6 32,0" fill="none" stroke="${shade(c,1.5)}" stroke-width="1.5" opacity=".6"/>`],
+ spiky:c=>["",`<path d="M73,68 l-3,-18 l10,6 l0,-18 l11,10 l6,-18 l8,16 l12,-12 l1,16 l11,-6 l-2,24 q-5,-14 -27,-15 q-22,1 -27,15z" fill="${c}"/>`],
+ curly:c=>["",`<g fill="${c}"><circle cx="78" cy="52" r="10"/><circle cx="90" cy="42" r="11"/><circle cx="104" cy="39" r="11"/><circle cx="117" cy="45" r="10"/><circle cx="124" cy="56" r="8"/><circle cx="75" cy="62" r="7"/></g>`],
+ afro:c=>[`<circle cx="100" cy="56" r="40" fill="${c}"/>`,`<path d="M75,66 q4,-22 25,-22 q21,0 25,22 q-10,-10 -25,-10 q-15,0 -25,10z" fill="${c}"/>`],
+ long:c=>[`<path d="M70,72 q-4,-42 30,-42 q34,0 30,42 l4,50 q-34,12 -68,0z" fill="${c}"/>`,`<path d="M74,70 q0,-34 26,-34 q26,0 26,34 q-8,-18 -22,-22 q-16,10 -30,22z" fill="${c}"/>`],
+ bob:c=>[`<path d="M69,72 q-4,-42 31,-42 q35,0 31,42 l1,22 q-32,10 -64,0z" fill="${c}"/>`,`<path d="M74,68 q2,-30 26,-30 q24,0 26,30 q-12,-12 -52,-8z" fill="${c}"/>`],
+ bun:c=>[`<circle cx="100" cy="30" r="12" fill="${c}"/>`,`<path d="M73,68 q-3,-34 27,-34 q30,0 27,34 q-6,-16 -27,-16 q-21,0 -27,16z" fill="${c}"/>`],
+ pony:c=>[`<path d="M122,48 q26,2 22,36 q-2,22 -14,34 q4,-22 -2,-38 q-4,-16 -12,-20z" fill="${c}"/>`,`<path d="M73,70 q-4,-38 27,-38 q31,0 27,38 q-6,-18 -18,-22 q-18,10 -36,22z" fill="${c}"/>`],
+ buzz:c=>["",`<path d="M74,64 q0,-30 26,-30 q26,0 26,30 q-6,-16 -26,-16 q-20,0 -26,16z" fill="${c}" opacity=".85"/>`]
+};
+function face(f={}){
+  const d=INK, b=f.brow||"soft", e=f.eyes||"dot", m=f.mouth||"smile"; let s="";
+  s+={soft:`<path d="M84,61 q6,-3 12,0 M104,61 q6,-3 12,0"`,flat:`<path d="M84,61 h12 M104,61 h12"`,down:`<path d="M84,59 l12,3 M116,59 l-12,3"`,up:`<path d="M84,59 q6,-5 12,-1 M104,58 q6,-4 12,1"`,quirk:`<path d="M84,62 h12 M104,57 q6,-4 12,0"`}[b]+` fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`;
+  s+={dot:`<circle cx="90" cy="70" r="2.8" fill="${d}"/><circle cx="110" cy="70" r="2.8" fill="${d}"/>`,
+      wide:`<circle cx="90" cy="70" r="4.2" fill="#fff"/><circle cx="110" cy="70" r="4.2" fill="#fff"/><circle cx="90.6" cy="70.4" r="2.5" fill="${d}"/><circle cx="110.6" cy="70.4" r="2.5" fill="${d}"/>`,
+      smile:`<path d="M85.5,71 q4.5,-5 9,0 M105.5,71 q4.5,-5 9,0" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      lash:`<circle cx="90" cy="70" r="2.8" fill="${d}"/><circle cx="110" cy="70" r="2.8" fill="${d}"/><path d="M85,67 l-3,-2 M115,67 l3,-2" stroke="${d}" stroke-width="1.8" stroke-linecap="round"/>`}[e];
+  s+=`<path d="M100,73 q3,5 -1,7" fill="none" stroke="#0002" stroke-width="2" stroke-linecap="round"/>`;
+  s+={smile:`<path d="M92,83 q8,6 16,0" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      soft:`<path d="M94,84 q6,3.5 12,0" fill="none" stroke="${d}" stroke-width="2.2" stroke-linecap="round"/>`,
+      flat:`<path d="M94,85 h12" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      smirk:`<path d="M93,85 q7,2 14,-3" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      grin:`<path d="M90,81 q10,13 20,0z" fill="${d}"/><path d="M93,82.5 h14" stroke="#fff" stroke-width="2.6"/>`,
+      o:`<ellipse cx="100" cy="85" rx="4" ry="5" fill="${d}"/>`}[m];
+  if(f.blush) s+=`<circle cx="82" cy="78" r="5" fill="#e8766b" opacity=".32"/><circle cx="118" cy="78" r="5" fill="#e8766b" opacity=".32"/>`;
+  return s;
+}
+function torso(o){
+  const t=o.top, sh=shade(t,.8), st=o.style||"tee"; let s="";
+  const base=c=>`<path d="M76,105 q24,-9 48,0 l6,62 q-30,9 -60,0z" fill="${c}"/>`;
+  const shadow=`<path d="M104,101 q12,0 20,4 l6,62 q-13,4 -26,5z" fill="#000" opacity=".08"/>`;
+  if(st==="dress") return `<path d="M76,105 q24,-9 48,0 l5,40 l15,58 q-44,11 -88,0 l15,-58z" fill="${t}"/><path d="M104,101 q12,0 20,4 l5,40 l15,58 q-20,5 -40,6z" fill="#000" opacity=".08"/>`+(o.belt?`<path d="M72,144 q28,7 56,0 v7 q-28,7 -56,0z" fill="${o.belt}"/>`:"");
+  if(st==="coat"){ s=base(o.inner||"#f4f1ea")+`<path d="M76,105 q10,-5 19,-5 l-3,100 h-24z" fill="${t}"/><path d="M124,105 q-10,-5 -19,-5 l3,100 h24z" fill="${t}"/><path d="M108,100 l3,100 h21 l-8,-95z" fill="#000" opacity=".08"/><path d="M95,100 l-6,24 M105,100 l6,24" stroke="${sh}" stroke-width="2.5" stroke-linecap="round"/>`; return s; }
+  s=base(st==="jacket"||st==="vest"||st==="overalls"||st==="shirt"?(o.inner||"#f4f1ea"):t);
+  if(st==="suit") s+=`<path d="M91,100 l9,26 l9,-26z" fill="#fbfaf7"/><path d="M98,104 h4 l2.5,20 l-4.5,6 l-4.5,-6z" fill="${o.tie||"#b3262e"}"/><path d="M91,100 l9,26 M109,100 l-9,26" stroke="${sh}" stroke-width="3" stroke-linecap="round"/><circle cx="100" cy="144" r="1.8" fill="${sh}"/><circle cx="100" cy="156" r="1.8" fill="${sh}"/>`;
+  if(st==="shirt") s+=`<path d="M90,100 l10,9 l10,-9 l3,8 l-13,6 l-13,-6z" fill="${shade(o.inner||"#f4f1ea",.9)}"/><path d="M98,108 h4 l3,34 l-5,7 l-5,-7z" fill="${o.tie||t}"/><path d="M100,150 v20" stroke="#0001" stroke-width="2"/>`;
+  if(st==="jacket") s+=`<path d="M76,105 q9,-5 17,-5 l-5,68 q-8,0 -18,-1z" fill="${t}"/><path d="M124,105 q-9,-5 -17,-5 l5,68 q8,0 18,-1z" fill="${t}"/><path d="M93,100 l-4,22 M107,100 l4,22" stroke="${sh}" stroke-width="2.5" stroke-linecap="round"/>`;
+  if(st==="vest") s+=`<path d="M78,105 q8,-4 14,-5 l8,30 l8,-30 q6,1 14,5 l5,62 q-27,8 -54,0z" fill="${t}"/><path d="M98,106 h4 l2,16 l-4,5 l-4,-5z" fill="${o.tie||"#8f2f25"}"/><circle cx="100" cy="142" r="1.8" fill="${sh}"/><circle cx="100" cy="154" r="1.8" fill="${sh}"/>`;
+  if(st==="overalls") s+=`<path d="M86,122 h28 l10,46 q-24,7 -48,0z" fill="${t}"/><path d="M88,122 l-5,-18 M112,122 l5,-18" stroke="${t}" stroke-width="6" stroke-linecap="round"/><circle cx="88" cy="124" r="2.4" fill="#e6c25a"/><circle cx="112" cy="124" r="2.4" fill="#e6c25a"/><rect x="92" y="132" width="16" height="12" rx="2" fill="${sh}"/>`;
+  if(st==="hoodie") s+=`<path d="M86,146 h28 l4,16 h-36z" fill="${sh}"/><path d="M95,104 v16 M105,104 v16" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".8"/>`;
+  if(st==="turtle") s+=`<rect x="88" y="91" width="24" height="15" rx="6" fill="${t}"/><path d="M88,99 h24" stroke="${sh}" stroke-width="1.5"/>`;
+  if(st==="sweater") s+=`<path d="M88,101 q12,9 24,0" fill="none" stroke="${sh}" stroke-width="4" stroke-linecap="round"/><path d="M72,160 q28,9 56,0" fill="none" stroke="${sh}" stroke-width="5"/>`;
+  if(st==="stripe") s+=`<g stroke="${o.stripe||"#fff"}" stroke-width="4" opacity=".9"><path d="M77,116 q23,-6 46,0"/><path d="M76,130 q24,-5 48,0"/><path d="M75,144 q25,-4 50,0"/><path d="M74,158 q26,-3 52,0"/></g>`;
+  if(o.graphic) s+=o.graphic;
+  return s+shadow;
+}
+function fig(o){
+  const skin=SKIN[o.skin||"a"], bottom=o.bottom||"#2f3440", shoe=o.shoes||"#22252b";
+  const la=o.la||[66,140,70,166], ra=o.ra||[134,140,130,166], ll=o.ll||[87,202,86,232], rl=o.rl||[113,202,114,232];
+  const [hb,hf]=HAIR[o.hair||"short"](o.hairCol||"#3a2a20"), short=o.sleeve==="short";
+  const long=o.style==="dress"||o.style==="coat", skirt=o.style==="dress";
+  const legs=leg(90,ll,bottom,shoe,-1,skirt?skin:null)+leg(110,rl,bottom,shoe,1,skirt?skin:null);
+  const hips=skirt?"":`<path d="M71,164 q29,9 58,0 l2,14 q-31,8 -62,0z" fill="${bottom}"/>`;
+  const armCol=o.armCol||o.top;
+  const armL=arm(79,111,la,armCol,skin,short), armR=arm(121,111,ra,armCol,skin,short);
+  return `<svg viewBox="0 0 200 250" role="img" aria-label="${o.label||""}">
+   <circle cx="100" cy="122" r="96" fill="${o.bg||"#eee"}"/>${o.back||""}
+   <ellipse cx="100" cy="${o.jump?244:240}" rx="${o.jump?34:48}" ry="6" fill="#000" opacity=".14"/>
+   ${hb}${o.behind||""}${legs}${hips}${o.armsBack?armL+armR:""}${torso(o)}${o.armsBack?"":armL+armR}
+   <rect x="93" y="88" width="14" height="18" rx="5" fill="${shade(SKIN[o.skin||"a"],.88)}"/>${o.style==="turtle"?`<rect x="88" y="91" width="24" height="15" rx="6" fill="${o.top}"/>`:""}${o.style==="hoodie"?`<path d="M80,104 q20,-14 40,0 q-20,10 -40,0z" fill="${shade(o.top,.8)}"/>`:""}
+   <circle cx="74" cy="72" r="5.5" fill="${skin}"/><circle cx="126" cy="72" r="5.5" fill="${skin}"/><circle cx="100" cy="68" r="27" fill="${skin}"/><path d="M110,42 a27,27 0 0 1 0,52 a34,34 0 0 0 0,-52z" fill="#000" opacity=".06"/>
+   ${o.beard?`<path d="M75,74 q2,26 25,26 q23,0 25,-26 q-8,14 -25,14 q-17,0 -25,-14z" fill="${o.hairCol}"/>`:""}${hf}${face(o.face)}${o.acc||""}${o.front||""}</svg>`;
+}
+/* small drawing helpers for props and backdrops */
+const star=(x,y,r,c,o=1)=>{let p="";for(let i=0;i<8;i++){const a=i*Math.PI/4,q=i%2?r*.38:r;p+=(x+q*Math.cos(a)).toFixed(1)+","+(y+q*Math.sin(a)).toFixed(1)+" ";}return `<polygon points="${p}" fill="${c}" opacity="${o}"/>`;};
+const gear=(x,y,r,c,o=1)=>{let t="";for(let i=0;i<8;i++)t+=`<rect x="${x-r*.16}" y="${y-r*1.22}" width="${r*.32}" height="${r*.5}" rx="1.5" transform="rotate(${i*45} ${x} ${y})"/>`;return `<g fill="${c}" opacity="${o}">${t}<circle cx="${x}" cy="${y}" r="${r}"/></g><circle cx="${x}" cy="${y}" r="${r*.42}" fill="#fff" opacity="${o*.7}"/>`;};
+const note=(x,y,c)=>`<g fill="${c}"><ellipse cx="${x}" cy="${y}" rx="5" ry="4" transform="rotate(-20 ${x} ${y})"/><rect x="${x+3.5}" y="${y-18}" width="2.2" height="18"/><path d="M${x+3.5},${y-18} q9,2 9,10 q-3,-5 -9,-4z"/></g>`;
+const heart=(x,y,s,c,o=1)=>`<path d="M${x},${y+s*.9} l${-s},${-s} a${s*.56},${s*.56} 0 0 1 ${s},${-s*.62} a${s*.56},${s*.56} 0 0 1 ${s},${s*.62}z" fill="${c}" opacity="${o}"/>`;
+const glasses=(sq)=>sq?`<rect x="81" y="63" width="17" height="13" rx="3" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.2"/><rect x="102" y="63" width="17" height="13" rx="3" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.2"/><path d="M98,68 h4 M81,68 l-6,-2 M119,68 l6,-2" stroke="${INK}" stroke-width="2.2"/>`:`<circle cx="90" cy="70" r="8.5" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.2"/><circle cx="110" cy="70" r="8.5" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.2"/><path d="M98.5,69 h3 M81.5,69 l-6,-2 M118.5,69 l6,-2" stroke="${INK}" stroke-width="2.2"/>`;
+
+
+/* =====================  scene kit, 400 x 210  ===================== */
+const inner=o=>fig(o).replace(/^<svg[^>]*>\s*<circle[^>]*\/>/,"").replace("</svg>","");
+const G="#e3b54a", RED="#c23a3a", INKC="#22252b";
+const S5=(x,y,r,c,o=1)=>{let p="";for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,q=i%2?r*.45:r;p+=(x+q*Math.cos(a)).toFixed(1)+","+(y+q*Math.sin(a)).toFixed(1)+" ";}return `<polygon points="${p}" fill="${c}" opacity="${o}"/>`;};
+const crown=(x,y,k=1,c=G)=>`<path d="M${x-16*k},${y} l${-3*k},${-18*k} l${9*k},${8*k} l${10*k},${-13*k} l${10*k},${13*k} l${9*k},${-8*k} l${-3*k},${18*k}z" fill="${c}" stroke="${INKC}" stroke-width="2" stroke-linejoin="round"/>`;
+const CH={
+ Y:{skin:"b",hair:"short",hairCol:"#2b2224",style:"jacket",top:"#27365e",inner:"#fbfaf7",bottom:"#3a3f4c"},
+ K:{skin:"a",hair:"side",hairCol:"#8a857a",beard:1,style:"coat",top:"#5a3d7a",inner:"#e3b54a",bottom:"#3a2f4a",acc:crown(100,46,1.15)},
+ Q:{skin:"e",hair:"bun",hairCol:"#a8442a",style:"dress",top:"#1f7a5a",belt:"#e3b54a",bottom:"#1f7a5a",shoes:"#7a4a2e",ll:[88,214,87,232],rl:[112,214,113,232]},
+ R:{skin:"c",hair:"slick",hairCol:"#1d1a1c",style:"suit",top:"#7a2630",tie:"#e3b54a",bottom:"#3a2226"},
+ M:{skin:"d",hair:"curly",hairCol:"#1d1a1c",style:"vest",top:"#c79a2e",inner:"#f4f1ea",armCol:"#f4f1ea",tie:"#7a4a2e",bottom:"#4a4036"},
+ S:{skin:"a",hair:"buzz",hairCol:"#3a332c",style:"turtle",top:"#6b7078",bottom:"#3a3f4c"},
+ F:{skin:"e",hair:"long",hairCol:"#c9a24a",style:"sweater",top:"#c2557a",bottom:"#5a3f52"},
+ O:{skin:"b",hair:"spiky",hairCol:"#e6e1d6",beard:1,style:"coat",top:"#6b4a2e",inner:"#d8cfbe",bottom:"#3a332c"}
+};
+const POSE={stand:{},hips:{la:[58,134,80,152],ra:[142,134,120,152]},point:{ra:[146,108,170,92]},open:{la:[54,128,34,114],ra:[146,128,166,114]},up:{ra:[146,104,152,74]},
+ cheer:{la:[56,100,46,68],ra:[144,100,154,68]},think:{ra:[142,136,116,100]},whisper:{ra:[140,112,122,90]},give:{ra:[146,126,168,120]},heart:{la:[66,138,95,132]},
+ stop:{ra:[146,116,162,92]},bowl:{la:[62,138,86,148],ra:[138,138,114,148]},back:{la:[70,140,84,164],ra:[130,140,116,164]},uphip:{la:[58,134,80,152],ra:[146,104,152,74]}};
+const FACE={soft:{brow:"soft",mouth:"soft"},smile:{brow:"up",mouth:"smile"},grin:{brow:"up",mouth:"grin"},smirk:{brow:"soft",mouth:"smirk"},stern:{brow:"down",mouth:"flat"},worry:{brow:"up",mouth:"flat"},
+ shock:{brow:"up",eyes:"wide",mouth:"o"},sly:{brow:"quirk",mouth:"smirk"},calm:{brow:"soft",eyes:"smile",mouth:"smile"},angry:{brow:"down",eyes:"wide",mouth:"o"},wow:{brow:"up",eyes:"wide",mouth:"grin"}};
+const WALK={ll:[84,202,74,232],rl:[116,202,126,232]};
+function P(x,ch,pose,face,o={}){const s=o.s||.74, y0=208-250*s; const spec=Object.assign({},CH[ch],POSE[pose],{face:FACE[face]},o.w?WALK:{},o.x||{});
+  if(o.f) spec.front=(spec.front||"")+o.f; if(o.b) spec.back=o.b; if(o.h) spec.behind=o.h; if(o.a) spec.acc=(spec.acc||"")+o.a;
+  return `<g transform="translate(${o.m?x+200*s:x},${y0}) scale(${o.m?-s:s},${s})"${o.o?` opacity="${o.o}"`:""}>${inner(spec)}</g>`;}
+const mini=(x,y,c,s,hc,k=1)=>`<g transform="translate(${x},${y}) scale(${k})"><path d="M-13,34 q0,-22 13,-22 q13,0 13,22z" fill="${c}"/><circle r="9.5" fill="${s}"/><path d="M-9,-2 q9,-12 18,0 q-9,-5 -18,0z" fill="${hc}"/></g>`;
+const crowd=(x,y)=>mini(x,y,"#6a7f9a","#f3cfae","#3a2a20")+mini(x+28,y+10,"#9a6a5a","#b97d54","#1d1a1c")+mini(x+56,y,"#7f8f5a","#f8dcc6","#7a4a2e");
+const bub=(x,y,w,t,c,tc,d)=>`<rect x="${x}" y="${y}" width="${w}" height="28" rx="12" fill="${c}"/><path d="M${x+(d>0?w-24:14)},${y+26} l${d*7},11 l2,-12z" fill="${c}"/><text x="${x+w/2}" y="${y+19}" font-size="13" font-weight="800" text-anchor="middle" fill="${tc}" font-family="system-ui,sans-serif">${t}</text>`;
+const scrib=(x,y,w,hh,c,d)=>`<rect x="${x}" y="${y}" width="${w}" height="${hh}" rx="14" fill="${c}"/><path d="M${x+(d>0?w-26:16)},${y+hh-2} l${d*7},12 l2,-13z" fill="${c}"/><path d="M${x+10},${y+hh/2} q6,-12 12,0 q6,12 12,0 q6,-12 12,0 q6,12 12,0${w>80?" q6,-12 12,0 q6,12 12,0":""}" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>`;
+const sword=(x,y,r,c="#cfd4da")=>`<g transform="translate(${x},${y}) rotate(${r})"><path d="M-3,-4 v-44 l3,-8 l3,8 v44z" fill="${c}" stroke="${INKC}" stroke-width="1.6"/><rect x="-11" y="-5" width="22" height="5" rx="2" fill="${G}" stroke="${INKC}" stroke-width="1.4"/><rect x="-2.5" y="0" width="5" height="12" fill="#7a4a2e"/></g>`;
+const coin=(x,y,r=8)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${G}" stroke="${INKC}" stroke-width="1.8"/><circle cx="${x}" cy="${y}" r="${r*.55}" fill="none" stroke="#b98a2e" stroke-width="1.5"/>`;
+const bag=(x,y)=>`<path d="M${x-12},${y+16} q-6,-18 6,-24 h12 q12,6 6,24z" fill="#b98a5c" stroke="${INKC}" stroke-width="2"/><path d="M${x-7},${y-8} h14" stroke="${INKC}" stroke-width="3" stroke-linecap="round"/>`+coin(x,y+6,5);
+const gift=(x,y)=>`<rect x="${x-14}" y="${y-10}" width="28" height="22" rx="2" fill="${G}" stroke="${INKC}" stroke-width="2"/><rect x="${x-3}" y="${y-10}" width="6" height="22" fill="${RED}"/><path d="M${x},${y-10} q-10,-12 -13,-3 q2,5 13,3 q10,-12 13,-3 q-2,5 -13,3z" fill="${RED}" stroke="${INKC}" stroke-width="1.4" stroke-linejoin="round"/>`;
+const flag=(x,y,c,hh=46)=>`<rect x="${x}" y="${y-hh}" width="3" height="${hh}" fill="#5a3d2a"/><path d="M${x+3},${y-hh} h26 l-6,8 l6,8 h-26z" fill="${c}" stroke="${INKC}" stroke-width="1.4" stroke-linejoin="round"/>`;
+const key=(x,y,k=1)=>`<g transform="translate(${x},${y}) scale(${k})" fill="none" stroke="${G}" stroke-width="5" stroke-linecap="round"><circle cx="0" cy="-14" r="9"/><path d="M0,-5 v30 M0,14 h9 M0,24 h7"/></g>`;
+const clock=(x,y,r)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#fbfaf7" stroke="${INKC}" stroke-width="2.5"/><path d="M${x},${y-r*.6} v${r*.6} l${r*.45},${r*.25}" fill="none" stroke="${INKC}" stroke-width="2.5" stroke-linecap="round"/>`;
+const hourglass=(x,y,k=1)=>`<g transform="translate(${x},${y}) scale(${k})"><path d="M-10,-18 h20 l-8,16 l8,16 h-20 l8,-16z" fill="#fbfaf7" stroke="${INKC}" stroke-width="2" stroke-linejoin="round"/><path d="M-5,-15 h10 l-5,10z M-7,13 h14 l-7,-9z" fill="${G}"/><path d="M-12,-18 h24 M-12,14 h24" stroke="${INKC}" stroke-width="3" stroke-linecap="round"/></g>`;
+const sheep=(x,y)=>`<g fill="#f2efe8" stroke="#b9b2a6" stroke-width="1"><circle cx="${x}" cy="${y}" r="11"/><circle cx="${x+12}" cy="${y-3}" r="10"/><circle cx="${x+22}" cy="${y+2}" r="10"/></g><ellipse cx="${x-9}" cy="${y-2}" rx="6" ry="7" fill="#3d3530"/><path d="M${x+2},${y+10} v9 M${x+18},${y+10} v9" stroke="#3d3530" stroke-width="3"/>`;
+const mask=(x,y,happy)=>`<path d="M${x-22},${y-22} q22,-10 44,0 q4,34 -22,48 q-26,-14 -22,-48z" fill="#fbfaf7" stroke="${INKC}" stroke-width="2"/><path d="M${x-13},${y-8} q5,-5 10,0 M${x+3},${y-8} q5,-5 10,0" fill="none" stroke="${INKC}" stroke-width="2.4" stroke-linecap="round"/><path d="M${x-9},${y+8} q9,${happy?10:-8} 18,0" fill="none" stroke="${RED}" stroke-width="2.6" stroke-linecap="round"/>`;
+const target=(x,y,r)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#fbfaf7" stroke="${INKC}" stroke-width="2"/><circle cx="${x}" cy="${y}" r="${r*.66}" fill="${RED}"/><circle cx="${x}" cy="${y}" r="${r*.33}" fill="#fbfaf7"/>`;
+const arrow=(x1,y1,x2,y2,c=INKC,w=3)=>{const a=Math.atan2(y2-y1,x2-x1);return `<path d="M${x1},${y1} L${x2},${y2}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/><path d="M${x2},${y2} l${(-11*Math.cos(a-.45)).toFixed(1)},${(-11*Math.sin(a-.45)).toFixed(1)} M${x2},${y2} l${(-11*Math.cos(a+.45)).toFixed(1)},${(-11*Math.sin(a+.45)).toFixed(1)}" stroke="${c}" stroke-width="${w}" stroke-linecap="round" fill="none"/>`;};
+const spot=(x,w)=>`<path d="M${x},0 l${-w},208 h${w*2}z" fill="#ffe9a8" opacity=".28"/>`;
+const rain=(x,y)=>`<g fill="#7a7f8a"><circle cx="${x}" cy="${y}" r="13"/><circle cx="${x+16}" cy="${y-7}" r="16"/><circle cx="${x+34}" cy="${y}" r="13"/><rect x="${x}" y="${y}" width="34" height="13"/></g><g stroke="#6aa0d8" stroke-width="2.5" stroke-linecap="round"><path d="M${x},${y+20} l-3,9 M${x+12},${y+22} l-3,9 M${x+24},${y+20} l-3,9 M${x+36},${y+22} l-3,9"/></g>`;
+const throne=(x,y)=>`<rect x="${x-22}" y="${y-74}" width="44" height="74" rx="6" fill="#7a2630" stroke="${INKC}" stroke-width="2"/><rect x="${x-28}" y="${y-30}" width="56" height="30" rx="4" fill="#9a3640" stroke="${INKC}" stroke-width="2"/><circle cx="${x-22}" cy="${y-76}" r="5" fill="${G}"/><circle cx="${x+22}" cy="${y-76}" r="5" fill="${G}"/>`;
+const tower=(x,y,w,hh)=>`<path d="M${x},${y} v${-hh} h${w/5} v10 h${w/5} v-10 h${w/5} v10 h${w/5} v-10 h${w/5} v${hh}z" fill="#9aa0a8" stroke="${INKC}" stroke-width="2" stroke-linejoin="round"/><g stroke="#6b7078" stroke-width="1.5"><path d="M${x},${y-hh*.33} h${w} M${x},${y-hh*.66} h${w} M${x+w/3},${y} v${-hh*.33} M${x+w*.66},${y-hh*.33} v${-hh*.33}"/></g>`;
+const glove=(x,y)=>`<circle cx="${x}" cy="${y}" r="9" fill="#fff" stroke="#b9b2a6" stroke-width="1.5"/>`;
+
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+const scn=(inner,bg="#f1ede2",gr="#ddd6c4")=>`<svg viewBox="0 0 400 210"><rect width="400" height="210" fill="${bg}"/><rect y="200" width="400" height="10" fill="${gr}"/>${inner}</svg>`;
+const die=(x,y,r,n)=>`<g transform="rotate(${r} ${x} ${y})"><rect x="${x-13}" y="${y-13}" width="26" height="26" rx="5" fill="#fff" stroke="${INKC}" stroke-width="2"/>${(n==3?[[-6,-6],[0,0],[6,6]]:n==5?[[-6,-6],[6,-6],[0,0],[-6,6],[6,6]]:[[-6,-6],[6,6]]).map(p=>`<circle cx="${x+p[0]}" cy="${y+p[1]}" r="2.4" fill="${INKC}"/>`).join('')}</g>`;
+const FAM={
+ A:["Chance and numbers","#2f6f9a","Seeing patterns, causes and skill where there is mostly luck.",()=>scn(die(150,40,-14,5)+die(196,22,10,3)+die(236,48,22,2)+P(20,"Y","up","wow")+P(224,"M","think","worry",{m:1})+bub(262,10,44,"?",INKC,"#fff",-1)+`<path d="M130,90 q30,-26 60,0 t60,0" fill="none" stroke="${RED}" stroke-width="2.5" stroke-dasharray="4 5"/>`)],
+ B:["Other people","#7a4fa0","What the group, the boss and the people we like do to our judgement.",()=>scn(sheep(250,170)+sheep(310,178)+P(-10,"S","point","calm",{s:.62})+P(80,"F","point","smile",{s:.62})+P(170,"M","point","grin",{s:.62})+S5(330,50,12,G)+P(262,"Y","think","worry",{s:.62,m:1}))],
+ C:["Money and loss","#2f7d5a","Why a loss hurts more than a gain pleases, and what that costs.",()=>scn(P(30,"K","bowl","worry",{f:bag(100,150)})+P(220,"R","give","smile",{m:1,f:coin(170,112,10)})+coin(196,190,7)+coin(212,194,6)+arrow(200,60,200,110,RED,3))],
+ D:["The self","#c0782a","The flattering stories we tell about our own knowledge and control.",()=>scn(`<rect x="206" y="14" width="150" height="192" rx="10" fill="#cfe3ef" stroke="${G}" stroke-width="7"/>`+P(208,"Y","hips","smirk",{m:1,x:{style:"coat",top:"#7a2630",inner:"#e3b54a",acc:crown(100,46,1.1)}})+`<path d="M222,30 l26,26 M236,26 l14,14" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".7"/>`+P(20,"Y","hips","smile"))],
+ E:["Stories and memory","#b3384a","How vivid tales, first impressions and edited memories beat the facts.",()=>scn(P(24,"O","open","grin")+scrib(140,8,120,40,RED,-1)+P(150,"F","heart","wow",{s:.6,m:1})+P(256,"M","cheer","wow",{s:.6,m:1})+S5(130,70,6,G)+S5(300,40,5,G))],
+ F:["Choosing and acting","#3a5f8a","Too many options, too little patience, and the urge to do something.",()=>scn(`<g stroke="${INKC}" stroke-width="2"><rect x="196" y="70" width="52" height="130" fill="#b98a5c"/><rect x="262" y="70" width="52" height="130" fill="#8aa7c9"/><rect x="328" y="70" width="52" height="130" fill="#9ac28a"/></g><g fill="${G}"><circle cx="238" cy="138" r="4"/><circle cx="304" cy="138" r="4"/><circle cx="370" cy="138" r="4"/></g>`+P(20,"Y","think","worry",{h:hourglass(40,178,.9)})+bub(150,20,44,"?",INKC,"#fff",-1))],
+ G:["Being sold to","#8a6a1a","The tricks of framing, incentive and persuasion that others use on you.",()=>scn(P(30,"R","give","grin",{x:{la:[70,140,60,164]},f:gift(170,104),h:mask(52,178,true)})+P(214,"M","open","wow",{m:1})+bub(232,8,90,"only 2 left!",RED,"#fff",-1))]
+};
+const D=[
+[1,"Survivorship Bias","A","You see the winners and never the graveyard of losers, so success looks far more likely than it is.","Every café owner you meet is doing fine. The ones who closed are not around to tell you about it.","Before copying a success, go and look for the people who did the same thing and failed."],
+[2,"Swimmer's Body Illusion","A","Mistaking what was selected for what was produced. Swimmers do not get that build from swimming; people with that build become good swimmers.","A famous university's graduates earn more. Partly that is because it only admitted people who were going to.","Ask whether the trait was already there before the activity started."],
+[3,"Clustering Illusion","A","Seeing meaningful patterns in what is only noise.","Three good trading months in a row and you believe you have found a system.","Assume chance first. Ask whether the pattern holds on fresh data."],
+[4,"Social Proof","B","If many people are doing it, it feels correct.","Two restaurants side by side. You join the queue at the full one without knowing anything about the food.","Popularity is not evidence. Ask what those people actually know."],
+[5,"Sunk Cost Fallacy","C","Letting what you have already spent decide what you do next.","Sitting through the second half of a bad film because you paid for the ticket.","Ask: knowing what I know now, would I start this today?"],
+[6,"Reciprocity","B","A gift creates a debt, and we will overpay to clear it.","A free sample at the market, then buying a jar you did not want.","See the favour as the tactic it may be. It is fine to decline it."],
+[7,"Confirmation Bias (1)","E","You filter new information so that your existing view survives intact.","After buying a phone you read only the reviews that praise it.","Write down what would change your mind, then go looking for exactly that."],
+[8,"Confirmation Bias (2)","E","Vague beliefs are the best protected, because almost anything can be read as support.","A horoscope, a market guru or an ideology that is never quite wrong.","Make your beliefs specific enough that they could fail."],
+[9,"Authority Bias","B","A title, uniform or big name lowers your guard.","Accepting a forecast because of the firm's logo on the slide.","Ask about the expert's track record and what they gain from your agreement."],
+[10,"Contrast Effect","G","You judge things against whatever came just before.","A 40 dollar case feels like nothing straight after paying 1,200 for the phone.","Judge each purchase against its own alternatives, not against the last number you saw."],
+[11,"Availability Bias","E","What comes to mind easily feels common and likely.","Fearing a flight after a crash in the news, then driving to the airport without a thought.","Look for the base numbers, and ask people whose experience differs from yours."],
+[12,"It'll Get Worse Before It Gets Better","G","A prediction that cannot lose. If things worsen, it was foreseen. If they improve, the adviser takes credit.","A consultant who warns of a painful year ahead under the new plan.","Ask for milestones with dates that would show the plan is failing."],
+[13,"Story Bias","E","We bend messy facts into a neat narrative and trust the narrative.","Explaining a company's success by its founder's childhood, after the fact.","Ask what the story leaves out, who is telling it and why."],
+[14,"Hindsight Bias","E","Once you know how it ended, it seems it was always obvious.","Everyone saw the crash coming, once it had happened.","Keep a dated record of your predictions and read it back."],
+[15,"Overconfidence Effect","D","We systematically overrate what we know and how well we can forecast.","Most drivers rate themselves above average.","Widen your estimates and plan for the pessimistic case."],
+[16,"Chauffeur Knowledge","D","Being able to recite something is not the same as understanding it.","A presenter who delivers smoothly and falls apart at the first follow-up question.","Know the edge of your competence. Real experts say I don't know."],
+[17,"Illusion of Control","D","Believing you influence things you do not.","Throwing dice harder when you want a high number.","Sort what you actually control from what you only watch, and work on the first list."],
+[18,"Incentive Super-Response Tendency","G","People respond to what is rewarded, not to the purpose behind the reward.","A bounty per dead rat leads to people breeding rats.","When behaviour puzzles you, find out what is being paid for."],
+[19,"Regression to the Mean","A","Extreme results tend to be followed by ordinary ones, with no cause needed.","You see a doctor when the pain is worst. It then eases, and the treatment gets the credit.","Before crediting a cause, ask what would have happened anyway."],
+[20,"Outcome Bias","E","Judging a decision by how it turned out, not by how sound it was at the time.","Praising a reckless bet because it happened to pay.","Review the reasoning and the information available then, not the result."],
+[21,"Paradox of Choice","F","More options lead to worse decisions and less satisfaction with them.","Twenty minutes scrolling for something to watch, then giving up.","Write your criteria first and accept the first option that meets them."],
+[22,"Liking Bias","B","We agree with and buy from people we like: attractive, similar to us, flattering.","A salesperson who happens to support your football team.","Judge the deal as if someone you dislike were offering it."],
+[23,"Endowment Effect","C","Owning something makes it worth more to you.","You would not pay 5,000 for your own used car, yet would not sell it for that either.","Ask what you would pay for it today if you did not own it."],
+[24,"Coincidence","A","Unlikely events are bound to occur when there are enough opportunities.","You think of an old friend and they ring that evening.","Count all the times you thought of someone and nobody rang."],
+[25,"Groupthink","B","Intelligent people in a close group make poor decisions because nobody wants to break the consensus.","A meeting where everyone has doubts and each assumes they are the only one.","Say the doubt out loud. Appoint someone to argue the other side."],
+[26,"Neglect of Probability","A","We react to how big an outcome is and ignore how likely it is.","Ticket sales jump when the jackpot grows, though the odds are unchanged.","Put a rough number on the likelihood before deciding."],
+[27,"Scarcity Error","G","Rare or disappearing things seem more valuable.","Only two rooms left at this price.","Judge by price and usefulness alone. Rarity adds nothing to either."],
+[28,"Base-Rate Neglect","A","A vivid description makes you forget how common each possibility is.","A quiet man in glasses who loves Mozart: lorry driver or literature professor? There are far more lorry drivers.","Start from how frequent each case is in general, then adjust."],
+[29,"Gambler's Fallacy","A","Believing independent events balance each other out.","Black has come up eight times, so red must be due.","Ask whether the events are truly independent. If so, the past is irrelevant."],
+[30,"The Anchor","C","The first number you hear drags your estimate toward it.","A seller's opening price sets the range for the whole negotiation.","Decide your own figure before you hear theirs."],
+[31,"Induction","A","Taking a long run of the same result as proof it will continue.","A goose fed every day concludes the farmer loves it, until the holiday.","Remember that a past streak proves less than it feels like it does."],
+[32,"Loss Aversion","C","Losing something hurts about twice as much as gaining the same thing pleases.","Holding a falling share for years to avoid admitting the loss.","Look at your total position, not at the single item in the red."],
+[33,"Social Loafing","B","Individual effort drops in a team when contributions cannot be seen.","Eight people on a rope each pull less hard than they would alone.","Make each person's contribution visible."],
+[34,"Exponential Growth","A","We have no intuitive feel for compounding.","Seven percent a year sounds modest. It doubles in ten years.","Divide 70 by the growth rate to get the doubling time."],
+[35,"Winner's Curse","C","Whoever wins an auction has probably paid too much, since the highest bid is the most optimistic guess.","Winning a bidding war for a flat.","Set a maximum in advance, shave it, and walk away at that number."],
+[36,"Fundamental Attribution Error","B","Overrating the person and underrating the situation.","Blaming or praising the coach for a result decided by the squad and the fixture list.","Ask what the circumstances would have done to anyone in that seat."],
+[37,"False Causality","A","Reading a correlation as a cause, or getting the direction backwards.","More firefighters at a fire, more damage. The fire size drives both.","Ask which way the arrow points and whether a third factor moves both."],
+[38,"Halo Effect","E","One striking quality colours your judgement of everything else.","A good-looking candidate is assumed to be more competent.","Rate each quality separately, ideally without knowing the others."],
+[39,"Alternative Paths","A","Ignoring all the ways things could have turned out and seeing only the one that did.","Someone who got rich on a wild bet looks wise. The identical bet ruined most who made it.","Ask how the decision looks across all the outcomes it could have had."],
+[40,"Forecast Illusion","G","Expert predictions are barely better than chance, and nobody keeps score.","Year-end market forecasts that are forgotten by February.","Ask the forecaster for their past hit rate and what they gain from the forecast."],
+[41,"Conjunction Fallacy","A","A detailed, plausible story feels more likely than a general statement, when it must be less likely.","Bank clerk and activist seems more probable than just bank clerk.","Every added detail lowers the probability, however well it fits."],
+[42,"Framing","G","The same fact presented differently produces a different choice.","98% fat free sells better than contains 2% fat.","Restate it the opposite way and see if you still want it."],
+[43,"Action Bias","F","Doing something feels better than waiting, even when waiting is wiser.","Goalkeepers dive at penalties though staying central would save more.","When the situation is unclear, hold still until it is not."],
+[44,"Omission Bias","F","Harm caused by doing nothing feels more acceptable than harm caused by acting.","Not reporting a fault feels less bad than causing one.","Judge both paths by their consequences."],
+[45,"Self-Serving Bias","D","Successes are my doing. Failures are bad luck or other people.","Good exam mark: I worked hard. Bad mark: unfair paper.","Ask someone blunt how they see it."],
+[46,"Hedonic Treadmill","F","We adapt quickly to gains and losses, and mispredict how long the feeling will last.","The joy of a new car fades in weeks. The longer commute it came with does not.","Avoid the things you never adapt to, like noise and commuting. Spend on time."],
+[47,"Self-Selection Bias","A","Forgetting that you are part of the sample you are drawing conclusions from.","Why am I always in a traffic jam? Because jams are where most driving time is spent.","Ask who or what is missing from the sample."],
+[48,"Association Bias","E","Linking things that merely happened together.","Lucky socks. Disliking the colleague who brought the bad news.","Separate the message from the messenger and the event from its setting."],
+[49,"Beginner's Luck","A","Reading early wins as talent.","Your first three investments rise and you raise the stakes.","Wait for a long record, and try to disprove your own theory."],
+[50,"Cognitive Dissonance","D","Changing what you believe to match what happened, so you need not feel foolish.","The fox who could not reach the grapes decides they were sour.","Say plainly that you wanted it and did not get it."],
+[51,"Hyperbolic Discounting","C","The closer a reward, the less patience you have.","You will wait a month for an extra 100 next year, but not for an extra 100 today.","Put distance between yourself and immediate temptations."],
+[52,"\"Because\" Justification","G","Any reason, even an empty one, makes people comply.","May I go ahead of you because I need to make copies? It works.","Give a reason when you ask. Notice when the reason offered to you says nothing."],
+[53,"Decision Fatigue","F","Making choices wears down the ability to choose well.","After a day of small decisions you agree to whatever is suggested for dinner.","Make important decisions early and fed."],
+[54,"Contagion Bias","E","We cannot shake the feeling that objects carry something of the people connected with them.","Most people would refuse to wear a jumper once owned by a murderer.","Notice the feeling. It says nothing about the object."],
+[55,"The Problem with Averages","A","An average hides the spread, and one extreme case can distort it.","A billionaire walks into a bar and the average customer becomes a millionaire.","Ask for the median and the range."],
+[56,"Motivation Crowding","G","Paying for something people did willingly can kill the willingness.","A nursery fines late parents. More parents come late, now that it is a fee.","Do not put a price on what people do out of goodwill."],
+[57,"Twaddle Tendency","G","A flood of words covering an absence of thought.","A mission statement nobody can paraphrase.","If you have nothing to say, say nothing. Clear ideas come out simple."],
+[58,"Will Rogers Phenomenon","A","Moving items from one group to another can raise the average of both with no real change.","Reassigning the mildest severe cases to the mild group improves both sets of figures.","When averages improve, check whether anything was only relabelled."],
+[59,"Information Bias","F","Believing that more information always improves a decision.","Reading a tenth comparison review of two near-identical products.","Work out which facts would change your choice and collect only those."],
+[60,"Effort Justification","C","The harder you worked for something, the more you overvalue it.","Furniture you assembled yourself looks better to you than it is.","Judge the result as if a stranger had made it."],
+[61,"The Law of Small Numbers","A","Small samples produce extreme results by chance alone.","The best and the worst school in the league table are both tiny.","Check the sample size before you look for an explanation."],
+[62,"Expectations","D","What people expect shifts what actually happens.","Pupils labelled promising at random go on to do better.","Expect a lot of yourself and those close to you, little of what you cannot control."],
+[63,"Simple Logic","F","The quick, intuitive answer is often wrong, and we rarely check it.","A bat and ball cost 1.10 and the bat costs 1.00 more. The ball is not 10 cents.","When an answer arrives instantly, pause and verify."],
+[64,"Forer Effect","D","Vague, flattering descriptions feel as if they were written for you.","You have a great need for others to like you, yet tend to be critical of yourself.","Ask whether the statement would fit almost anybody."],
+[65,"Volunteer's Folly","F","Doing unskilled good works yourself when your paid skill could fund far more of it.","A surgeon spends Saturday painting a school fence.","Give what you are best at, or the money it earns."],
+[66,"Affect Heuristic","E","Your instant like or dislike stands in for a real assessment of risk and benefit.","A technology you find creepy seems both riskier and less useful.","Notice your mood before you judge."],
+[67,"Introspection Illusion","D","Trusting your own inner view as accurate while doubting everybody else's.","I know why I believe this. They are just biased.","Treat your own certainty with the suspicion you give to others'."],
+[68,"Inability to Close Doors","F","Keeping every option open, without counting what that costs.","Three half-pursued career ideas for a decade.","Write down what you have decided not to do."],
+[69,"Neomania","G","Overrating the new. What has lasted fifty years is likelier to last another fifty than this year's launch.","Buying the gadget that will be forgotten by next spring.","Bet on what has already survived."],
+[70,"Sleeper Effect","E","You forget the source of a message faster than the message, so weak sources gain credibility over time.","A claim from an advert returns months later as something you read somewhere.","Ask where you first heard it."],
+[71,"Alternative Blindness","F","Comparing an option only with doing nothing, not with the next best use of the same resources.","Is this course worth the fee? Compared with what else the fee and time could do?","Always name the next best alternative."],
+[72,"Social Comparison Bias","B","Holding back help from people who might outshine you.","Not recommending the stronger candidate.","Hire and back people better than you. It raises you too."],
+[73,"Primacy and Recency Effects","E","First and last impressions stick. The middle is lost.","The first candidate of the day and the last are remembered best.","Score each aspect separately and vary the order."],
+[74,"Not-Invented-Here Syndrome","B","Rating ideas higher because they are your own or your group's.","A team rejects a better external tool to keep its home-made one.","Let people who did not produce the ideas do the judging."],
+[75,"The Black Swan","A","A rare, unforeseeable event with huge consequences, which models built on the past leave out.","A single week that undoes ten years of steady returns.","Stay exposed to possible good surprises and limit exposure to ruinous ones."],
+[76,"Domain Dependence","F","Skill or insight in one area does not carry over to another by itself.","A statistician who buys lottery tickets.","Do not assume you are good at something because you are good at its neighbour."],
+[77,"False-Consensus Effect","B","Overestimating how many people share your view.","Being sure most people would choose as you did.","Assume your opinion is less widely held than it feels."],
+[78,"Falsification of History","E","Memory quietly rewrites your old opinions to agree with your present ones.","I always said that would happen.","Trust written records over recollection."],
+[79,"In-Group Out-Group Bias","B","Favouring your own group, however arbitrary, and seeing outsiders as all alike.","Fans of a rival club all seem the same.","Notice who drew the line and what it is really based on."],
+[80,"Ambiguity Aversion","C","Preferring known odds to unknown ones, even when the unknown may be better.","Choosing the familiar bad option over the untested one.","Risk can be calculated and uncertainty cannot. Learn to live with the second."],
+[81,"Default Effect","F","Sticking with whatever was preset.","Never changing the factory settings, the pension fund or the subscription tier.","Look for the defaults and decide them on purpose."],
+[82,"Fear of Regret","C","Choosing the conventional path so that you will not blame yourself later.","Buying because it is the last chance at this price.","Regret is only a feeling. Weigh the actual options."],
+[83,"Salience Effect","E","The most eye-catching feature gets the blame or the credit.","Explaining a result by the one unusual thing about the person involved.","Look for the dull, quiet causes as well."],
+[84,"House-Money Effect","C","Treating money that came easily as less real.","Blowing a bonus or a win on things you would never buy from salary.","Money is money. Park windfalls before deciding."],
+[85,"Procrastination","F","Putting off what is unpleasant but important.","Tidying the desk in place of writing the report.","Use deadlines set by other people and remove the distractions."],
+[86,"Envy","B","Resentment aimed mostly at people similar to us.","Unmoved by a billionaire, annoyed by a colleague's raise.","Stop comparing. Compete inside your own area of skill."],
+[87,"Personification","E","One identifiable person moves us more than any statistic.","A single child's photo raises more than a report on a famine.","Ask for the numbers behind the face."],
+[88,"Illusion of Attention","E","We miss what we are not looking for and are sure we would have seen it.","Counting passes in a video and not noticing someone in a gorilla suit.","Now and then, deliberately look for the thing you do not expect."],
+[89,"Strategic Misrepresentation","G","Promising more than can be delivered in order to win the job.","The lowest bid and shortest timeline wins the contract, then overruns.","Look at past delivery, not at promises. Build in penalties."],
+[90,"Overthinking","F","Too much deliberation spoils judgements that work best by feel.","A centipede asked how it walks can no longer do it.","Use instinct for practised skills and analysis for new, complex problems."],
+[91,"Planning Fallacy","F","Underestimating how long and how much a project will take.","The renovation that was going to be six weeks.","Ask how long similar projects actually took for other people."],
+[92,"Déformation Professionnelle","D","Seeing every problem through the tools of your own trade.","To a person with a hammer, everything is a nail.","Collect a few models from other fields."],
+[93,"Zeigarnik Effect","F","Unfinished tasks keep nagging until there is a concrete plan for them.","Lying awake listing things to do.","Write down the next physical step for each one."],
+[94,"Illusion of Skill","D","Crediting skill in fields where results are mostly chance.","A fund manager on a five-year run.","Ask whether skill in this field can be shown to repeat."],
+[95,"Feature-Positive Effect","E","What is present gets noticed. What is absent does not.","A label lists the vitamins added, not the things it is missing.","Ask what is not there."],
+[96,"Cherry-Picking","G","Showing only the evidence that flatters.","A brochure of the firm's three best projects.","Ask to see the ones that went badly."],
+[97,"Fallacy of the Single Cause","A","Looking for the one reason when there were many.","What caused the crisis? What made the product a hit?","List several contributing factors before settling on any."],
+[98,"Intention-to-Treat Error","A","Quietly dropping those who failed or quit, so the remainder look better.","Everyone who completes our programme succeeds. How many started?","Count everyone who began, not only those who finished."],
+[99,"News Illusion","G","Daily news feels informative and changes almost none of your decisions.","An hour of headlines a day, and nothing you would have done differently.","Read long articles and books. Skip the feed."]
+].map(d=>({n:d[0],t:d[1],f:d[2],w:d[3],e:d[4],x:d[5]}));
+
+/* families */
+Object.entries(FAM).forEach(([k,f])=>{const n=D.filter(d=>d.f==k).length;const b=el('button','fcard',`<div class="scene">${f[3]()}</div><h3>${f[0]}</h3><small>${n} errors. ${f[2]}</small>`);b.style.setProperty('--c',f[1]);b.onclick=()=>{fam=k;draw();$('#all').scrollIntoView()};$('#famgrid').appendChild(b)});
+
+/* list */
+let fam='all',view=D,seen={};try{seen=JSON.parse(localStorage.getItem('atc-seen')||'{}')}catch(e){}
+function draw(){const q=$('#q').value.trim().toLowerCase();
+ const c=$('#chips');c.innerHTML='';const mk=(k,l,col)=>{const b=el('button','chip'+(fam==k?' on':''));b.textContent=l;if(col)b.style.setProperty('--c',col);b.onclick=()=>{fam=k;draw()};c.appendChild(b)};
+ mk('all','All 99');Object.entries(FAM).forEach(([k,f])=>mk(k,f[0],f[1]));
+ view=D.filter(d=>(fam=='all'||d.f==fam)&&(!q||(d.t+' '+d.w+' '+d.e).toLowerCase().includes(q)));
+ $('#count').textContent=view.length+' shown · '+Object.keys(seen).length+' of 99 read';
+ const L=$('#list');L.innerHTML='';if(!view.length)L.innerHTML='<p style="color:var(--mut)">Nothing matches.</p>';
+ view.forEach(d=>{const b=el('button','row'+(seen[d.n]?' seen':''),`<span class="n">${d.n}</span><span><h3></h3><small></small></span>`);b.style.setProperty('--c',FAM[d.f][1]);b.querySelector('h3').textContent=d.t;b.querySelector('small').textContent=d.w;b.onclick=()=>open(d.n);L.appendChild(b)})}
+let cur=1,lastF=null;
+function open(n){cur=n;const d=D[n-1],f=FAM[d.f];if(!$('#sheet').classList.contains('on'))lastF=document.activeElement;
+ $('#sheet').style.setProperty('--c',f[1]);$('#st').textContent=d.n+'. '+d.t;
+ $('#sb').innerHTML=`<p style="margin-top:0"><span class="tag" style="background:${f[1]}">${f[0]}</span></p><div class="kv">What it is</div><p></p><div class="kv">Looks like</div><p></p><div class="kv">What to do</div><p></p>`;
+ const ps=$$('#sb p');ps[1].textContent=d.w;ps[2].textContent=d.e;ps[3].textContent=d.x;
+ $('#sb').scrollTop=0;$('#sheet').classList.add('on');$('#veil').classList.add('on');$('#sx').focus({preventScroll:true});
+ if(!seen[n]){seen[n]=1;try{localStorage.setItem('atc-seen',JSON.stringify(seen))}catch(e){}draw()}}
+function closeS(){$('#sheet').classList.remove('on');$('#veil').classList.remove('on');if(lastF&&document.contains(lastF))lastF.focus({preventScroll:true})}
+function step(s){const L=view.length?view:D;const i=L.findIndex(d=>d.n==cur);open(L[(i+s+L.length)%L.length].n)}
+$('#sx').onclick=closeS;$('#veil').onclick=closeS;$('#prev').onclick=()=>step(-1);$('#next').onclick=()=>step(1);
+document.addEventListener('keydown',e=>{if(!$('#sheet').classList.contains('on'))return;if(e.key=='Escape')closeS();if(e.key=='ArrowRight')step(1);if(e.key=='ArrowLeft')step(-1)});
+$('#q').oninput=draw;$('#rand').onclick=()=>{const L=view.length?view:D;open(L[Math.floor(Math.random()*L.length)].n)};draw();
+
+/* quiz */
+const QZ=[
+ ["Sara is 31, outspoken, studied philosophy and went on climate marches as a student. Which is more likely?",["Sara works in a bank.","Sara works in a bank and is active in an environmental group."],0,"The first. Everyone in the second group is also in the first, so the second can never be more likely. The detail fits the description, and fit is what misleads us.",41],
+ ["A bat and a ball cost 1.10 together. The bat costs 1.00 more than the ball. What does the ball cost?",["10 cents","5 cents","1 cent"],1,"Five cents. If the ball were 10, the bat would be 1.10 and the total 1.20. The wrong answer arrives first and feels right.",63],
+ ["A roulette wheel has landed on black eight times in a row. What is the smart bet?",["Red, it is overdue","Black, it is on a run","It makes no difference"],2,"No difference. The wheel has no memory. Each spin is independent of the last.",29],
+ ["You paid 300 for a ten-week course. At week five it is clearly useless to you. The fee cannot be refunded. What should decide whether you continue?",["The 300 already paid","Whether the remaining five weeks are worth your time","Not wanting to be a quitter"],1,"Only the remaining weeks. The money is gone whichever you choose, so it should carry no weight.",5],
+ ["A condition affects 1 person in 1,000. A test for it gives a false alarm 5% of the time and never misses a real case. You test positive. How likely is it that you have the condition?",["About 95%","About 50%","About 2%"],2,"About 2%. Test 1,000 people: 1 true case and roughly 50 false alarms. You are one of 51 positives, and only one of them is ill.",28],
+ ["A thousand fund managers pick shares by coin toss. Roughly how many will beat the market five years running by luck alone?",["None","About 30","About 250"],1,"About 30, since one in 32 will flip five heads in a row. Those thirty will be written about. The other 970 will not.",1]
+];
+let qi=0,score=0,answered=false;
+function drawQ(){const b=$('#quizbox');if(qi>=QZ.length){b.innerHTML=`<h3>${score} of ${QZ.length}</h3><p>${score>=5?"Unusually clear. Most people miss at least half on instinct.":"That is normal. These are designed to catch fast thinking, and they catch nearly everyone."}</p><div class="qnav"><span></span><button id="qre">Try again</button></div>`;$('#qre').onclick=()=>{qi=0;score=0;drawQ()};return}
+ const q=QZ[qi];answered=false;b.innerHTML=`<h3></h3><div class="opts"></div><div class="qexp"></div><div class="qnav"><span>Question ${qi+1} of ${QZ.length}</span><button id="qn" style="visibility:hidden">${qi==QZ.length-1?'See score':'Next'}</button></div>`;
+ b.querySelector('h3').textContent=q[0];q[1].forEach((o,i)=>{const bt=el('button');bt.textContent=o;bt.onclick=()=>{if(answered)return;answered=true;if(i==q[2])score++;$$('.opts button').forEach((x,j)=>x.classList.add(j==q[2]?'ok':(j==i?'bad':'z')));
+  const ex=b.querySelector('.qexp');ex.style.display='block';ex.innerHTML=`<b>${i==q[2]?'Right.':'Not quite.'}</b> <span></span> <a href="#" style="color:var(--acc)">See error ${q[4]}</a>`;ex.querySelector('span').textContent=q[3];ex.querySelector('a').onclick=e=>{e.preventDefault();open(q[4])};$('#qn').style.visibility='visible'};b.querySelector('.opts').appendChild(bt)});
+ $('#qn').onclick=()=>{qi++;drawQ()}}
+drawQ();
+
+/* method + critique */
+const acc=(box,items)=>items.forEach(c=>{const d=el('div','acc',`<button>${c[0]}<span><h3>${c[1]}</h3></span><span class="pm">+</span></button><div class="body"><p>${c[2]}</p></div>`);d.querySelector('button').onclick=()=>d.classList.toggle('open');$(box).appendChild(d)});
+acc('#mlist',[
+ ['<span class="no">1</span>',"Subtract, don't add","He does not offer a recipe for success. His claim is that avoiding the predictable errors is more achievable, and more valuable, than chasing cleverness. The list is a set of things to stop doing."],
+ ['<span class="no">2</span>',"Save the effort for what matters","Clear thinking is slow and tiring. For small or reversible choices, go with your gut and move on. For big ones, such as a job, a house, a large investment or a partner, take the list out and go through it."],
+ ['<span class="no">3</span>',"Know your circle of competence","Inside the area you have practised for years, trust your instinct. Outside it, your instinct is a stranger's. Most damage is done just past the edge, where you still feel confident."],
+ ['<span class="no">4</span>',"Keep a written record","Several of the errors, including hindsight, outcome bias and rewritten memory, only yield to a dated note of what you believed and why. A decision journal is the single habit that addresses the most chapters."],
+ ['<span class="no">5</span>',"Accept that knowing is not curing","Dobelli says openly that he still falls for these. The aim is fewer and cheaper mistakes, not none."]
+]);
+acc('#clist',[
+ ['<span class="tag">Strength</span>',"Short, clear and usable","Each chapter is two or three pages with a story and a point. For many readers it is the first contact with decades of research on judgement, and it sticks."],
+ ['<span class="tag">Strength</span>',"A working checklist","Having names for these errors makes them easier to spot in a meeting or a sales pitch. The value is in the vocabulary."],
+ ['<span class="tag r">Objection</span>',"Little of it is original","The material comes largely from Daniel Kahneman, Amos Tversky, Robert Cialdini, Nassim Taleb and Charlie Munger. Taleb publicly accused Dobelli of lifting ideas and examples without proper credit. Dobelli rejected the charge of plagiarism and later added acknowledgements. Readers who know those authors will find it familiar."],
+ ['<span class="tag r">Objection</span>',"A list, not a theory","Ninety-nine separate items with no framework for why they occur or which matter most. Some overlap heavily, and a few are ordinary advice more than biases."],
+ ['<span class="tag r">Objection</span>',"Some of the science has weakened","A number of the studies behind popular bias books have failed to repeat well, including the work on willpower running down through the day. The broad picture holds. Individual chapters should be held loosely."],
+ ['<span class="tag r">Objection</span>',"Biases are not always errors","Researchers such as Gerd Gigerenzer argue that many of these shortcuts are fast, cheap and right most of the time in real conditions, and that calling them flaws misreads what they are for."],
+ ['<span class="tag r">Objection</span>',"Reading the list changes little","Evidence that learning about biases reduces them is thin. Changing the situation, with checklists, defaults and outside reviewers, works better than trying to think harder."]
+]);
+</script></body></html>
