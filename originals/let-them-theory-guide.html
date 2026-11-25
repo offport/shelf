@@ -1,0 +1,248 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>The Let Them Theory: an illustrated guide</title>
+<style>:root{--bg:#f3f7f1;--panel:#fdfffb;--ink:#17231c;--ink2:#33423a;--mut:#6b776f;--line:#d6e2d6;--acc:#1f8a55;--acc2:#f0c33c;--hd:#1f8a55;--hdt:#fff;--navbg:rgba(243,247,241,.96);--notebg:#fbf2c9}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:16.5px;line-height:1.6}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 80px}
+button,input{font:inherit;color:inherit}button{cursor:pointer}
+h1,h2,h3{font-family:Georgia,"Palatino Linotype",serif;margin:0}
+header{margin:0 -16px;background:var(--hd);color:var(--hdt);padding:28px 20px 22px;text-align:center;border-bottom:6px solid var(--acc2)}
+header small{letter-spacing:.28em;font-size:11px;text-transform:uppercase;font-weight:700;opacity:.85}
+header h1{font-size:clamp(32px,9.5vw,50px);line-height:1.06;margin:6px 0}
+header p{margin:6px auto 0;max-width:470px;font-size:15px;opacity:.9}
+nav{position:sticky;top:0;z-index:9;margin:0 -16px;background:var(--navbg);border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:8px 12px;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav a{flex:none;text-decoration:none;color:var(--ink);font-size:13px;border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:var(--panel)}
+.sec{padding-top:34px}.sec>small{display:block;letter-spacing:.24em;font-size:11px;color:var(--acc);text-transform:uppercase;font-weight:700}
+.sec>h2{font-size:26px;line-height:1.2;margin:2px 0 8px}.lead{margin:0 0 14px;color:var(--ink2)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+.panel p{margin:6px 0}
+.scene{border-radius:10px;overflow:hidden;border:2px solid var(--ink);background:#f1ede2}.scene svg{display:block;width:100%;height:auto}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(min-width:620px){.grid.g3{grid-template-columns:repeat(3,1fr)}}
+.card{background:var(--panel);border:1px solid var(--line);border-top:5px solid var(--acc);border-radius:12px;padding:8px 8px 10px;text-align:left;display:block;width:100%}
+.card .scene{border-width:1.5px}.card h3{font-size:16px;margin-top:8px}.card small{color:var(--mut);font-size:13px;line-height:1.3;display:block}
+.card .x{display:none;font-size:14.5px;margin-top:8px;border-top:1px dashed var(--line);padding-top:8px}.card.open .x{display:block}
+.card.wide{grid-column:1/-1}
+.acc{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:9px;overflow:hidden}
+.acc>button{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;width:100%;text-align:left;background:none;border:0;padding:12px}
+.acc h3{font-size:16.5px}.acc small{display:block;font-family:-apple-system,sans-serif;font-weight:400;color:var(--mut);font-size:13px}
+.acc .pm{font-size:20px;color:var(--mut)}.acc .body{display:none;padding:0 14px 14px;font-size:15.5px}
+.acc.open .body{display:block}.acc.open .pm{transform:rotate(45deg)}.acc .body p{margin:6px 0}.acc ul{margin:6px 0;padding-left:20px}.acc li{margin:5px 0}
+.no{font-family:Georgia,serif;font-size:20px;color:var(--acc);min-width:26px;text-align:center;font-weight:700}
+.tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:4px;padding:2px 7px;color:#fff;background:#2f6f6a}.tag.r{background:#b3384a}.tag.g{background:#8a6a1a}
+.note{border-left:4px solid var(--acc2);background:var(--notebg);padding:9px 12px;border-radius:0 8px 8px 0;font-size:14.5px;margin-top:12px}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{border:1.5px solid var(--ink);background:var(--panel);border-radius:999px;padding:7px 13px;font-size:14px}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+.btn{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:12px 18px;font-weight:700;font-size:15px}
+.btn.ghost{background:var(--panel);color:var(--ink);border:1.5px solid var(--ink)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.hs{cursor:pointer}.hs circle.d{fill:var(--acc);stroke:#fff;stroke-width:2.5}.hs.seen circle.d{fill:#2f6f6a}.hs text{fill:#fff;font:700 12px sans-serif;text-anchor:middle;pointer-events:none}
+.hs .r{fill:none;stroke:var(--acc);stroke-width:2;animation:pu 2.2s ease-out infinite}@keyframes pu{0%{r:9;opacity:.8}100%{r:22;opacity:0}}
+footer{margin-top:30px;border-top:1px solid var(--line);padding-top:12px;font-size:13px;color:var(--mut)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style></head><body><div class="wrap">
+<header><small>Mel Robbins with Sawyer Robbins · 2024</small><h1>The Let Them Theory</h1><p>Stop spending your energy on what other people do. Spend it on what you do next.</p></header>
+<nav><a href="#idea">The idea</a><a href="#two">Two halves</a><a href="#sort">Sort it</a><a href="#you">You</a><a href="#rel">Relationships</a><a href="#limits">Limits</a><a href="#crit">Objections</a></nav>
+<section class="sec" id="idea"><small>Start here</small><h2>The idea in one minute</h2>
+<p class="lead">Much of our stress comes from trying to manage other adults: what they think, how they behave, whether they include us. Robbins's answer is two short phrases said in order.</p>
+<div class="two"><div class="panel" style="border-top:5px solid var(--acc)"><h3 style="font-size:20px">Let Them</h3><p style="font-size:15px">Other people's opinions, moods and choices are not yours to control. Stop trying.</p></div><div class="panel" style="border-top:5px solid var(--acc2)"><h3 style="font-size:20px">Let Me</h3><p style="font-size:15px">What you think, do and say next is entirely yours. Put the energy there.</p></div></div>
+<div class="note"><b>Where it came from.</b> Robbins describes fussing over the details of her son's school prom night until her daughter told her to let them do it their way. She noticed how much lighter that felt and began applying it elsewhere. A video about it spread widely, and the book followed, written with her daughter Sawyer.</div></section>
+<section class="sec" id="two"><small>The core</small><h2>Why it needs both halves</h2><div class="grid" id="twogrid"></div>
+<div class="note">Robbins is firm that "Let Them" alone is not the theory. Used alone it turns into sulking, superiority or cutting people off. The second half is where the responsibility lies.</div></section>
+<section class="sec" id="sort"><small>Practice</small><h2>Whose is it?</h2><p class="lead">Six everyday situations. Decide what is theirs, then see what the book would have you do.</p>
+<div class="panel" id="sortbox"></div></section>
+<section class="sec" id="you"><small>Part one of the book</small><h2>You and your own life</h2><div id="youlist"></div></section>
+<section class="sec" id="rel"><small>Part two of the book</small><h2>Friends, family and love</h2><p class="lead">Tap a card to open it.</p><div class="grid" id="relgrid"></div>
+<div class="panel" style="margin-top:12px"><h3 style="font-size:18px">Her method for influencing someone: the ABC loop</h3><p style="font-size:14.5px">You cannot make an adult change. Pressure produces resistance. This is what she suggests in its place.</p><div class="chips" id="abc"></div><p id="abcout" style="min-height:90px;margin-top:10px"></p></div></section>
+<section class="sec" id="limits"><small>Read this part</small><h2>Where it does not apply</h2><div id="limlist"></div></section>
+<section class="sec" id="crit"><small>A fair hearing</small><h2>Strengths and objections</h2><div id="clist"></div></section>
+<footer>Written from memory of the book, in my own words, with no quotations. The illustrations and the sorting exercise are mine, built on the book's ideas.</footer>
+</div><script>
+/* =====================  character builder, 200 x 250  ===================== */
+const INK="#22252b", SKIN={a:"#f3cfae",b:"#e0aa80",c:"#b97d54",d:"#8a5636",e:"#f8dcc6"};
+const shade=(hex,k)=>{const n=parseInt(hex.slice(1),16),f=v=>Math.max(0,Math.min(255,Math.round(v*k)));return "#"+[n>>16,(n>>8)&255,n&255].map(v=>f(v).toString(16).padStart(2,"0")).join("");};
+function arm(sx,sy,p,col,skin,short){
+  const [ex,ey,hx,hy]=p; let s=`<path d="M${sx},${sy} L${ex},${ey} L${hx},${hy}" fill="none" stroke="${short?skin:col}" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>`;
+  if(short) s+=`<path d="M${sx},${sy} L${(sx*.45+ex*.55).toFixed(1)},${(sy*.45+ey*.55).toFixed(1)}" stroke="${col}" stroke-width="14.5" stroke-linecap="round"/>`;
+  return s+`<circle cx="${hx}" cy="${hy}" r="7.6" fill="${skin}"/>`;
+}
+function leg(sx,p,col,shoe,dir,skinLeg){
+  const [kx,ky,fx,fy]=p;
+  return `<path d="M${sx},170 L${kx},${ky} L${fx},${fy}" fill="none" stroke="${skinLeg||col}" stroke-width="${skinLeg?12:16}" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="${fx+dir*4}" cy="${fy+6}" rx="12" ry="6.5" fill="${shoe}"/>`;
+}
+const HAIR={
+ short:c=>["",`<path d="M73,68 q-3,-36 27,-36 q30,0 27,36 q-5,-16 -27,-17 q-22,1 -27,17z" fill="${c}"/>`],
+ side:c=>["",`<path d="M73,72 q-4,-40 27,-40 q32,0 27,40 q-3,-14 -12,-20 q-20,8 -37,2 q-4,6 -5,18z" fill="${c}"/>`],
+ slick:c=>["",`<path d="M73,66 q-2,-36 27,-36 q29,0 27,36 q-4,-12 -10,-17 q-17,-6 -34,0 q-6,5 -10,17z" fill="${c}"/><path d="M84,40 q16,-6 32,0" fill="none" stroke="${shade(c,1.5)}" stroke-width="1.5" opacity=".6"/>`],
+ spiky:c=>["",`<path d="M73,68 l-3,-18 l10,6 l0,-18 l11,10 l6,-18 l8,16 l12,-12 l1,16 l11,-6 l-2,24 q-5,-14 -27,-15 q-22,1 -27,15z" fill="${c}"/>`],
+ curly:c=>["",`<g fill="${c}"><circle cx="78" cy="52" r="10"/><circle cx="90" cy="42" r="11"/><circle cx="104" cy="39" r="11"/><circle cx="117" cy="45" r="10"/><circle cx="124" cy="56" r="8"/><circle cx="75" cy="62" r="7"/></g>`],
+ afro:c=>[`<circle cx="100" cy="56" r="40" fill="${c}"/>`,`<path d="M75,66 q4,-22 25,-22 q21,0 25,22 q-10,-10 -25,-10 q-15,0 -25,10z" fill="${c}"/>`],
+ long:c=>[`<path d="M70,72 q-4,-42 30,-42 q34,0 30,42 l4,50 q-34,12 -68,0z" fill="${c}"/>`,`<path d="M74,70 q0,-34 26,-34 q26,0 26,34 q-8,-18 -22,-22 q-16,10 -30,22z" fill="${c}"/>`],
+ bob:c=>[`<path d="M69,72 q-4,-42 31,-42 q35,0 31,42 l1,22 q-32,10 -64,0z" fill="${c}"/>`,`<path d="M74,68 q2,-30 26,-30 q24,0 26,30 q-12,-12 -52,-8z" fill="${c}"/>`],
+ bun:c=>[`<circle cx="100" cy="30" r="12" fill="${c}"/>`,`<path d="M73,68 q-3,-34 27,-34 q30,0 27,34 q-6,-16 -27,-16 q-21,0 -27,16z" fill="${c}"/>`],
+ pony:c=>[`<path d="M122,48 q26,2 22,36 q-2,22 -14,34 q4,-22 -2,-38 q-4,-16 -12,-20z" fill="${c}"/>`,`<path d="M73,70 q-4,-38 27,-38 q31,0 27,38 q-6,-18 -18,-22 q-18,10 -36,22z" fill="${c}"/>`],
+ buzz:c=>["",`<path d="M74,64 q0,-30 26,-30 q26,0 26,30 q-6,-16 -26,-16 q-20,0 -26,16z" fill="${c}" opacity=".85"/>`]
+};
+function face(f={}){
+  const d=INK, b=f.brow||"soft", e=f.eyes||"dot", m=f.mouth||"smile"; let s="";
+  s+={soft:`<path d="M84,61 q6,-3 12,0 M104,61 q6,-3 12,0"`,flat:`<path d="M84,61 h12 M104,61 h12"`,down:`<path d="M84,59 l12,3 M116,59 l-12,3"`,up:`<path d="M84,59 q6,-5 12,-1 M104,58 q6,-4 12,1"`,quirk:`<path d="M84,62 h12 M104,57 q6,-4 12,0"`}[b]+` fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`;
+  s+={dot:`<circle cx="90" cy="70" r="2.8" fill="${d}"/><circle cx="110" cy="70" r="2.8" fill="${d}"/>`,
+      wide:`<circle cx="90" cy="70" r="4.2" fill="#fff"/><circle cx="110" cy="70" r="4.2" fill="#fff"/><circle cx="90.6" cy="70.4" r="2.5" fill="${d}"/><circle cx="110.6" cy="70.4" r="2.5" fill="${d}"/>`,
+      smile:`<path d="M85.5,71 q4.5,-5 9,0 M105.5,71 q4.5,-5 9,0" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      lash:`<circle cx="90" cy="70" r="2.8" fill="${d}"/><circle cx="110" cy="70" r="2.8" fill="${d}"/><path d="M85,67 l-3,-2 M115,67 l3,-2" stroke="${d}" stroke-width="1.8" stroke-linecap="round"/>`}[e];
+  s+=`<path d="M100,73 q3,5 -1,7" fill="none" stroke="#0002" stroke-width="2" stroke-linecap="round"/>`;
+  s+={smile:`<path d="M92,83 q8,6 16,0" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      soft:`<path d="M94,84 q6,3.5 12,0" fill="none" stroke="${d}" stroke-width="2.2" stroke-linecap="round"/>`,
+      flat:`<path d="M94,85 h12" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      smirk:`<path d="M93,85 q7,2 14,-3" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      grin:`<path d="M90,81 q10,13 20,0z" fill="${d}"/><path d="M93,82.5 h14" stroke="#fff" stroke-width="2.6"/>`,
+      o:`<ellipse cx="100" cy="85" rx="4" ry="5" fill="${d}"/>`}[m];
+  if(f.blush) s+=`<circle cx="82" cy="78" r="5" fill="#e8766b" opacity=".32"/><circle cx="118" cy="78" r="5" fill="#e8766b" opacity=".32"/>`;
+  return s;
+}
+function torso(o){
+  const t=o.top, sh=shade(t,.8), st=o.style||"tee"; let s="";
+  const base=c=>`<path d="M76,105 q24,-9 48,0 l6,62 q-30,9 -60,0z" fill="${c}"/>`;
+  const shadow=`<path d="M104,101 q12,0 20,4 l6,62 q-13,4 -26,5z" fill="#000" opacity=".08"/>`;
+  if(st==="dress") return `<path d="M76,105 q24,-9 48,0 l5,40 l15,58 q-44,11 -88,0 l15,-58z" fill="${t}"/><path d="M104,101 q12,0 20,4 l5,40 l15,58 q-20,5 -40,6z" fill="#000" opacity=".08"/>`+(o.belt?`<path d="M72,144 q28,7 56,0 v7 q-28,7 -56,0z" fill="${o.belt}"/>`:"");
+  if(st==="coat"){ s=base(o.inner||"#f4f1ea")+`<path d="M76,105 q10,-5 19,-5 l-3,100 h-24z" fill="${t}"/><path d="M124,105 q-10,-5 -19,-5 l3,100 h24z" fill="${t}"/><path d="M108,100 l3,100 h21 l-8,-95z" fill="#000" opacity=".08"/><path d="M95,100 l-6,24 M105,100 l6,24" stroke="${sh}" stroke-width="2.5" stroke-linecap="round"/>`; return s; }
+  s=base(st==="jacket"||st==="vest"||st==="overalls"||st==="shirt"?(o.inner||"#f4f1ea"):t);
+  if(st==="suit") s+=`<path d="M91,100 l9,26 l9,-26z" fill="#fbfaf7"/><path d="M98,104 h4 l2.5,20 l-4.5,6 l-4.5,-6z" fill="${o.tie||"#b3262e"}"/><path d="M91,100 l9,26 M109,100 l-9,26" stroke="${sh}" stroke-width="3" stroke-linecap="round"/><circle cx="100" cy="144" r="1.8" fill="${sh}"/><circle cx="100" cy="156" r="1.8" fill="${sh}"/>`;
+  if(st==="shirt") s+=`<path d="M90,100 l10,9 l10,-9 l3,8 l-13,6 l-13,-6z" fill="${shade(o.inner||"#f4f1ea",.9)}"/><path d="M98,108 h4 l3,34 l-5,7 l-5,-7z" fill="${o.tie||t}"/><path d="M100,150 v20" stroke="#0001" stroke-width="2"/>`;
+  if(st==="jacket") s+=`<path d="M76,105 q9,-5 17,-5 l-5,68 q-8,0 -18,-1z" fill="${t}"/><path d="M124,105 q-9,-5 -17,-5 l5,68 q8,0 18,-1z" fill="${t}"/><path d="M93,100 l-4,22 M107,100 l4,22" stroke="${sh}" stroke-width="2.5" stroke-linecap="round"/>`;
+  if(st==="vest") s+=`<path d="M78,105 q8,-4 14,-5 l8,30 l8,-30 q6,1 14,5 l5,62 q-27,8 -54,0z" fill="${t}"/><path d="M98,106 h4 l2,16 l-4,5 l-4,-5z" fill="${o.tie||"#8f2f25"}"/><circle cx="100" cy="142" r="1.8" fill="${sh}"/><circle cx="100" cy="154" r="1.8" fill="${sh}"/>`;
+  if(st==="overalls") s+=`<path d="M86,122 h28 l10,46 q-24,7 -48,0z" fill="${t}"/><path d="M88,122 l-5,-18 M112,122 l5,-18" stroke="${t}" stroke-width="6" stroke-linecap="round"/><circle cx="88" cy="124" r="2.4" fill="#e6c25a"/><circle cx="112" cy="124" r="2.4" fill="#e6c25a"/><rect x="92" y="132" width="16" height="12" rx="2" fill="${sh}"/>`;
+  if(st==="hoodie") s+=`<path d="M86,146 h28 l4,16 h-36z" fill="${sh}"/><path d="M95,104 v16 M105,104 v16" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".8"/>`;
+  if(st==="turtle") s+=`<rect x="88" y="91" width="24" height="15" rx="6" fill="${t}"/><path d="M88,99 h24" stroke="${sh}" stroke-width="1.5"/>`;
+  if(st==="sweater") s+=`<path d="M88,101 q12,9 24,0" fill="none" stroke="${sh}" stroke-width="4" stroke-linecap="round"/><path d="M72,160 q28,9 56,0" fill="none" stroke="${sh}" stroke-width="5"/>`;
+  if(st==="stripe") s+=`<g stroke="${o.stripe||"#fff"}" stroke-width="4" opacity=".9"><path d="M77,116 q23,-6 46,0"/><path d="M76,130 q24,-5 48,0"/><path d="M75,144 q25,-4 50,0"/><path d="M74,158 q26,-3 52,0"/></g>`;
+  if(o.graphic) s+=o.graphic;
+  return s+shadow;
+}
+function fig(o){
+  const skin=SKIN[o.skin||"a"], bottom=o.bottom||"#2f3440", shoe=o.shoes||"#22252b";
+  const la=o.la||[66,140,70,166], ra=o.ra||[134,140,130,166], ll=o.ll||[87,202,86,232], rl=o.rl||[113,202,114,232];
+  const [hb,hf]=HAIR[o.hair||"short"](o.hairCol||"#3a2a20"), short=o.sleeve==="short";
+  const long=o.style==="dress"||o.style==="coat", skirt=o.style==="dress";
+  const legs=leg(90,ll,bottom,shoe,-1,skirt?skin:null)+leg(110,rl,bottom,shoe,1,skirt?skin:null);
+  const hips=skirt?"":`<path d="M71,164 q29,9 58,0 l2,14 q-31,8 -62,0z" fill="${bottom}"/>`;
+  const armCol=o.armCol||o.top;
+  const armL=arm(79,111,la,armCol,skin,short), armR=arm(121,111,ra,armCol,skin,short);
+  return `<svg viewBox="0 0 200 250" role="img" aria-label="${o.label||""}">
+   <circle cx="100" cy="122" r="96" fill="${o.bg||"#eee"}"/>${o.back||""}
+   <ellipse cx="100" cy="${o.jump?244:240}" rx="${o.jump?34:48}" ry="6" fill="#000" opacity=".14"/>
+   ${hb}${o.behind||""}${legs}${hips}${o.armsBack?armL+armR:""}${torso(o)}${o.armsBack?"":armL+armR}
+   <rect x="93" y="88" width="14" height="18" rx="5" fill="${shade(SKIN[o.skin||"a"],.88)}"/>${o.style==="turtle"?`<rect x="88" y="91" width="24" height="15" rx="6" fill="${o.top}"/>`:""}${o.style==="hoodie"?`<path d="M80,104 q20,-14 40,0 q-20,10 -40,0z" fill="${shade(o.top,.8)}"/>`:""}
+   <circle cx="74" cy="72" r="5.5" fill="${skin}"/><circle cx="126" cy="72" r="5.5" fill="${skin}"/><circle cx="100" cy="68" r="27" fill="${skin}"/><path d="M110,42 a27,27 0 0 1 0,52 a34,34 0 0 0 0,-52z" fill="#000" opacity=".06"/>
+   ${o.beard?`<path d="M75,74 q2,26 25,26 q23,0 25,-26 q-8,14 -25,14 q-17,0 -25,-14z" fill="${o.hairCol}"/>`:""}${hf}${face(o.face)}${o.acc||""}${o.front||""}</svg>`;
+}
+/* small drawing helpers for props and backdrops */
+const star=(x,y,r,c,o=1)=>{let p="";for(let i=0;i<8;i++){const a=i*Math.PI/4,q=i%2?r*.38:r;p+=(x+q*Math.cos(a)).toFixed(1)+","+(y+q*Math.sin(a)).toFixed(1)+" ";}return `<polygon points="${p}" fill="${c}" opacity="${o}"/>`;};
+const gear=(x,y,r,c,o=1)=>{let t="";for(let i=0;i<8;i++)t+=`<rect x="${x-r*.16}" y="${y-r*1.22}" width="${r*.32}" height="${r*.5}" rx="1.5" transform="rotate(${i*45} ${x} ${y})"/>`;return `<g fill="${c}" opacity="${o}">${t}<circle cx="${x}" cy="${y}" r="${r}"/></g><circle cx="${x}" cy="${y}" r="${r*.42}" fill="#fff" opacity="${o*.7}"/>`;};
+const note=(x,y,c)=>`<g fill="${c}"><ellipse cx="${x}" cy="${y}" rx="5" ry="4" transform="rotate(-20 ${x} ${y})"/><rect x="${x+3.5}" y="${y-18}" width="2.2" height="18"/><path d="M${x+3.5},${y-18} q9,2 9,10 q-3,-5 -9,-4z"/></g>`;
+const heart=(x,y,s,c,o=1)=>`<path d="M${x},${y+s*.9} l${-s},${-s} a${s*.56},${s*.56} 0 0 1 ${s},${-s*.62} a${s*.56},${s*.56} 0 0 1 ${s},${s*.62}z" fill="${c}" opacity="${o}"/>`;
+const glasses=(sq)=>sq?`<rect x="81" y="63" width="17" height="13" rx="3" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.2"/><rect x="102" y="63" width="17" height="13" rx="3" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.2"/><path d="M98,68 h4 M81,68 l-6,-2 M119,68 l6,-2" stroke="${INK}" stroke-width="2.2"/>`:`<circle cx="90" cy="70" r="8.5" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.2"/><circle cx="110" cy="70" r="8.5" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.2"/><path d="M98.5,69 h3 M81.5,69 l-6,-2 M118.5,69 l6,-2" stroke="${INK}" stroke-width="2.2"/>`;
+
+
+/* =====================  scene kit, 400 x 210  ===================== */
+const inner=o=>fig(o).replace(/^<svg[^>]*>\s*<circle[^>]*\/>/,"").replace("</svg>","");
+const G="#e3b54a", RED="#c23a3a", INKC="#22252b";
+const S5=(x,y,r,c,o=1)=>{let p="";for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,q=i%2?r*.45:r;p+=(x+q*Math.cos(a)).toFixed(1)+","+(y+q*Math.sin(a)).toFixed(1)+" ";}return `<polygon points="${p}" fill="${c}" opacity="${o}"/>`;};
+const crown=(x,y,k=1,c=G)=>`<path d="M${x-16*k},${y} l${-3*k},${-18*k} l${9*k},${8*k} l${10*k},${-13*k} l${10*k},${13*k} l${9*k},${-8*k} l${-3*k},${18*k}z" fill="${c}" stroke="${INKC}" stroke-width="2" stroke-linejoin="round"/>`;
+const CH={
+ Y:{skin:"b",hair:"short",hairCol:"#2b2224",style:"jacket",top:"#27365e",inner:"#fbfaf7",bottom:"#3a3f4c"},
+ K:{skin:"a",hair:"side",hairCol:"#8a857a",beard:1,style:"coat",top:"#5a3d7a",inner:"#e3b54a",bottom:"#3a2f4a",acc:crown(100,46,1.15)},
+ Q:{skin:"e",hair:"bun",hairCol:"#a8442a",style:"dress",top:"#1f7a5a",belt:"#e3b54a",bottom:"#1f7a5a",shoes:"#7a4a2e",ll:[88,214,87,232],rl:[112,214,113,232]},
+ R:{skin:"c",hair:"slick",hairCol:"#1d1a1c",style:"suit",top:"#7a2630",tie:"#e3b54a",bottom:"#3a2226"},
+ M:{skin:"d",hair:"curly",hairCol:"#1d1a1c",style:"vest",top:"#c79a2e",inner:"#f4f1ea",armCol:"#f4f1ea",tie:"#7a4a2e",bottom:"#4a4036"},
+ S:{skin:"a",hair:"buzz",hairCol:"#3a332c",style:"turtle",top:"#6b7078",bottom:"#3a3f4c"},
+ F:{skin:"e",hair:"long",hairCol:"#c9a24a",style:"sweater",top:"#c2557a",bottom:"#5a3f52"},
+ O:{skin:"b",hair:"spiky",hairCol:"#e6e1d6",beard:1,style:"coat",top:"#6b4a2e",inner:"#d8cfbe",bottom:"#3a332c"}
+};
+const POSE={stand:{},hips:{la:[58,134,80,152],ra:[142,134,120,152]},point:{ra:[146,108,170,92]},open:{la:[54,128,34,114],ra:[146,128,166,114]},up:{ra:[146,104,152,74]},
+ cheer:{la:[56,100,46,68],ra:[144,100,154,68]},think:{ra:[142,136,116,100]},whisper:{ra:[140,112,122,90]},give:{ra:[146,126,168,120]},heart:{la:[66,138,95,132]},
+ stop:{ra:[146,116,162,92]},bowl:{la:[62,138,86,148],ra:[138,138,114,148]},back:{la:[70,140,84,164],ra:[130,140,116,164]},uphip:{la:[58,134,80,152],ra:[146,104,152,74]}};
+const FACE={soft:{brow:"soft",mouth:"soft"},smile:{brow:"up",mouth:"smile"},grin:{brow:"up",mouth:"grin"},smirk:{brow:"soft",mouth:"smirk"},stern:{brow:"down",mouth:"flat"},worry:{brow:"up",mouth:"flat"},
+ shock:{brow:"up",eyes:"wide",mouth:"o"},sly:{brow:"quirk",mouth:"smirk"},calm:{brow:"soft",eyes:"smile",mouth:"smile"},angry:{brow:"down",eyes:"wide",mouth:"o"},wow:{brow:"up",eyes:"wide",mouth:"grin"}};
+const WALK={ll:[84,202,74,232],rl:[116,202,126,232]};
+function P(x,ch,pose,face,o={}){const s=o.s||.74, y0=208-250*s; const spec=Object.assign({},CH[ch],POSE[pose],{face:FACE[face]},o.w?WALK:{},o.x||{});
+  if(o.f) spec.front=(spec.front||"")+o.f; if(o.b) spec.back=o.b; if(o.h) spec.behind=o.h; if(o.a) spec.acc=(spec.acc||"")+o.a;
+  return `<g transform="translate(${o.m?x+200*s:x},${y0}) scale(${o.m?-s:s},${s})"${o.o?` opacity="${o.o}"`:""}>${inner(spec)}</g>`;}
+const mini=(x,y,c,s,hc,k=1)=>`<g transform="translate(${x},${y}) scale(${k})"><path d="M-13,34 q0,-22 13,-22 q13,0 13,22z" fill="${c}"/><circle r="9.5" fill="${s}"/><path d="M-9,-2 q9,-12 18,0 q-9,-5 -18,0z" fill="${hc}"/></g>`;
+const crowd=(x,y)=>mini(x,y,"#6a7f9a","#f3cfae","#3a2a20")+mini(x+28,y+10,"#9a6a5a","#b97d54","#1d1a1c")+mini(x+56,y,"#7f8f5a","#f8dcc6","#7a4a2e");
+const bub=(x,y,w,t,c,tc,d)=>`<rect x="${x}" y="${y}" width="${w}" height="28" rx="12" fill="${c}"/><path d="M${x+(d>0?w-24:14)},${y+26} l${d*7},11 l2,-12z" fill="${c}"/><text x="${x+w/2}" y="${y+19}" font-size="13" font-weight="800" text-anchor="middle" fill="${tc}" font-family="system-ui,sans-serif">${t}</text>`;
+const scrib=(x,y,w,hh,c,d)=>`<rect x="${x}" y="${y}" width="${w}" height="${hh}" rx="14" fill="${c}"/><path d="M${x+(d>0?w-26:16)},${y+hh-2} l${d*7},12 l2,-13z" fill="${c}"/><path d="M${x+10},${y+hh/2} q6,-12 12,0 q6,12 12,0 q6,-12 12,0 q6,12 12,0${w>80?" q6,-12 12,0 q6,12 12,0":""}" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>`;
+const sword=(x,y,r,c="#cfd4da")=>`<g transform="translate(${x},${y}) rotate(${r})"><path d="M-3,-4 v-44 l3,-8 l3,8 v44z" fill="${c}" stroke="${INKC}" stroke-width="1.6"/><rect x="-11" y="-5" width="22" height="5" rx="2" fill="${G}" stroke="${INKC}" stroke-width="1.4"/><rect x="-2.5" y="0" width="5" height="12" fill="#7a4a2e"/></g>`;
+const coin=(x,y,r=8)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${G}" stroke="${INKC}" stroke-width="1.8"/><circle cx="${x}" cy="${y}" r="${r*.55}" fill="none" stroke="#b98a2e" stroke-width="1.5"/>`;
+const bag=(x,y)=>`<path d="M${x-12},${y+16} q-6,-18 6,-24 h12 q12,6 6,24z" fill="#b98a5c" stroke="${INKC}" stroke-width="2"/><path d="M${x-7},${y-8} h14" stroke="${INKC}" stroke-width="3" stroke-linecap="round"/>`+coin(x,y+6,5);
+const gift=(x,y)=>`<rect x="${x-14}" y="${y-10}" width="28" height="22" rx="2" fill="${G}" stroke="${INKC}" stroke-width="2"/><rect x="${x-3}" y="${y-10}" width="6" height="22" fill="${RED}"/><path d="M${x},${y-10} q-10,-12 -13,-3 q2,5 13,3 q10,-12 13,-3 q-2,5 -13,3z" fill="${RED}" stroke="${INKC}" stroke-width="1.4" stroke-linejoin="round"/>`;
+const flag=(x,y,c,hh=46)=>`<rect x="${x}" y="${y-hh}" width="3" height="${hh}" fill="#5a3d2a"/><path d="M${x+3},${y-hh} h26 l-6,8 l6,8 h-26z" fill="${c}" stroke="${INKC}" stroke-width="1.4" stroke-linejoin="round"/>`;
+const key=(x,y,k=1)=>`<g transform="translate(${x},${y}) scale(${k})" fill="none" stroke="${G}" stroke-width="5" stroke-linecap="round"><circle cx="0" cy="-14" r="9"/><path d="M0,-5 v30 M0,14 h9 M0,24 h7"/></g>`;
+const clock=(x,y,r)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#fbfaf7" stroke="${INKC}" stroke-width="2.5"/><path d="M${x},${y-r*.6} v${r*.6} l${r*.45},${r*.25}" fill="none" stroke="${INKC}" stroke-width="2.5" stroke-linecap="round"/>`;
+const hourglass=(x,y,k=1)=>`<g transform="translate(${x},${y}) scale(${k})"><path d="M-10,-18 h20 l-8,16 l8,16 h-20 l8,-16z" fill="#fbfaf7" stroke="${INKC}" stroke-width="2" stroke-linejoin="round"/><path d="M-5,-15 h10 l-5,10z M-7,13 h14 l-7,-9z" fill="${G}"/><path d="M-12,-18 h24 M-12,14 h24" stroke="${INKC}" stroke-width="3" stroke-linecap="round"/></g>`;
+const sheep=(x,y)=>`<g fill="#f2efe8" stroke="#b9b2a6" stroke-width="1"><circle cx="${x}" cy="${y}" r="11"/><circle cx="${x+12}" cy="${y-3}" r="10"/><circle cx="${x+22}" cy="${y+2}" r="10"/></g><ellipse cx="${x-9}" cy="${y-2}" rx="6" ry="7" fill="#3d3530"/><path d="M${x+2},${y+10} v9 M${x+18},${y+10} v9" stroke="#3d3530" stroke-width="3"/>`;
+const mask=(x,y,happy)=>`<path d="M${x-22},${y-22} q22,-10 44,0 q4,34 -22,48 q-26,-14 -22,-48z" fill="#fbfaf7" stroke="${INKC}" stroke-width="2"/><path d="M${x-13},${y-8} q5,-5 10,0 M${x+3},${y-8} q5,-5 10,0" fill="none" stroke="${INKC}" stroke-width="2.4" stroke-linecap="round"/><path d="M${x-9},${y+8} q9,${happy?10:-8} 18,0" fill="none" stroke="${RED}" stroke-width="2.6" stroke-linecap="round"/>`;
+const target=(x,y,r)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#fbfaf7" stroke="${INKC}" stroke-width="2"/><circle cx="${x}" cy="${y}" r="${r*.66}" fill="${RED}"/><circle cx="${x}" cy="${y}" r="${r*.33}" fill="#fbfaf7"/>`;
+const arrow=(x1,y1,x2,y2,c=INKC,w=3)=>{const a=Math.atan2(y2-y1,x2-x1);return `<path d="M${x1},${y1} L${x2},${y2}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/><path d="M${x2},${y2} l${(-11*Math.cos(a-.45)).toFixed(1)},${(-11*Math.sin(a-.45)).toFixed(1)} M${x2},${y2} l${(-11*Math.cos(a+.45)).toFixed(1)},${(-11*Math.sin(a+.45)).toFixed(1)}" stroke="${c}" stroke-width="${w}" stroke-linecap="round" fill="none"/>`;};
+const spot=(x,w)=>`<path d="M${x},0 l${-w},208 h${w*2}z" fill="#ffe9a8" opacity=".28"/>`;
+const rain=(x,y)=>`<g fill="#7a7f8a"><circle cx="${x}" cy="${y}" r="13"/><circle cx="${x+16}" cy="${y-7}" r="16"/><circle cx="${x+34}" cy="${y}" r="13"/><rect x="${x}" y="${y}" width="34" height="13"/></g><g stroke="#6aa0d8" stroke-width="2.5" stroke-linecap="round"><path d="M${x},${y+20} l-3,9 M${x+12},${y+22} l-3,9 M${x+24},${y+20} l-3,9 M${x+36},${y+22} l-3,9"/></g>`;
+const throne=(x,y)=>`<rect x="${x-22}" y="${y-74}" width="44" height="74" rx="6" fill="#7a2630" stroke="${INKC}" stroke-width="2"/><rect x="${x-28}" y="${y-30}" width="56" height="30" rx="4" fill="#9a3640" stroke="${INKC}" stroke-width="2"/><circle cx="${x-22}" cy="${y-76}" r="5" fill="${G}"/><circle cx="${x+22}" cy="${y-76}" r="5" fill="${G}"/>`;
+const tower=(x,y,w,hh)=>`<path d="M${x},${y} v${-hh} h${w/5} v10 h${w/5} v-10 h${w/5} v10 h${w/5} v-10 h${w/5} v${hh}z" fill="#9aa0a8" stroke="${INKC}" stroke-width="2" stroke-linejoin="round"/><g stroke="#6b7078" stroke-width="1.5"><path d="M${x},${y-hh*.33} h${w} M${x},${y-hh*.66} h${w} M${x+w/3},${y} v${-hh*.33} M${x+w*.66},${y-hh*.33} v${-hh*.33}"/></g>`;
+const glove=(x,y)=>`<circle cx="${x}" cy="${y}" r="9" fill="#fff" stroke="#b9b2a6" stroke-width="1.5"/>`;
+
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+const scn=(inner,bg="#f1ede2",gr="#ddd6c4")=>`<svg viewBox="0 0 400 210"><rect width="400" height="210" fill="${bg}"/><rect y="200" width="400" height="10" fill="${gr}"/>${inner}</svg>`;
+const acc=(box,items)=>items.forEach(c=>{const d=el('div','acc',`<button>${c[0]}<span><h3>${c[1]}</h3>${c[3]?`<small>${c[3]}</small>`:''}</span><span class="pm">+</span></button><div class="body">${c[2]}</div>`);d.querySelector('button').onclick=()=>d.classList.toggle('open');$(box).appendChild(d)});
+const cards=(box,items)=>items.forEach(c=>{const b=el('button','card'+(c[4]?' wide':''),`<div class="scene">${c[0]}</div><h3>${c[1]}</h3><small>${c[2]}</small><div class="x">${c[3]}</div>`);b.onclick=()=>b.classList.toggle('open');$(box).appendChild(b)});
+const NO=n=>`<span class="no">${n}</span>`,TG=(t,c='')=>`<span class="tag ${c}">${t}</span>`;
+const rocket=(x,y,k=1)=>`<g transform="translate(${x},${y}) scale(${k})"><path d="M0,-34 q16,16 12,44 h-24 q-4,-28 12,-44z" fill="#fbfaf7" stroke="${INKC}" stroke-width="2"/><circle cy="-8" r="5" fill="#6aa0d8" stroke="${INKC}" stroke-width="1.5"/><path d="M-12,6 l-10,12 l10,-2z M12,6 l10,12 l-10,-2z" fill="${RED}" stroke="${INKC}" stroke-width="1.5"/><path d="M-7,12 q7,26 14,0z" fill="#f08a3c"/><path d="M-3,12 q3,14 6,0z" fill="#ffe08a"/></g>`;
+const heartS2=(x,y,k=1,c=RED)=>`<path transform="translate(${x},${y}) scale(${k})" d="M0,6 q-14,-12 -8,-20 q5,-6 8,2 q3,-8 8,-2 q6,8 -8,20z" fill="${c}" stroke="${INKC}" stroke-width="1.4"/>`;
+
+
+cards('#twogrid',[
+ [scn(P(-4,"R","cheer","grin",{s:.6})+P(96,"M","open","grin",{s:.6})+S5(110,40,6,G)+P(228,"Y","hips","calm",{m:1})+bub(250,14,90,"let them",INKC,"#fff",-1)),"Let Them","Release","You notice the urge to fix, persuade, chase or resent. You say the words and drop the rope. The feeling may still be there. What stops is the effort to control an outcome that was never yours."],
+ [scn(`<path d="M120,198 q90,-30 200,-10" fill="none" stroke="${INKC}" stroke-width="2.5" stroke-dasharray="5 7"/>`+flag(336,196,"#1f8a55",52)+P(20,"Y","point","smile",{w:1})+bub(150,20,74,"let me",INKC,"#fff",-1)),"Let Me","Respond","Now the real question: given that they are doing that, what do I want to do? Reach out, set a limit, change plans, leave, or simply get on with your day. This half keeps the theory from being passive."]
+]);
+const SQ=[
+ ["Friends posted photos from a weekend you were not invited to.","Let them go away together. Their plans are not a verdict on you.","Let me decide what I want: reach out and make a plan myself, or put time into people who do include me."],
+ ["A relative criticises your career change at every dinner.","Let them have the opinion. You will not argue them out of it.","Let me keep going, share fewer details, and say once that I am not discussing it tonight."],
+ ["Your partner is in a foul mood after work.","Let them be in a mood. It is theirs to feel and to work through.","Let me stay kind, not take it on, and say I am here when they want to talk."],
+ ["A colleague gets the promotion you wanted.","Let them succeed. Their win takes nothing from you.","Let me treat the envy as information about what I want, and ask what they did that I have not."],
+ ["An adult child keeps making money decisions you think are unwise.","Let them choose and meet the results. That is how adults learn.","Let me offer help once, without a lecture, and decide what I will and will not pay for."],
+ ["Someone you are dating is vague about what they want.","Let them show you, through what they do, how much they are in.","Let me believe the behaviour, say plainly what I want, and leave if it is not on offer."]
+];
+let si=0,sv=false;function drawS(){const q=SQ[si];$('#sortbox').innerHTML=`<p style="font-size:13px;color:var(--mut);margin:0">Situation ${si+1} of ${SQ.length}</p><h3 style="font-size:19px;margin:4px 0 12px">${q[0]}</h3>`+(sv?`<div class="panel" style="border-left:5px solid var(--acc);margin-bottom:8px"><b>Theirs.</b> ${q[1]}</div><div class="panel" style="border-left:5px solid var(--acc2)"><b>Yours.</b> ${q[2]}</div><div style="text-align:right;margin-top:12px"><button class="btn" id="sn">${si==SQ.length-1?'Start over':'Next situation'}</button></div>`:`<p style="font-size:15px">Before you look: what here is outside your control, and what is inside it?</p><button class="btn" id="ss">Show both halves</button>`);
+ if(sv)$('#sn').onclick=()=>{si=(si+1)%SQ.length;sv=false;drawS()};else $('#ss').onclick=()=>{sv=true;drawS()}}
+drawS();
+acc('#youlist',[
+ [NO(1),"Stress you cannot do anything about","<p>The queue, the traffic, the delayed flight, the slow colleague. Fuming changes nothing except your day. Let them, and decide how you will use the time.</p>","Small daily irritations"],
+ [NO(2),"Other people's opinions of you","<p>People will think unflattering things about you whatever you do. You cannot prevent it, so stop arranging your life around it. She suggests picturing the few people whose view really matters and letting everyone else think what they like.</p>","Let them think it"],
+ [NO(3),"Other people's emotional reactions","<p>Adults sulk, guilt and explode. Robbins's image is that many adults handle feelings about as well as an eight-year-old does. You can be compassionate without rearranging your decisions to prevent someone's tantrum.</p>","Their feelings are theirs to manage"],
+ [NO(4),"Comparison","<p>Some things about other people are simply the cards they were dealt, and resenting them is wasted effort. Other things are achievable, and there envy is useful: it points at what you want. Other people's success is a map, not a loss.</p>","Use envy as a teacher"]
+]);
+cards('#relgrid',[
+ [scn(P(-10,"F","stand","soft",{s:.56,w:1})+arrow(60,60,24,30,INKC,2.5)+P(130,"Y","stand","soft",{s:.56})+P(270,"M","stand","soft",{s:.56,w:1,m:1})+arrow(340,60,376,30,INKC,2.5)),"Adult friendship","Proximity, timing, energy","After early adulthood, friends scatter into different cities, jobs and stages of life. Robbins names three things friendship rests on: being physically near, being at a similar stage, and clicking. When one shifts, friendships fade, and it is rarely personal. Let them drift. Let me go first: invite, show up, keep at it without keeping score."],
+ [scn(P(30,"Y","give","smile")+P(214,"F","stand","worry",{m:1})+rain(250,20)),"Someone who is struggling","Support without rescuing","Watching someone you love suffer is among the hardest things to let be. Her line is that rescuing people from the results of their choices keeps them stuck. Let them face it. Let me offer support with conditions attached, such as paying for treatment and not for rent that funds the problem."],
+ [scn(P(30,"Q","heart","smile")+P(214,"Y","hips","smirk",{m:1})+heartS2(200,60,2.2,"#c9c2b6")),"Choosing love","Believe what you see","How a person treats you is the information. Do not date someone's potential, and do not chase. Let them show you who they are. Let me decide whether that is what I want, and have the direct conversation about commitment in place of hinting."],
+ [scn(P(30,"O","open","grin")+P(214,"Y","heart","smile",{m:1})+S5(200,50,8,G)),"Family","Let them be who they are","Parents, in-laws and siblings are unlikely to become different people. Accepting them as they are, and choosing how much time and what topics you share, makes room for a relationship that fighting never did."]
+]);
+const ABC={A:["Apologise and ask","Apologise for having judged or nagged. Then ask open questions and listen: how do they feel about the situation, and what would they want to be different?"],B:["Back off and watch","Stop pushing and give it time. Watch what they do, not what they say. People move when the motivation is their own."],C:["Celebrate and model","Notice any step in the right direction and say so. Meanwhile live the change yourself, because example persuades better than argument."]};
+Object.entries(ABC).forEach(([k,v])=>{const b=el('button','chip');b.textContent=k+' · '+v[0];b.onclick=()=>{$$('#abc .chip').forEach(x=>x.classList.toggle('on',x==b));$('#abcout').textContent=v[1]};$('#abc').appendChild(b)});$('#abc .chip').click();
+acc('#limlist',[
+ [NO("!"),"Danger","<p>If someone is about to harm themselves or others, drive drunk, or is being abused, you act. The theory is about ordinary adult choices.</p>"],
+ [NO("!"),"Children","<p>Children need guidance, limits and protection. The book is about dealing with other adults.</p>"],
+ [NO("!"),"Your own rights","<p>It is not advice to accept discrimination, mistreatment at work or a partner's cruelty. \"Let Me\" there means speaking up, reporting it or leaving.</p>"],
+ [NO("!"),"Avoidance in disguise","<p>If you find yourself using the phrase to dodge every hard conversation, you are using half of it.</p>"]
+]);
+acc('#clist',[
+ [TG("Strength"),"Two words you can remember under stress","<p>The phrase is short enough to use in the moment, which is when advice usually fails.</p>"],
+ [TG("Strength"),"The second half","<p>Pairing release with responsibility separates it from simple detachment.</p>"],
+ [TG("Objection","r"),"It is an old idea","<p>The split between what is and is not in your control is the centre of Stoic philosophy, and appears in the Serenity Prayer, Buddhist non-attachment and standard therapy. Robbins acknowledges these roots. Critics say the book adds a slogan more than an insight.</p>"],
+ [TG("Dispute","g"),"Who came up with the phrase","<p>A poem titled Let Them by the writer Cassie Phillips spread widely online in 2022, before Robbins's video, and many people had it tattooed. Phillips and her supporters have objected that the book does not credit her. Robbins has said the idea came from her own experience with her children.</p>"],
+ [TG("Objection","r"),"It can excuse disengagement","<p>Close relationships need some friction: stating needs, negotiating, repair. Therapists have warned that people can use the phrase to withdraw where a conversation was called for.</p>"],
+ [TG("Objection","r"),"Not every situation is a choice","<p>Telling yourself to let them is easier when you can afford to walk away. With a boss, a landlord or a co-parent, your options may be narrow.</p>"],
+ [TG("Objection","r"),"Length","<p>As with her earlier book, a compact idea is stretched across many chapters.</p>"]
+]);
+
+</script></body></html>

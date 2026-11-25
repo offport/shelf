@@ -313,6 +313,84 @@
    "section": "books"
   },
   {
+   "id": "five-second-rule",
+   "no": 13,
+   "title": "The 5 Second Rule",
+   "author": "Mel Robbins",
+   "year": 2017,
+   "kind": "Guide",
+   "tags": [
+    "Self-help",
+    "Habits"
+   ],
+   "blurb": "Robbins's one trick for the gap between knowing what to do and doing it: count 5-4-3-2-1 and move before your brain talks you out of it. With a countdown to try, why she says it works, where to use it and the objections.",
+   "source": "five-second-rule-guide.html",
+   "added": "2026-11-22",
+   "cover": {
+    "bg": "#fff7ef",
+    "fg": "#1d1b22",
+    "line": "#e8541d"
+   },
+   "bar": {
+    "bg": "var(--bg)",
+    "accent": "var(--acc)"
+   },
+   "emblem": "<circle cx=\"24\" cy=\"26\" r=\"14\"/><path d=\"M24 26v-8M20 6h8M24 6v6M35.500 13.500l2.500-2.500\"/>",
+   "section": "books"
+  },
+  {
+   "id": "let-them-theory",
+   "no": 14,
+   "title": "The Let Them Theory",
+   "author": "Mel Robbins with Sawyer Robbins",
+   "year": 2024,
+   "kind": "Guide",
+   "tags": [
+    "Self-help",
+    "Relationships"
+   ],
+   "blurb": "Two phrases said in order: Let Them, because other adults' opinions and choices are not yours to control, and Let Me, because what you do next is. With a whose-is-it sorter, relationships, where it does not apply and the objections.",
+   "source": "let-them-theory-guide.html",
+   "added": "2026-11-22",
+   "cover": {
+    "bg": "#f3f7f1",
+    "fg": "#17231c",
+    "line": "#1f8a55"
+   },
+   "bar": {
+    "bg": "var(--bg)",
+    "accent": "var(--acc)"
+   },
+   "emblem": "<path d=\"M5 24h13M12 18l-6 6 6 6M30 24h13M36 18l6 6-6 6\"/><path d=\"M24 9v30\"/>",
+   "section": "books"
+  },
+  {
+   "id": "unfuck-your-brain",
+   "no": 15,
+   "title": "Unfu*k Your Brain",
+   "author": "Faith G. Harper",
+   "year": 2017,
+   "kind": "Guide",
+   "tags": [
+    "Psychology",
+    "Mental health"
+   ],
+   "blurb": "A trauma counsellor explains, in plain and sweary language, why your brain overreacts and how to retrain it: the three parts worth knowing, how an event becomes stuck, the tools she recommends, when to get help and the objections.",
+   "source": "unfuck-your-brain-guide.html",
+   "added": "2026-11-22",
+   "cover": {
+    "bg": "#fbf4ec",
+    "fg": "#1f1a24",
+    "line": "#d6336c"
+   },
+   "bar": {
+    "bg": "var(--bg)",
+    "accent": "var(--acc)"
+   },
+   "emblem": "<path d=\"M7 24h8l4-11 6 22 5-15 3 4h8\"/>",
+   "section": "books"
+  },
+  {
    "id": "the-manipulation-ladder",
    "no": 1,
    "title": "The Manipulation Ladder",
@@ -336,6 +414,32 @@
     "accent": "var(--a)"
    },
    "emblem": "<path d=\"M17 5 14 43M31 5l3 38M16.6 11h14.8M16.1 18h15.8M15.5 25h17M15 32h18M14.4 39h19.2\"/>",
+   "section": "extras"
+  },
+  {
+   "id": "overman-and-overself-illustrated",
+   "no": 2,
+   "title": "Overman and Overself",
+   "author": "Nietzsche and Paul Brunton",
+   "year": 2026,
+   "kind": "Guide",
+   "tags": [
+    "Philosophy",
+    "Self"
+   ],
+   "blurb": "Two ideas about becoming more than your everyday self, in 18 illustrated points: Nietzsche's Overman, reached by struggle, and Paul Brunton's Overself, reached by stillness. Each opens to the idea, where it comes from, what it looks like and the trap.",
+   "source": "Overman and Overself Illustrated.html",
+   "added": "2026-11-22",
+   "cover": {
+    "bg": "#15161a",
+    "fg": "#f1ece2",
+    "line": "#c23a3a"
+   },
+   "bar": {
+    "bg": "var(--bg)",
+    "accent": "var(--a)"
+   },
+   "emblem": "<path d=\"M8 40l12-22 6 10 4-6 10 18z\"/><circle cx=\"33\" cy=\"12\" r=\"4.500\"/>",
    "section": "extras"
   }
  ]

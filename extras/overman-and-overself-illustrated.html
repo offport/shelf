@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Overman and Overself · Shelf</title>
+<!-- library:head -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%2315161a%22/%3E%3Cg fill=%22%23c23a3a%22 transform=%22translate%284 4%29%22%3E%3Cpath d=%22M5 2H22V4.6H4.6V10.7H19a3 3 0 0 1 3 3V19a3 3 0 0 1-3 3H2V19.4H19.4V13.3H5a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3z%22/%3E%3Cpath d=%22M6 6h2.2v5H6zM9.3 7h2v4h-2zM12.9 11.2L11.8 6.9l1.95-.5 1.1 4.3zM15.8 14.7h2.2v5h-2.2zM12.7 15.7h2v4h-2zM11.1 19.9l1.1-4.3-1.95-.5-1.1 4.3z%22/%3E%3C/g%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta name="theme-color" content="#15161a">
+<meta name="library:id" content="overman-and-overself-illustrated">
+<!-- /library:head -->
+
+<style>
+/* Layout: one long scrolling page. A 6 x 8 board as the index, then 48 illustrated law cards, each a drawn
+   scene with two or more people. Tapping a card opens the full write-up. Look: ink, parchment and crimson. Single dark theme by choice. */
+:root{
+  --bg:#15161a; --panel:#1f2026; --card:#f6efe2; --ink:#f1ece2; --dark:#1d1b19; --muted:#a8a39a; --mut2:#6a6257; --rule:#32343c; --red:#c23a3a; --gold:#e3b54a; --green:#2f5d50; --a:#c23a3a;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --serif: Georgia, "Times New Roman", serif;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);display:flex;flex-direction:column;overflow:hidden}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+header{flex:none;background:var(--panel);border-bottom:1px solid var(--rule);padding:10px 14px 8px}
+.w{max-width:760px;margin:0 auto}
+h1{font-family:var(--serif);font-size:19px;margin:0;font-weight:400;color:var(--gold);letter-spacing:.02em}
+.by{font-size:12px;color:var(--muted);margin-top:1px}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-top:8px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;display:flex;align-items:center;gap:5px;border:1px solid var(--rule);background:transparent;border-radius:999px;padding:4px 11px 4px 6px;font-size:12.5px;cursor:pointer;white-space:nowrap}
+.chip svg{width:20px;height:20px;fill:var(--gold)}
+.chip.all{padding-left:11px}
+.chip[aria-pressed="true"]{background:var(--card);color:var(--dark);border-color:var(--card)}
+.chip[aria-pressed="true"] svg{fill:var(--dark)}
+main{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.pg{padding:0 14px 40px}
+.lead{font-size:14.5px;line-height:1.5;color:var(--muted);margin:14px 0 12px;max-width:64ch}
+.lead b{color:var(--ink)}
+#theme{font-size:13.5px;line-height:1.45;background:var(--panel);border-left:3px solid var(--gold);padding:8px 12px;margin:0 0 12px;display:none}
+#board{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));border:4px solid #0c0d10;outline:1px solid var(--gold);border-radius:3px;max-width:420px;margin:0 auto}
+#s-body p.flag{font-family:var(--serif);font-size:18px;font-style:italic}
+.sq{aspect-ratio:1;border:0;padding:0;position:relative;cursor:pointer;background:#ecdfc6;color:var(--dark);display:grid;place-items:center}
+.sq.d{background:var(--green);color:#ecdfc6}
+.sq svg{width:58%;height:58%;fill:currentColor;margin-top:12%}
+.sq i{position:absolute;left:4px;top:2px;font-style:normal;font-size:11px;font-weight:700;font-variant-numeric:tabular-nums}
+.sq.off{opacity:.2}
+h2{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:24px 0 10px}
+.grid{display:grid;gap:12px}
+@media (min-width:640px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.cd{display:block;width:100%;text-align:left;background:var(--card);color:var(--dark);border:0;border-radius:12px;overflow:hidden;cursor:pointer;padding:0}
+.cd svg.sc{display:block;width:100%;height:auto}
+.cb{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:9px 12px 11px}
+.cb i{font-style:normal;font-family:var(--serif);font-size:24px;color:var(--red);line-height:1;min-width:30px;font-variant-numeric:tabular-nums}
+.cb b{font-family:var(--serif);font-weight:400;font-size:16px;line-height:1.25;text-wrap:balance}
+.cb svg{width:22px;height:22px;fill:var(--mut2)}
+.note{font-size:12px;color:var(--muted);line-height:1.5;margin:22px 0 0;max-width:64ch}
+#shade{position:fixed;inset:0;background:#000b;opacity:0;pointer-events:none;transition:opacity .2s}
+#sheet{position:fixed;left:0;right:0;bottom:0;max-height:93%;overflow-y:auto;background:var(--card);color:var(--dark);border-radius:18px 18px 0 0;transform:translateY(105%);transition:transform .25s ease}
+body.open #shade{opacity:1;pointer-events:auto}
+body.open #sheet{transform:none}
+@media (prefers-reduced-motion: reduce){#sheet,#shade{transition:none}}
+.si{max-width:600px;margin:0 auto;position:relative}
+#s-art svg{display:block;width:100%;height:auto}
+#close{position:absolute;right:10px;top:10px;border:0;background:#0009;color:#fff;border-radius:50%;width:36px;height:36px;font-size:19px;cursor:pointer}
+.sb{padding:12px 18px 24px}
+#s-k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--red);font-weight:700;display:flex;align-items:center;gap:6px}
+#s-k svg{width:18px;height:18px;fill:var(--red)}
+#s-n{font-family:var(--serif);font-size:25px;line-height:1.2;margin:4px 0 0;font-weight:400;text-wrap:balance}
+#s-body h3{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--mut2);margin:18px 0 4px}
+#s-body p{font-size:15.5px;line-height:1.55;margin:0;max-width:62ch}
+#s-body p.idea{font-size:16.5px}
+#s-body p.rev{background:#ebe1cf;border-radius:10px;padding:10px 12px}
+#s-body p.flag{border-left:3px solid var(--red);padding-left:10px;color:#4a443c}
+.nav{display:flex;gap:8px;margin-top:20px}
+.nav button{flex:1;border:1px solid #cbbfa6;background:transparent;border-radius:9px;padding:10px;font-size:13.5px;cursor:pointer;color:var(--dark)}
+.nav button:disabled{opacity:.35}
+</style>
+</head>
+<body>
+<!-- library:bar — added by tools/shelve.py; the original file is in originals/ -->
+<div id="library-bar" role="navigation" aria-label="Shelf" class="" style="display:block;flex:none;--lib-bg:var(--bg);--lib-accent:var(--a);"><template shadowrootmode="open"><style>:host{display:block;flex:none;position:relative;font:500 12.5px/1 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  color:inherit;background:var(--lib-bg,transparent);-webkit-text-size-adjust:100%}
+:host(.lib-sticky){position:sticky;top:0;z-index:50}
+*{box-sizing:border-box}
+.bar{display:flex;align-items:center;gap:4px;height:38px;padding:0 8px 0 6px;max-width:100%;
+  border-bottom:1px solid color-mix(in srgb,currentColor 16%,transparent)}
+a,button{color:inherit;font:inherit;text-decoration:none;background:none;border:0;cursor:pointer;border-radius:6px;
+  display:inline-flex;align-items:center;gap:7px;height:30px;padding:0 8px;-webkit-tap-highlight-color:transparent}
+a:hover,button:hover{background:color-mix(in srgb,currentColor 9%,transparent)}
+:focus-visible{outline:2px solid var(--lib-accent,currentColor);outline-offset:1px}
+.home svg{width:18px;height:18px;fill:var(--lib-accent,currentColor);flex:none}
+.home b{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:13px;letter-spacing:.2em;text-transform:uppercase}
+.no{opacity:.62;font-variant-numeric:tabular-nums;white-space:nowrap;padding-left:9px;margin-left:1px;
+  border-left:1px solid color-mix(in srgb,currentColor 22%,transparent);line-height:16px}
+.sp{flex:1}
+.status i{width:11px;height:11px;border-radius:50%;border:1.6px solid currentColor;flex:none;opacity:.75}
+.status[data-s="reading"] i{background:linear-gradient(90deg,var(--lib-accent,currentColor) 50%,transparent 50%);border-color:var(--lib-accent,currentColor);opacity:1}
+.status[data-s="finished"] i{background:var(--lib-accent,currentColor);border-color:var(--lib-accent,currentColor);opacity:1}
+.step{width:30px;padding:0;justify-content:center;font-size:17px;line-height:1}
+.step[aria-disabled="true"]{opacity:.28;pointer-events:none}
+@media (max-width:400px){.no span{display:none}.home b{letter-spacing:.14em}}
+@media (max-width:330px){.status span{display:none}}</style><div class="bar"><a class="home" href="../index.html#overman-and-overself-illustrated" title="Back to the shelf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2H22V4.6H4.6V10.7H19a3 3 0 0 1 3 3V19a3 3 0 0 1-3 3H2V19.4H19.4V13.3H5a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3z"/><path d="M6 6h2.2v5H6zM9.3 7h2v4h-2zM12.9 11.2L11.8 6.9l1.95-.5 1.1 4.3zM15.8 14.7h2.2v5h-2.2zM12.7 15.7h2v4h-2zM11.1 19.9l1.1-4.3-1.95-.5-1.1 4.3z"/></svg><b>Shelf</b></a><span class="no" title="No. 2 of 2">No. 2<span> of 2</span></span><span class="sp"></span><button class="status" type="button" data-s="none"><i></i><span>To read</span></button><a class="step" href="the-manipulation-ladder.html" title="Previous: The Manipulation Ladder" aria-label="Previous: The Manipulation Ladder">‹</a><a class="step" aria-disabled="true" aria-label="Nothing next">›</a></div></template></div>
+<script>(function(){
+  var B={"id": "overman-and-overself-illustrated"}, host=document.getElementById("library-bar"); if(!host) return;
+  var root=host.shadowRoot; if(!root){var t=host.querySelector("template"); root=host.attachShadow({mode:"open"}); if(t){root.appendChild(t.content); t.remove();}}
+  var KEY="library.v1", LAB={none:"To read",reading:"Reading",finished:"Finished"}, NEXT={none:"reading",reading:"finished",finished:"none"};
+  function load(){try{var s=JSON.parse(localStorage.getItem(KEY)); if(s&&s.books) return s;}catch(e){} return {books:{}};}
+  function save(s){try{localStorage.setItem(KEY,JSON.stringify(s));}catch(e){}}
+  var btn=root.querySelector(".status");
+  function draw(){var st=(load().books[B.id]||{}).status||"none"; btn.dataset.s=st; btn.querySelector("span").textContent=LAB[st];
+    btn.setAttribute("aria-label","Reading status: "+LAB[st]+". Press to change.");}
+  var s=load(), me=s.books[B.id]||(s.books[B.id]={}); me.opened=Date.now(); save(s); draw();
+  btn.addEventListener("click",function(){var s=load(), me=s.books[B.id]||(s.books[B.id]={}); me.status=NEXT[me.status||"none"]; me.opened=Date.now(); save(s); draw();});
+  addEventListener("storage",function(e){if(e.key===KEY) draw();});
+})();</script>
+<!-- /library:bar -->
+<header><div class="w">
+  <h1>Overman and Overself</h1><div class="by">Nietzsche's Overman and Brunton's Overself in 18 illustrated points</div>
+  <div class="chips" id="chips"></div>
+</div></header>
+<main id="main"><div class="w pg">
+  <p class="lead"><b>Eighteen points, each with its own scene.</b> Two ideas about becoming more than your everyday self: Nietzsche's Overman, reached by struggle, and Paul Brunton's Overself, reached by stillness. Use the board to jump to a point, or scroll the cards. Each opens to the idea, where it comes from, what it looks like, the trap, and a line you could build an article section on.</p>
+  <p id="theme"></p>
+  <div id="board"></div>
+  <h2 id="lh">All 18 points</h2>
+  <div class="grid" id="grid"></div>
+  <p class="note">A plain-words summary of ideas from Friedrich Nietzsche (mainly Thus Spoke Zarathustra and The Gay Science) and Paul Brunton (The Quest of the Overself, The Wisdom of the Overself), written from memory with no quotations beyond a few well-known short phrases. Nietzsche never used the word Overself; pairing the two is this page's own framing. The grouping by chess piece, point 18, the "article angle" lines and all drawings are additions.</p>
+</div></main>
+<div id="shade"></div>
+<div id="sheet" role="dialog" aria-modal="true" aria-labelledby="s-n"><div class="si">
+  <div id="s-art"></div><button id="close" aria-label="Close">×</button>
+  <div class="sb"><div id="s-k"></div><h2 id="s-n" style="all:unset;display:block;font-family:var(--serif);font-size:25px;line-height:1.2;margin:4px 0 0"></h2>
+  <div id="s-body"></div>
+  <div class="nav"><button id="prev">‹ Previous</button><button id="next">Next ›</button></div></div>
+</div></div>
+<script>
+/* =====================  character builder, 200 x 250  ===================== */
+const INK="#22252b", SKIN={a:"#f3cfae",b:"#e0aa80",c:"#b97d54",d:"#8a5636",e:"#f8dcc6"};
+const shade=(hex,k)=>{const n=parseInt(hex.slice(1),16),f=v=>Math.max(0,Math.min(255,Math.round(v*k)));return "#"+[n>>16,(n>>8)&255,n&255].map(v=>f(v).toString(16).padStart(2,"0")).join("");};
+function arm(sx,sy,p,col,skin,short){
+  const [ex,ey,hx,hy]=p; let s=`<path d="M${sx},${sy} L${ex},${ey} L${hx},${hy}" fill="none" stroke="${short?skin:col}" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>`;
+  if(short) s+=`<path d="M${sx},${sy} L${(sx*.45+ex*.55).toFixed(1)},${(sy*.45+ey*.55).toFixed(1)}" stroke="${col}" stroke-width="14.5" stroke-linecap="round"/>`;
+  return s+`<circle cx="${hx}" cy="${hy}" r="7.6" fill="${skin}"/>`;
+}
+function leg(sx,p,col,shoe,dir,skinLeg){
+  const [kx,ky,fx,fy]=p;
+  return `<path d="M${sx},170 L${kx},${ky} L${fx},${fy}" fill="none" stroke="${skinLeg||col}" stroke-width="${skinLeg?12:16}" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="${fx+dir*4}" cy="${fy+6}" rx="12" ry="6.5" fill="${shoe}"/>`;
+}
+const HAIR={
+ short:c=>["",`<path d="M73,68 q-3,-36 27,-36 q30,0 27,36 q-5,-16 -27,-17 q-22,1 -27,17z" fill="${c}"/>`],
+ side:c=>["",`<path d="M73,72 q-4,-40 27,-40 q32,0 27,40 q-3,-14 -12,-20 q-20,8 -37,2 q-4,6 -5,18z" fill="${c}"/>`],
+ slick:c=>["",`<path d="M73,66 q-2,-36 27,-36 q29,0 27,36 q-4,-12 -10,-17 q-17,-6 -34,0 q-6,5 -10,17z" fill="${c}"/><path d="M84,40 q16,-6 32,0" fill="none" stroke="${shade(c,1.5)}" stroke-width="1.5" opacity=".6"/>`],
+ spiky:c=>["",`<path d="M73,68 l-3,-18 l10,6 l0,-18 l11,10 l6,-18 l8,16 l12,-12 l1,16 l11,-6 l-2,24 q-5,-14 -27,-15 q-22,1 -27,15z" fill="${c}"/>`],
+ curly:c=>["",`<g fill="${c}"><circle cx="78" cy="52" r="10"/><circle cx="90" cy="42" r="11"/><circle cx="104" cy="39" r="11"/><circle cx="117" cy="45" r="10"/><circle cx="124" cy="56" r="8"/><circle cx="75" cy="62" r="7"/></g>`],
+ afro:c=>[`<circle cx="100" cy="56" r="40" fill="${c}"/>`,`<path d="M75,66 q4,-22 25,-22 q21,0 25,22 q-10,-10 -25,-10 q-15,0 -25,10z" fill="${c}"/>`],
+ long:c=>[`<path d="M70,72 q-4,-42 30,-42 q34,0 30,42 l4,50 q-34,12 -68,0z" fill="${c}"/>`,`<path d="M74,70 q0,-34 26,-34 q26,0 26,34 q-8,-18 -22,-22 q-16,10 -30,22z" fill="${c}"/>`],
+ bob:c=>[`<path d="M69,72 q-4,-42 31,-42 q35,0 31,42 l1,22 q-32,10 -64,0z" fill="${c}"/>`,`<path d="M74,68 q2,-30 26,-30 q24,0 26,30 q-12,-12 -52,-8z" fill="${c}"/>`],
+ bun:c=>[`<circle cx="100" cy="30" r="12" fill="${c}"/>`,`<path d="M73,68 q-3,-34 27,-34 q30,0 27,34 q-6,-16 -27,-16 q-21,0 -27,16z" fill="${c}"/>`],
+ pony:c=>[`<path d="M122,48 q26,2 22,36 q-2,22 -14,34 q4,-22 -2,-38 q-4,-16 -12,-20z" fill="${c}"/>`,`<path d="M73,70 q-4,-38 27,-38 q31,0 27,38 q-6,-18 -18,-22 q-18,10 -36,22z" fill="${c}"/>`],
+ buzz:c=>["",`<path d="M74,64 q0,-30 26,-30 q26,0 26,30 q-6,-16 -26,-16 q-20,0 -26,16z" fill="${c}" opacity=".85"/>`]
+};
+function face(f={}){
+  const d=INK, b=f.brow||"soft", e=f.eyes||"dot", m=f.mouth||"smile"; let s="";
+  s+={soft:`<path d="M84,61 q6,-3 12,0 M104,61 q6,-3 12,0"`,flat:`<path d="M84,61 h12 M104,61 h12"`,down:`<path d="M84,59 l12,3 M116,59 l-12,3"`,up:`<path d="M84,59 q6,-5 12,-1 M104,58 q6,-4 12,1"`,quirk:`<path d="M84,62 h12 M104,57 q6,-4 12,0"`}[b]+` fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`;
+  s+={dot:`<circle cx="90" cy="70" r="2.8" fill="${d}"/><circle cx="110" cy="70" r="2.8" fill="${d}"/>`,
+      wide:`<circle cx="90" cy="70" r="4.2" fill="#fff"/><circle cx="110" cy="70" r="4.2" fill="#fff"/><circle cx="90.6" cy="70.4" r="2.5" fill="${d}"/><circle cx="110.6" cy="70.4" r="2.5" fill="${d}"/>`,
+      smile:`<path d="M85.500,71 q4.500,-5 9,0 M105.500,71 q4.500,-5 9,0" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      lash:`<circle cx="90" cy="70" r="2.8" fill="${d}"/><circle cx="110" cy="70" r="2.8" fill="${d}"/><path d="M85,67 l-3,-2 M115,67 l3,-2" stroke="${d}" stroke-width="1.8" stroke-linecap="round"/>`}[e];
+  s+=`<path d="M100,73 q3,5 -1,7" fill="none" stroke="#0002" stroke-width="2" stroke-linecap="round"/>`;
+  s+={smile:`<path d="M92,83 q8,6 16,0" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      soft:`<path d="M94,84 q6,3.500 12,0" fill="none" stroke="${d}" stroke-width="2.2" stroke-linecap="round"/>`,
+      flat:`<path d="M94,85 h12" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      smirk:`<path d="M93,85 q7,2 14,-3" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      grin:`<path d="M90,81 q10,13 20,0z" fill="${d}"/><path d="M93,82.500 h14" stroke="#fff" stroke-width="2.6"/>`,
+      o:`<ellipse cx="100" cy="85" rx="4" ry="5" fill="${d}"/>`}[m];
+  if(f.blush) s+=`<circle cx="82" cy="78" r="5" fill="#e8766b" opacity=".32"/><circle cx="118" cy="78" r="5" fill="#e8766b" opacity=".32"/>`;
+  return s;
+}
+function torso(o){
+  const t=o.top, sh=shade(t,.8), st=o.style||"tee"; let s="";
+  const base=c=>`<path d="M76,105 q24,-9 48,0 l6,62 q-30,9 -60,0z" fill="${c}"/>`;
+  const shadow=`<path d="M104,101 q12,0 20,4 l6,62 q-13,4 -26,5z" fill="#000" opacity=".08"/>`;
+  if(st==="dress") return `<path d="M76,105 q24,-9 48,0 l5,40 l15,58 q-44,11 -88,0 l15,-58z" fill="${t}"/><path d="M104,101 q12,0 20,4 l5,40 l15,58 q-20,5 -40,6z" fill="#000" opacity=".08"/>`+(o.belt?`<path d="M72,144 q28,7 56,0 v7 q-28,7 -56,0z" fill="${o.belt}"/>`:"");
+  if(st==="coat"){ s=base(o.inner||"#f4f1ea")+`<path d="M76,105 q10,-5 19,-5 l-3,100 h-24z" fill="${t}"/><path d="M124,105 q-10,-5 -19,-5 l3,100 h24z" fill="${t}"/><path d="M108,100 l3,100 h21 l-8,-95z" fill="#000" opacity=".08"/><path d="M95,100 l-6,24 M105,100 l6,24" stroke="${sh}" stroke-width="2.5" stroke-linecap="round"/>`; return s; }
+  s=base(st==="jacket"||st==="vest"||st==="overalls"||st==="shirt"?(o.inner||"#f4f1ea"):t);
+  if(st==="suit") s+=`<path d="M91,100 l9,26 l9,-26z" fill="#fbfaf7"/><path d="M98,104 h4 l2.500,20 l-4.500,6 l-4.500,-6z" fill="${o.tie||"#b3262e"}"/><path d="M91,100 l9,26 M109,100 l-9,26" stroke="${sh}" stroke-width="3" stroke-linecap="round"/><circle cx="100" cy="144" r="1.8" fill="${sh}"/><circle cx="100" cy="156" r="1.8" fill="${sh}"/>`;
+  if(st==="shirt") s+=`<path d="M90,100 l10,9 l10,-9 l3,8 l-13,6 l-13,-6z" fill="${shade(o.inner||"#f4f1ea",.9)}"/><path d="M98,108 h4 l3,34 l-5,7 l-5,-7z" fill="${o.tie||t}"/><path d="M100,150 v20" stroke="#0001" stroke-width="2"/>`;
+  if(st==="jacket") s+=`<path d="M76,105 q9,-5 17,-5 l-5,68 q-8,0 -18,-1z" fill="${t}"/><path d="M124,105 q-9,-5 -17,-5 l5,68 q8,0 18,-1z" fill="${t}"/><path d="M93,100 l-4,22 M107,100 l4,22" stroke="${sh}" stroke-width="2.5" stroke-linecap="round"/>`;
+  if(st==="vest") s+=`<path d="M78,105 q8,-4 14,-5 l8,30 l8,-30 q6,1 14,5 l5,62 q-27,8 -54,0z" fill="${t}"/><path d="M98,106 h4 l2,16 l-4,5 l-4,-5z" fill="${o.tie||"#8f2f25"}"/><circle cx="100" cy="142" r="1.8" fill="${sh}"/><circle cx="100" cy="154" r="1.8" fill="${sh}"/>`;
+  if(st==="overalls") s+=`<path d="M86,122 h28 l10,46 q-24,7 -48,0z" fill="${t}"/><path d="M88,122 l-5,-18 M112,122 l5,-18" stroke="${t}" stroke-width="6" stroke-linecap="round"/><circle cx="88" cy="124" r="2.4" fill="#e6c25a"/><circle cx="112" cy="124" r="2.4" fill="#e6c25a"/><rect x="92" y="132" width="16" height="12" rx="2" fill="${sh}"/>`;
+  if(st==="hoodie") s+=`<path d="M86,146 h28 l4,16 h-36z" fill="${sh}"/><path d="M95,104 v16 M105,104 v16" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".8"/>`;
+  if(st==="turtle") s+=`<rect x="88" y="91" width="24" height="15" rx="6" fill="${t}"/><path d="M88,99 h24" stroke="${sh}" stroke-width="1.5"/>`;
+  if(st==="sweater") s+=`<path d="M88,101 q12,9 24,0" fill="none" stroke="${sh}" stroke-width="4" stroke-linecap="round"/><path d="M72,160 q28,9 56,0" fill="none" stroke="${sh}" stroke-width="5"/>`;
+  if(st==="stripe") s+=`<g stroke="${o.stripe||"#fff"}" stroke-width="4" opacity=".9"><path d="M77,116 q23,-6 46,0"/><path d="M76,130 q24,-5 48,0"/><path d="M75,144 q25,-4 50,0"/><path d="M74,158 q26,-3 52,0"/></g>`;
+  if(o.graphic) s+=o.graphic;
+  return s+shadow;
+}
+function fig(o){
+  const skin=SKIN[o.skin||"a"], bottom=o.bottom||"#2f3440", shoe=o.shoes||"#22252b";
+  const la=o.la||[66,140,70,166], ra=o.ra||[134,140,130,166], ll=o.ll||[87,202,86,232], rl=o.rl||[113,202,114,232];
+  const [hb,hf]=HAIR[o.hair||"short"](o.hairCol||"#3a2a20"), short=o.sleeve==="short";
+  const long=o.style==="dress"||o.style==="coat", skirt=o.style==="dress";
+  const legs=leg(90,ll,bottom,shoe,-1,skirt?skin:null)+leg(110,rl,bottom,shoe,1,skirt?skin:null);
+  const hips=skirt?"":`<path d="M71,164 q29,9 58,0 l2,14 q-31,8 -62,0z" fill="${bottom}"/>`;
+  const armCol=o.armCol||o.top;
+  const armL=arm(79,111,la,armCol,skin,short), armR=arm(121,111,ra,armCol,skin,short);
+  return `<svg viewBox="0 0 200 250" role="img" aria-label="${o.label||""}">
+   <circle cx="100" cy="122" r="96" fill="${o.bg||"#eee"}"/>${o.back||""}
+   <ellipse cx="100" cy="${o.jump?244:240}" rx="${o.jump?34:48}" ry="6" fill="#000" opacity=".14"/>
+   ${hb}${o.behind||""}${legs}${hips}${o.armsBack?armL+armR:""}${torso(o)}${o.armsBack?"":armL+armR}
+   <rect x="93" y="88" width="14" height="18" rx="5" fill="${shade(SKIN[o.skin||"a"],.88)}"/>${o.style==="turtle"?`<rect x="88" y="91" width="24" height="15" rx="6" fill="${o.top}"/>`:""}${o.style==="hoodie"?`<path d="M80,104 q20,-14 40,0 q-20,10 -40,0z" fill="${shade(o.top,.8)}"/>`:""}
+   <circle cx="74" cy="72" r="5.500" fill="${skin}"/><circle cx="126" cy="72" r="5.500" fill="${skin}"/><circle cx="100" cy="68" r="27" fill="${skin}"/><path d="M110,42 a27,27 0 0 1 0,52 a34,34 0 0 0 0,-52z" fill="#000" opacity=".06"/>
+   ${o.beard?`<path d="M75,74 q2,26 25,26 q23,0 25,-26 q-8,14 -25,14 q-17,0 -25,-14z" fill="${o.hairCol}"/>`:""}${hf}${face(o.face)}${o.acc||""}${o.front||""}</svg>`;
+}
+/* small drawing helpers for props and backdrops */
+const star=(x,y,r,c,o=1)=>{let p="";for(let i=0;i<8;i++){const a=i*Math.PI/4,q=i%2?r*.38:r;p+=(x+q*Math.cos(a)).toFixed(1)+","+(y+q*Math.sin(a)).toFixed(1)+" ";}return `<polygon points="${p}" fill="${c}" opacity="${o}"/>`;};
+const gear=(x,y,r,c,o=1)=>{let t="";for(let i=0;i<8;i++)t+=`<rect x="${x-r*.16}" y="${y-r*1.22}" width="${r*.32}" height="${r*.5}" rx="1.5" transform="rotate(${i*45} ${x} ${y})"/>`;return `<g fill="${c}" opacity="${o}">${t}<circle cx="${x}" cy="${y}" r="${r}"/></g><circle cx="${x}" cy="${y}" r="${r*.42}" fill="#fff" opacity="${o*.7}"/>`;};
+const note=(x,y,c)=>`<g fill="${c}"><ellipse cx="${x}" cy="${y}" rx="5" ry="4" transform="rotate(-20 ${x} ${y})"/><rect x="${x+3.500}" y="${y-18}" width="2.200" height="18"/><path d="M${x+3.500},${y-18} q9,2 9,10 q-3,-5 -9,-4z"/></g>`;
+const heart=(x,y,s,c,o=1)=>`<path d="M${x},${y+s*.9} l${-s},${-s} a${s*.56},${s*.56} 0 0 1 ${s},${-s*.62} a${s*.56},${s*.56} 0 0 1 ${s},${s*.62}z" fill="${c}" opacity="${o}"/>`;
+const glasses=(sq)=>sq?`<rect x="81" y="63" width="17" height="13" rx="3" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.200"/><rect x="102" y="63" width="17" height="13" rx="3" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.200"/><path d="M98,68 h4 M81,68 l-6,-2 M119,68 l6,-2" stroke="${INK}" stroke-width="2.200"/>`:`<circle cx="90" cy="70" r="8.500" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.200"/><circle cx="110" cy="70" r="8.500" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.200"/><path d="M98.500,69 h3 M81.500,69 l-6,-2 M118.500,69 l6,-2" stroke="${INK}" stroke-width="2.200"/>`;
+
+/* =====================  scene kit, 400 x 210  ===================== */
+const inner=o=>fig(o).replace(/^<svg[^>]*>\s*<circle[^>]*\/>/,"").replace("</svg>","");
+const G="#e3b54a", RED="#c23a3a", INKC="#22252b";
+const S5=(x,y,r,c,o=1)=>{let p="";for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,q=i%2?r*.45:r;p+=(x+q*Math.cos(a)).toFixed(1)+","+(y+q*Math.sin(a)).toFixed(1)+" ";}return `<polygon points="${p}" fill="${c}" opacity="${o}"/>`;};
+const crown=(x,y,k=1,c=G)=>`<path d="M${x-16*k},${y} l${-3*k},${-18*k} l${9*k},${8*k} l${10*k},${-13*k} l${10*k},${13*k} l${9*k},${-8*k} l${-3*k},${18*k}z" fill="${c}" stroke="${INKC}" stroke-width="2" stroke-linejoin="round"/>`;
+const CH={
+ Y:{skin:"b",hair:"short",hairCol:"#2b2224",style:"jacket",top:"#27365e",inner:"#fbfaf7",bottom:"#3a3f4c"},
+ K:{skin:"a",hair:"side",hairCol:"#8a857a",beard:1,style:"coat",top:"#5a3d7a",inner:"#e3b54a",bottom:"#3a2f4a",acc:crown(100,46,1.15)},
+ Q:{skin:"e",hair:"bun",hairCol:"#a8442a",style:"dress",top:"#1f7a5a",belt:"#e3b54a",bottom:"#1f7a5a",shoes:"#7a4a2e",ll:[88,214,87,232],rl:[112,214,113,232]},
+ R:{skin:"c",hair:"slick",hairCol:"#1d1a1c",style:"suit",top:"#7a2630",tie:"#e3b54a",bottom:"#3a2226"},
+ M:{skin:"d",hair:"curly",hairCol:"#1d1a1c",style:"vest",top:"#c79a2e",inner:"#f4f1ea",armCol:"#f4f1ea",tie:"#7a4a2e",bottom:"#4a4036"},
+ S:{skin:"a",hair:"buzz",hairCol:"#3a332c",style:"turtle",top:"#6b7078",bottom:"#3a3f4c"},
+ F:{skin:"e",hair:"long",hairCol:"#c9a24a",style:"sweater",top:"#c2557a",bottom:"#5a3f52"},
+ O:{skin:"b",hair:"spiky",hairCol:"#e6e1d6",beard:1,style:"coat",top:"#6b4a2e",inner:"#d8cfbe",bottom:"#3a332c"}
+};
+const POSE={stand:{},hips:{la:[58,134,80,152],ra:[142,134,120,152]},point:{ra:[146,108,170,92]},open:{la:[54,128,34,114],ra:[146,128,166,114]},up:{ra:[146,104,152,74]},
+ cheer:{la:[56,100,46,68],ra:[144,100,154,68]},think:{ra:[142,136,116,100]},whisper:{ra:[140,112,122,90]},give:{ra:[146,126,168,120]},heart:{la:[66,138,95,132]},
+ stop:{ra:[146,116,162,92]},bowl:{la:[62,138,86,148],ra:[138,138,114,148]},back:{la:[70,140,84,164],ra:[130,140,116,164]},uphip:{la:[58,134,80,152],ra:[146,104,152,74]}};
+const FACE={soft:{brow:"soft",mouth:"soft"},smile:{brow:"up",mouth:"smile"},grin:{brow:"up",mouth:"grin"},smirk:{brow:"soft",mouth:"smirk"},stern:{brow:"down",mouth:"flat"},worry:{brow:"up",mouth:"flat"},
+ shock:{brow:"up",eyes:"wide",mouth:"o"},sly:{brow:"quirk",mouth:"smirk"},calm:{brow:"soft",eyes:"smile",mouth:"smile"},angry:{brow:"down",eyes:"wide",mouth:"o"},wow:{brow:"up",eyes:"wide",mouth:"grin"}};
+const WALK={ll:[84,202,74,232],rl:[116,202,126,232]};
+function P(x,ch,pose,face,o={}){const s=o.s||.74, y0=208-250*s; const spec=Object.assign({},CH[ch],POSE[pose],{face:FACE[face]},o.w?WALK:{},o.x||{});
+  if(o.f) spec.front=(spec.front||"")+o.f; if(o.b) spec.back=o.b; if(o.h) spec.behind=o.h; if(o.a) spec.acc=(spec.acc||"")+o.a;
+  return `<g transform="translate(${o.m?x+200*s:x},${y0}) scale(${o.m?-s:s},${s})"${o.o?` opacity="${o.o}"`:""}>${inner(spec)}</g>`;}
+const mini=(x,y,c,s,hc,k=1)=>`<g transform="translate(${x},${y}) scale(${k})"><path d="M-13,34 q0,-22 13,-22 q13,0 13,22z" fill="${c}"/><circle r="9.5" fill="${s}"/><path d="M-9,-2 q9,-12 18,0 q-9,-5 -18,0z" fill="${hc}"/></g>`;
+const crowd=(x,y)=>mini(x,y,"#6a7f9a","#f3cfae","#3a2a20")+mini(x+28,y+10,"#9a6a5a","#b97d54","#1d1a1c")+mini(x+56,y,"#7f8f5a","#f8dcc6","#7a4a2e");
+const bub=(x,y,w,t,c,tc,d)=>`<rect x="${x}" y="${y}" width="${w}" height="28" rx="12" fill="${c}"/><path d="M${x+(d>0?w-24:14)},${y+26} l${d*7},11 l2,-12z" fill="${c}"/><text x="${x+w/2}" y="${y+19}" font-size="13" font-weight="800" text-anchor="middle" fill="${tc}" font-family="system-ui,sans-serif">${t}</text>`;
+const scrib=(x,y,w,hh,c,d)=>`<rect x="${x}" y="${y}" width="${w}" height="${hh}" rx="14" fill="${c}"/><path d="M${x+(d>0?w-26:16)},${y+hh-2} l${d*7},12 l2,-13z" fill="${c}"/><path d="M${x+10},${y+hh/2} q6,-12 12,0 q6,12 12,0 q6,-12 12,0 q6,12 12,0${w>80?" q6,-12 12,0 q6,12 12,0":""}" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>`;
+const sword=(x,y,r,c="#cfd4da")=>`<g transform="translate(${x},${y}) rotate(${r})"><path d="M-3,-4 v-44 l3,-8 l3,8 v44z" fill="${c}" stroke="${INKC}" stroke-width="1.6"/><rect x="-11" y="-5" width="22" height="5" rx="2" fill="${G}" stroke="${INKC}" stroke-width="1.4"/><rect x="-2.500" y="0" width="5" height="12" fill="#7a4a2e"/></g>`;
+const coin=(x,y,r=8)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${G}" stroke="${INKC}" stroke-width="1.8"/><circle cx="${x}" cy="${y}" r="${r*.55}" fill="none" stroke="#b98a2e" stroke-width="1.5"/>`;
+const bag=(x,y)=>`<path d="M${x-12},${y+16} q-6,-18 6,-24 h12 q12,6 6,24z" fill="#b98a5c" stroke="${INKC}" stroke-width="2"/><path d="M${x-7},${y-8} h14" stroke="${INKC}" stroke-width="3" stroke-linecap="round"/>`+coin(x,y+6,5);
+const gift=(x,y)=>`<rect x="${x-14}" y="${y-10}" width="28" height="22" rx="2" fill="${G}" stroke="${INKC}" stroke-width="2"/><rect x="${x-3}" y="${y-10}" width="6" height="22" fill="${RED}"/><path d="M${x},${y-10} q-10,-12 -13,-3 q2,5 13,3 q10,-12 13,-3 q-2,5 -13,3z" fill="${RED}" stroke="${INKC}" stroke-width="1.4" stroke-linejoin="round"/>`;
+const flag=(x,y,c,hh=46)=>`<rect x="${x}" y="${y-hh}" width="3" height="${hh}" fill="#5a3d2a"/><path d="M${x+3},${y-hh} h26 l-6,8 l6,8 h-26z" fill="${c}" stroke="${INKC}" stroke-width="1.4" stroke-linejoin="round"/>`;
+const key=(x,y,k=1)=>`<g transform="translate(${x},${y}) scale(${k})" fill="none" stroke="${G}" stroke-width="5" stroke-linecap="round"><circle cx="0" cy="-14" r="9"/><path d="M0,-5 v30 M0,14 h9 M0,24 h7"/></g>`;
+const clock=(x,y,r)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#fbfaf7" stroke="${INKC}" stroke-width="2.5"/><path d="M${x},${y-r*.6} v${r*.6} l${r*.45},${r*.25}" fill="none" stroke="${INKC}" stroke-width="2.5" stroke-linecap="round"/>`;
+const hourglass=(x,y,k=1)=>`<g transform="translate(${x},${y}) scale(${k})"><path d="M-10,-18 h20 l-8,16 l8,16 h-20 l8,-16z" fill="#fbfaf7" stroke="${INKC}" stroke-width="2" stroke-linejoin="round"/><path d="M-5,-15 h10 l-5,10z M-7,13 h14 l-7,-9z" fill="${G}"/><path d="M-12,-18 h24 M-12,14 h24" stroke="${INKC}" stroke-width="3" stroke-linecap="round"/></g>`;
+const sheep=(x,y)=>`<g fill="#f2efe8" stroke="#b9b2a6" stroke-width="1"><circle cx="${x}" cy="${y}" r="11"/><circle cx="${x+12}" cy="${y-3}" r="10"/><circle cx="${x+22}" cy="${y+2}" r="10"/></g><ellipse cx="${x-9}" cy="${y-2}" rx="6" ry="7" fill="#3d3530"/><path d="M${x+2},${y+10} v9 M${x+18},${y+10} v9" stroke="#3d3530" stroke-width="3"/>`;
+const mask=(x,y,happy)=>`<path d="M${x-22},${y-22} q22,-10 44,0 q4,34 -22,48 q-26,-14 -22,-48z" fill="#fbfaf7" stroke="${INKC}" stroke-width="2"/><path d="M${x-13},${y-8} q5,-5 10,0 M${x+3},${y-8} q5,-5 10,0" fill="none" stroke="${INKC}" stroke-width="2.4" stroke-linecap="round"/><path d="M${x-9},${y+8} q9,${happy?10:-8} 18,0" fill="none" stroke="${RED}" stroke-width="2.6" stroke-linecap="round"/>`;
+const target=(x,y,r)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#fbfaf7" stroke="${INKC}" stroke-width="2"/><circle cx="${x}" cy="${y}" r="${r*.66}" fill="${RED}"/><circle cx="${x}" cy="${y}" r="${r*.33}" fill="#fbfaf7"/>`;
+const arrow=(x1,y1,x2,y2,c=INKC,w=3)=>{const a=Math.atan2(y2-y1,x2-x1);return `<path d="M${x1},${y1} L${x2},${y2}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/><path d="M${x2},${y2} l${(-11*Math.cos(a-.45)).toFixed(1)},${(-11*Math.sin(a-.45)).toFixed(1)} M${x2},${y2} l${(-11*Math.cos(a+.45)).toFixed(1)},${(-11*Math.sin(a+.45)).toFixed(1)}" stroke="${c}" stroke-width="${w}" stroke-linecap="round" fill="none"/>`;};
+const spot=(x,w)=>`<path d="M${x},0 l${-w},208 h${w*2}z" fill="#ffe9a8" opacity=".28"/>`;
+const rain=(x,y)=>`<g fill="#7a7f8a"><circle cx="${x}" cy="${y}" r="13"/><circle cx="${x+16}" cy="${y-7}" r="16"/><circle cx="${x+34}" cy="${y}" r="13"/><rect x="${x}" y="${y}" width="34" height="13"/></g><g stroke="#6aa0d8" stroke-width="2.5" stroke-linecap="round"><path d="M${x},${y+20} l-3,9 M${x+12},${y+22} l-3,9 M${x+24},${y+20} l-3,9 M${x+36},${y+22} l-3,9"/></g>`;
+const throne=(x,y)=>`<rect x="${x-22}" y="${y-74}" width="44" height="74" rx="6" fill="#7a2630" stroke="${INKC}" stroke-width="2"/><rect x="${x-28}" y="${y-30}" width="56" height="30" rx="4" fill="#9a3640" stroke="${INKC}" stroke-width="2"/><circle cx="${x-22}" cy="${y-76}" r="5" fill="${G}"/><circle cx="${x+22}" cy="${y-76}" r="5" fill="${G}"/>`;
+const tower=(x,y,w,hh)=>`<path d="M${x},${y} v${-hh} h${w/5} v10 h${w/5} v-10 h${w/5} v10 h${w/5} v-10 h${w/5} v${hh}z" fill="#9aa0a8" stroke="${INKC}" stroke-width="2" stroke-linejoin="round"/><g stroke="#6b7078" stroke-width="1.5"><path d="M${x},${y-hh*.33} h${w} M${x},${y-hh*.66} h${w} M${x+w/3},${y} v${-hh*.33} M${x+w*.66},${y-hh*.33} v${-hh*.33}"/></g>`;
+const glove=(x,y)=>`<circle cx="${x}" cy="${y}" r="9" fill="#fff" stroke="#b9b2a6" stroke-width="1.5"/>`;
+const mountain=(x,y,w,hh,c="#8a8f9a")=>`<path d="M${x},${y} l${w/2},${-hh} l${w/2},${hh}z" fill="${c}" stroke="${INKC}" stroke-width="2" stroke-linejoin="round"/><path d="M${x+w/2-w*.12},${y-hh*.76} l${w*.12},${-hh*.24} l${w*.12},${hh*.24} l${-w*.06},${-hh*.06} l${-w*.06},${hh*.08} l${-w*.06},${-hh*.08}z" fill="#fbfaf7"/>`;
+const sprout=(x,y)=>`<path d="M${x},${y} v-22" stroke="#2f7d5a" stroke-width="4" stroke-linecap="round"/><path d="M${x},${y-16} q-16,-4 -16,-18 q16,0 16,18z M${x},${y-20} q16,-4 16,-18 q-16,0 -16,18z" fill="#4aa66f" stroke="${INKC}" stroke-width="1.5"/>`;
+const serpent=(x,y,k=1,c="#2f7d5a")=>`<g transform="translate(${x},${y}) scale(${k})"><path d="M0,60 q-50,-10 -30,-50 q20,-34 60,-10 q30,20 0,40 q-26,16 -34,-6" fill="none" stroke="${c}" stroke-width="16" stroke-linecap="round"/><path d="M-14,58 l-26,-12 l4,26 z" fill="${c}" stroke="${INKC}" stroke-width="2" stroke-linejoin="round"/><circle cx="-24" cy="56" r="3" fill="#ffe08a"/></g>`;
+const tablet=(x,y,r=0,c="#b9b2a6")=>`<g transform="rotate(${r} ${x} ${y})"><path d="M${x-16},${y+22} v-34 a16,16 0 0 1 32,0 v34z" fill="${c}" stroke="${INKC}" stroke-width="2"/><path d="M${x-8},${y-8} h16 M${x-8},${y} h16 M${x-8},${y+8} h12" stroke="${INKC}" stroke-width="1.6" opacity=".6"/></g>`;
+const SC=[
+/*1*/()=>tower(210,206,150,120)+`<path d="M270,86 l10,30 l-12,24 l14,30 l-8,36" fill="none" stroke="${INKC}" stroke-width="4"/><g fill="#9aa0a8" stroke="${INKC}" stroke-width="1.5"><rect x="186" y="186" width="16" height="12" transform="rotate(-14 194 192)"/><rect x="366" y="190" width="14" height="10" transform="rotate(20 373 195)"/><rect x="170" y="150" width="12" height="10" transform="rotate(30 176 155)"/></g>`+P(20,"K","open","shock",{x:{acc:""}})+`<g transform="rotate(-28 150 190)">${crown(150,196,.9)}</g>`,
+/*2*/()=>`<rect x="0" y="120" width="70" height="90" fill="#8a8578" stroke="${INKC}" stroke-width="2"/><rect x="330" y="96" width="70" height="114" fill="#8a8578" stroke="${INKC}" stroke-width="2"/><path d="M70,122 Q200,150 330,98" fill="none" stroke="#7a4a2e" stroke-width="4"/>`+sheep(14,104)+S5(366,60,16,G)+`<g transform="translate(0,-78)">${P(138,"Y","open","stern",{w:1,s:.5})}</g>`,
+/*3*/()=>`<circle cx="200" cy="96" r="88" fill="#ffe9a8" opacity=".45"/><g opacity=".22"><g transform="translate(-74,-52) scale(1.38)">${P(126,"S","heart","calm")}</g></g>`+P(126,"S","heart","calm")+S5(80,40,6,G)+S5(320,56,5,G)+S5(300,150,4,"#fff"),
+/*4*/()=>`<rect x="226" y="14" width="140" height="192" rx="10" fill="#cfe3ef" stroke="${G}" stroke-width="7"/>`+P(222,"R","hips","smirk",{m:1,x:{acc:crown(100,46,1.1)}})+`<path d="M242,30 l26,26 M256,26 l14,14" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".7"/>`+P(20,"Y","up","stern",{f:`<g transform="translate(152,70)"><rect x="-22" y="-3" width="44" height="6" fill="#6b7078"/><rect x="-28" y="-11" width="8" height="22" rx="2" fill="${INKC}"/><rect x="20" y="-11" width="8" height="22" rx="2" fill="${INKC}"/></g>`}),
+/*5*/()=>mountain(250,200,150,150)+flag(322,56,RED,24)+`<ellipse cx="60" cy="184" rx="58" ry="14" fill="#8ec5d6" stroke="${INKC}" stroke-width="2"/><path d="M30,184 q10,-5 20,0 M60,188 q10,-5 20,0" stroke="#fff" stroke-width="2" fill="none"/><path d="M200,200 Q150,170 100,180 M200,200 Q240,180 270,190" fill="none" stroke="${INKC}" stroke-width="2.5" stroke-dasharray="5 6"/>`+P(126,"Y","think","soft",{s:.66})+bub(170,20,44,"?",INKC,"#fff",-1),
+/*6*/()=>tablet(60,180,-24)+tablet(330,184,18)+`<path d="M52,160 l14,30 M324,166 l10,28" stroke="${INKC}" stroke-width="3"/>`+P(60,"Y","give","stern",{f:`<path d="M168,118 l22,-16" stroke="#6b7078" stroke-width="5" stroke-linecap="round"/>`})+`<path d="M222,196 v-90 a34,34 0 0 1 68,0 v90z" fill="#fbfaf7" stroke="${INKC}" stroke-width="2.5"/>`+S5(256,120,10,G),
+/*7*/()=>`<rect x="110" y="150" width="180" height="50" rx="14" fill="#7a2630" stroke="${INKC}" stroke-width="2"/><rect x="96" y="120" width="30" height="80" rx="10" fill="#9a3640" stroke="${INKC}" stroke-width="2"/><rect x="274" y="120" width="30" height="80" rx="10" fill="#9a3640" stroke="${INKC}" stroke-width="2"/>`+P(126,"F","back","smirk",{s:.66,x:{ll:[80,200,60,222],rl:[120,200,140,222],hair:"buzz",hairCol:"#3a332c",style:"hoodie",top:"#6b7078"}})+`<rect x="320" y="60" width="64" height="44" rx="5" fill="#22252b" stroke="${INKC}" stroke-width="2"/><rect x="326" y="66" width="52" height="32" fill="#6aa0d8"/>`+bub(24,24,74,"comfy",`#6b7078`,"#fff",1),
+/*8*/()=>P(-14,"M","bowl","worry",{s:.6,f:`<rect x="66" y="96" width="68" height="34" fill="#b98a5c" stroke="${INKC}" stroke-width="2"/><rect x="74" y="66" width="52" height="30" fill="#a57c4e" stroke="${INKC}" stroke-width="2"/>`})+P(110,"Y","stop","angry",{s:.6})+serpent(238,128,.5)+P(268,"S","cheer","grin",{s:.44})+S5(346,70,7,G)+`<g font-family="Georgia,serif" font-size="12" font-style="italic" fill="#3d3530"><text x="30" y="20">camel</text><text x="158" y="20">lion</text><text x="318" y="20">child</text></g>`,
+/*9*/()=>`<rect width="400" height="210" fill="#2a2c36"/><path d="M250,206 v-130 a50,50 0 0 1 100,0 v130z" fill="#ffe9a8"/><path d="M250,206 l-120,4 l0,-4 l120,-40z" fill="#ffe9a8" opacity=".25"/>`+P(60,"Y","stand","soft",{w:1})+S5(300,110,10,G),
+/*10*/()=>sheep(20,170)+sheep(70,180)+sheep(120,168)+sheep(60,150)+crowd(10,112)+arrow(150,60,60,60,INKC,3)+P(230,"Y","point","smile",{w:1})+arrow(300,40,372,40,RED,4),
+/*11*/()=>P(120,"Y","cheer","stern",{f:`<g transform="translate(100,60)"><rect x="-64" y="-3" width="128" height="6" fill="#6b7078"/><rect x="-74" y="-18" width="12" height="36" rx="3" fill="${INKC}"/><rect x="62" y="-18" width="12" height="36" rx="3" fill="${INKC}"/><rect x="-86" y="-12" width="10" height="24" rx="3" fill="${INKC}"/><rect x="76" y="-12" width="10" height="24" rx="3" fill="${INKC}"/></g>`,x:{la:[56,100,48,62],ra:[144,100,152,62]}})+`<g transform="rotate(-20 60 190)">${crown(60,196,.8,"#b9b2a6")}</g>`+throne(340,206),
+/*12*/()=>`<path d="M200,0 v210" stroke="${INKC}" stroke-width="2" stroke-dasharray="4 6"/><ellipse cx="96" cy="190" rx="84" ry="12" fill="#8ec5d6" stroke="${INKC}" stroke-width="2"/><ellipse cx="96" cy="190" rx="50" ry="6" fill="none" stroke="#fff" stroke-width="2"/>`+P(22,"S","heart","calm",{s:.66})+mountain(230,200,170,160)+`<g transform="translate(40,-64)">${P(214,"Y","up","stern",{s:.5,w:1})}</g>`+flag(314,44,RED,24),
+/*13*/()=>rain(60,24)+rain(130,36)+P(30,"Y","give","stern")+`<path d="M230,200 l20,-30 l14,18 l20,-34 l22,46z" fill="#8a8578" stroke="${INKC}" stroke-width="2"/>`+sprout(276,150)+S5(330,60,9,G),
+/*14*/()=>rain(40,24)+S5(330,44,22,G)+`<g stroke="${G}" stroke-width="3" stroke-linecap="round"><path d="M330,6 v-6 M362,22 l8,-8 M370,50 h10 M298,22 l-8,-8"/></g>`+P(126,"Y","open","calm"),
+/*15*/()=>`<g fill="none" stroke="${INKC}" stroke-width="4"><path d="M282,36 a70,70 0 1 1 -60,6"/></g><path d="M222,42 l14,-14 l4,20z" fill="${INKC}"/>`+clock(270,106,26)+P(30,"Y","think","worry"),
+/*16*/()=>P(40,"Y","hips","stern",{f:sword(60,176,160)})+P(214,"S","heart","calm",{m:1})+`<g transform="translate(200,56)"><circle r="22" fill="#fbfaf7" stroke="${INKC}" stroke-width="2.5"/><path d="M-10,-5 h20 M-10,5 h20 M-7,12 l14,-24" stroke="${RED}" stroke-width="3" stroke-linecap="round"/></g>`,
+/*17*/()=>`<rect x="150" y="150" width="60" height="50" fill="#9aa0a8" stroke="${INKC}" stroke-width="2"/><rect x="158" y="118" width="44" height="32" rx="3" fill="#7a2630" stroke="${INKC}" stroke-width="2"/><path d="M166,128 h28 M166,136 h20" stroke="${G}" stroke-width="2.5"/>`+P(214,"R","back","sly",{m:1,f:mask(100,70,true)})+flag(60,200,RED,90)+crowd(4,150)+`<path d="M214,130 q-14,-18 -30,-10" fill="none" stroke="${INKC}" stroke-width="2.5" stroke-dasharray="4 5"/>`,
+/*18*/()=>`<rect x="230" y="40" width="120" height="110" rx="8" fill="#fbfaf7" stroke="${INKC}" stroke-width="2.5"/><rect x="230" y="40" width="120" height="30" rx="8" fill="${RED}"/><text x="290" y="62" font-family="system-ui,sans-serif" font-size="16" font-weight="800" text-anchor="middle" fill="#fff">TUE</text><text x="290" y="124" font-family="Georgia,serif" font-size="44" text-anchor="middle" fill="${INKC}">17</text><path d="M260,150 v56 M320,150 v56" stroke="#7a4a2e" stroke-width="4"/>`+P(30,"Y","point","smile",{w:1})+`<path d="M196,170 h18 v22 a9,9 0 0 1 -18,0z" fill="#fbfaf7" stroke="${INKC}" stroke-width="2"/><path d="M214,176 q10,2 0,12" fill="none" stroke="${INKC}" stroke-width="2"/>`
+];
+function heartS(x,y){return heart(x,y,6,RED);}
+const scene=i=>`<svg viewBox="0 0 400 210" role="img" aria-label="Illustration for point ${i+1}"><rect width="400" height="210" fill="${TINTS[i%TINTS.length]}"/><rect y="196" width="400" height="14" fill="#0001"/>${SC[i]()}</svg>`;
+const TINTS=["#f4ead6","#e9e4f0","#e6eee6","#f3e3dd","#e4ebf2","#f0ead9"];
+const base=`<rect x="8" y="33" width="24" height="4" rx="1.5"/><rect x="11" y="29.5" width="18" height="3" rx="1"/>`;
+const PIECE={
+ K:`<path d="M18.7,1h2.6v3h3v2.6h-3v3.4h-2.6v-3.4h-3v-2.6h3z"/><path d="M12,14 q8,-7 16,0 q2,6 -3,15 h-10 q-5,-9 -3,-15z"/>`+base,
+ Q:`<circle cx="7" cy="9" r="2.2"/><circle cx="14" cy="5.5" r="2.2"/><circle cx="20" cy="4" r="2.2"/><circle cx="26" cy="5.5" r="2.2"/><circle cx="33" cy="9" r="2.2"/><path d="M7,11 l5,8 l2,-11 l6,10 l6,-10 l2,11 l5,-8 l-5,18 h-16z"/>`+base,
+ B:`<circle cx="20" cy="4" r="2.4"/><path d="M20,6.5 q9,7 4,15 h-8 q-5,-8 4,-15z M21.5,10 l-4,6 l1.6,1 l4,-6z" fill-rule="evenodd"/><path d="M14,22h12l-1,2h-10z M16,24.5 h8 l2,4.5 h-12z"/>`+base,
+ N:`<path d="M12,29 q0,-10 6,-14 l-5,-1 l8,-9 l1.5,-4 l3,4 q8,6 5.5,24z M21,10 a1.4,1.4 0 1 0 .1,0z" fill-rule="evenodd"/>`+base,
+ R:`<path d="M10,4h4.5v3h3.5v-3h4v3h3.5v-3h4.5v9h-20z"/><path d="M13,14h14l1.5,15h-17z"/>`+base,
+ P:`<circle cx="20" cy="11" r="6"/><path d="M14,18h12v2.5h-2.5 q0,5 3.5,9 h-14 q3.5,-4 3.5,-9 h-2.5z"/>`+base
+};
+const pc=k=>`<svg viewBox="0 0 40 40" aria-hidden="true">${PIECE[k]}</svg>`;
+const THEME={
+ R:["Rook","The collapse","What falls apart first, and why it has to."],
+ K:["King","The Overman","Nietzsche's road: overcome yourself and create your own values."],
+ B:["Bishop","The Overself","Brunton's road: find the self that sits behind the ego."],
+ N:["Knight","Where they meet","The tensions between the two, the misuses, and daily life."]
+};
+// n, piece, name, the idea, where it comes from, what it looks like, the trap, article angle
+const L=[
+[1,"R","Why old values have to collapse","Values need something holding them up. When the belief underneath stops being believed, the rules built on it keep standing for a while out of habit, and then they fall.","Nietzsche's announcement that God is dead was a diagnosis and not a celebration. He meant that the faith which had grounded European morality for centuries no longer had real hold on people, though most had not noticed yet. He expected the consequences to take generations to arrive.","You keep following a rule and can no longer say why. A career path, a family expectation, a picture of success you inherited. The moment you ask what it rests on and get no answer, the collapse has started.","Thinking the collapse is the goal. Tearing things down is easy and feels like insight. Nietzsche's worry was what comes after: an empty space that people fill with the nearest substitute.","Your values did not fail you. They expired, and nobody sent a notice."],
+[2,"K","What the Overman is, and what he is not","A goal for what a human being could become: someone who has overcome his own smallness and gives his life a direction from the inside, without needing permission from heaven or the crowd.","From Thus Spoke Zarathustra. The prophet comes down from his mountain and tells a market crowd that man is something to be surpassed, a rope stretched between the animal and the Overman. Nietzsche never describes one in detail and suggests none has yet existed.","Less a person than a direction. Each time you choose the harder, truer thing over the comfortable one, you are walking the rope.","Reading it as a superior race, a ruler or a comic-book hero. It is not about power over others, and Nietzsche gives no checklist. Anyone who announces he is one has missed it.","The Overman is not a man who is above you. He is the man you are avoiding becoming."],
+[3,"B","The Overself: a higher self beyond the ego","Behind the busy, anxious personality there is a quieter awareness that watches it. Brunton called this the Overself and treated it as your real identity, with the ego as its instrument.","Paul Brunton, a British writer who travelled in India in the 1930s and studied with the sage Ramana Maharshi, whose core method was the question \"Who am I?\". Brunton's books presented the idea to Western readers as the point where the individual mind touches a universal one.","A moment when you notice your own anger or fear as something happening in you, without being swept into it. The part that notices is what he is pointing at.","Turning it into a bigger, shinier ego: \"my higher self wants this\". If it flatters you and always agrees with what you already wanted, it is the ego wearing a robe.","You are not your thoughts. You are the one who has to listen to them."],
+[4,"K","Overman vs ego: self-overcoming is not self-inflation","The ego wants to look strong. Self-overcoming means becoming strong, which usually involves looking foolish for a long time first.","Nietzsche's central verb is to overcome, and its first object is oneself: one's laziness, resentment, need for approval and appetite for comfort. He was scathing about vanity, which he saw as depending on the opinion of others.","The ego needs an audience and a comparison. The person overcoming himself needs neither. One posts the result. The other does the repetitions nobody sees.","Using Nietzsche as a licence for arrogance. Contempt for other people is cheap. He asked for something harder: severity toward yourself.","The ego wants to win the argument. The Overman wants to stop needing to."],
+[5,"N","Two roads past the ego: transcend it or transform it","Both thinkers agree the everyday self is not the finish line. They disagree about the exit. Brunton says step back from the ego and rest in what is behind it. Nietzsche says take the ego's raw energy and forge it into something higher.","Brunton draws on Eastern contemplative traditions, where the ego is a kind of mistaken identity. Nietzsche draws on the Greeks, where drives are to be ruled and shaped, not dissolved.","One person meditates until the craving loses its grip. Another channels the same craving into work that demands everything. Both have stopped being pushed around by it.","Picking the road that excuses your weakness. The restless use Nietzsche to avoid ever sitting still. The passive use stillness to avoid ever risking anything.","There are two ways out of yourself. Most people choose the one that requires no change."],
+[6,"K","Creating your own values instead of inheriting them","When the old tablets are broken, someone has to write new ones. Nietzsche's claim is that the highest human act is to decide what matters and then live as if it does.","Zarathustra speaks of old and new tablets, and of the creator as the one who breaks the old table of values. Elsewhere Nietzsche gives the instruction to become who you are.","A value is not a preference or a slogan. You can tell what someone values by what they give up for it. Writing your own means choosing the cost on purpose.","Confusing it with doing whatever you feel like. Whim is not creation. A value you invented this morning and will drop by Friday is a mood.","Everyone wants their own values. Almost nobody wants to pay for them."],
+[7,"K","The Last Man: the comfortable life as the real enemy","The opposite of the Overman is not a villain. It is a contented, careful person who wants no risk, no height and no depth, and calls that happiness.","In Zarathustra's first speech he warns the crowd about the Last Man, who has made everything small, avoids anything strenuous, and blinks. The crowd's response is to shout that they want to be that. It is one of Nietzsche's darkest jokes.","A life arranged so that nothing can go wrong and nothing can matter. Every edge sanded off. Entertainment on demand and no reason to get up.","Sneering at ordinary people from the sofa. If your main activity is feeling superior to the comfortable, you are one of them with better vocabulary.","Nietzsche's nightmare was not tyranny. It was a world where everyone is fine."],
+[8,"K","The camel, the lion and the child: three stages of becoming","The spirit changes shape three times. First it carries, then it refuses, then it creates.","The opening parable of Zarathustra. The camel kneels to take on the heaviest loads: duty, discipline, tradition. In the desert it becomes a lion and fights a great dragon whose every scale reads \"thou shalt\". The lion can win freedom but cannot create, so it becomes a child: innocence, a new beginning, a game.","The camel is the years of doing what you are told and getting good at it. The lion is the day you say no. The child is what you build once the fight is no longer the point.","Skipping the camel. People want the lion's roar without having carried anything. And many lions never stop fighting, which is another way of staying tied to the dragon.","Rebellion is stage two of three. Most rebels think it is the last."],
+[9,"R","Nihilism as a passage, not a destination","When the old meanings go, there is a stretch where nothing seems to matter. Nietzsche thought this was unavoidable and that the danger was settling there.","He distinguished a tired nihilism that gives up and drifts from an active one that clears the ground on purpose so something can be built. He called himself the first complete nihilist of Europe who had also come out the other side.","The flat months after a belief, a relationship or an ambition dies. Nothing has replaced it yet. That emptiness is the building site, not the building.","Making a personality out of it. Cynicism feels like depth and costs nothing. Saying nothing matters is often a way of making sure nothing is asked of you.","Nihilism is a hallway. People keep trying to furnish it."],
+[10,"R","The herd: why most people prefer borrowed values","Thinking for yourself is expensive and lonely. Taking your values from the people around you is free and comes with company.","Nietzsche wrote about herd morality: the tendency to call good whatever is safe, common and unthreatening, and to resent whoever stands out. He traced much conventional virtue to resentment dressed up as principle.","Opinions that change with the room. Outrage on schedule. The quiet relief of finding out what you are supposed to think today.","Believing you are outside it. Contrarians are a herd too, facing the other way. The test is not whether you disagree with the crowd but whether you would hold the view alone.","You do not have opinions. You have subscriptions."],
+[11,"K","Will to power as mastery over yourself","Nietzsche thought the basic drive in living things is not survival or pleasure but growth: the urge to expand, overcome resistance and become more.","The phrase runs through his later work and its exact meaning is still argued over by scholars. What is clear is that he ranked its forms. Crude domination of others is the lowest. Command over oneself, and the creation of something new, is the highest.","The discipline to do the thing when no part of you wants to. An artist bending a material to a vision. Anyone who has turned a weakness into a strength through years of work.","The popular reading: power as bossing people around. Someone who needs to control others is usually failing to control himself.","The person who must dominate every room has never once won an argument with himself."],
+[12,"N","Stillness vs struggle","Brunton's method is to become quiet. Nietzsche's is to climb. One says the higher self is already there and you uncover it by subtracting noise. The other says it does not exist yet and has to be made.","Brunton taught meditation and mental quiet, and later described a long path of effort and a short path of simply recognising what you are. Nietzsche wrote of mountains, cold air, solitude and hard walking, and distrusted any teaching that promised rest.","Two different mornings. One begins with twenty minutes of sitting with nothing to achieve. The other begins with the hardest task of the day. A serious person may need both.","Each has a counterfeit. Stillness decays into laziness with incense. Struggle decays into busyness with a mission statement.","You can be too lazy to sit still and too frantic to do any real work, and plenty of people manage both."],
+[13,"N","Suffering as raw material","Both men refuse the idea that a good life is one with the pain removed. Difficulty is what the higher self is made from, or what makes room for it.","Nietzsche held that great pain is what deepens a person and said he wished hardship on those he cared about most. Brunton saw suffering as a teacher that loosens the ego's grip and turns attention inward.","The failure that forced the change you would never have chosen. The loss that showed you what you had been pretending about.","Romanticising it. Pain does not improve anyone automatically. It also makes people bitter and small. What matters is the use made of it. And none of this is a reason to look away from someone else's suffering.","Your worst year is either your origin story or your excuse. You are the one who decides which."],
+[14,"K","Amor fati: saying yes to your whole life","Love of one's fate. Not putting up with what has happened, and not wishing it otherwise, but wanting it exactly as it was, because it made you.","Nietzsche called this his formula for human greatness: to want nothing to be different, forwards, backwards or in all eternity. He wrote it as a resolution for himself during years of illness and isolation.","Looking at the detour, the mistake, the wasted years, and being able to say that you would not edit them out, because the person able to say so was built from them.","Using it to bless everything, including what you should change. It is about your relationship to what cannot be undone, not a reason to tolerate what can.","Acceptance is tolerating your life. Amor fati is signing it."],
+[15,"K","The eternal recurrence test","A thought experiment. Suppose you had to live this exact life again, every detail in the same order, forever. Would that be a curse or the best news you ever heard?","Nietzsche introduces it in The Gay Science as a demon who whispers it to you in your loneliest hour, and calls it the heaviest weight. Whether he also believed it as physics is debated. Its use as a test is not.","Apply it to an ordinary day. Would you sign up to repeat this job, this habit, this way of speaking to the people you live with, without end?","Treating it as a riddle about the universe and missing that it is a question about Tuesday.","If you would not live today again, why are you living it now?"],
+[16,"N","Where the two contradict each other","They are not saying the same thing in different words. Nietzsche would have called the Overself one more world behind the world, a comfort for those who cannot bear this one. Brunton would have called the Overman the ego in its finest armour.","Nietzsche insisted on staying faithful to the earth and attacked every doctrine of a truer reality elsewhere. Brunton's whole project rests on there being one. One denies the transcendent and the other depends on it.","Most people who use the phrase higher self mix the two without noticing: Nietzsche's ambition with Brunton's vocabulary.","Smoothing it over. The disagreement is the useful part. Each catches the other's typical failure: the mystic who never does anything, and the achiever who never stops to ask who is achieving.","Use the monk to check the warrior's ego and the warrior to check the monk's excuses."],
+[17,"N","How the Overman idea gets misused","Few ideas have been so thoroughly hijacked. The word has been used to justify racism, cruelty and plain selfishness, none of which Nietzsche was arguing for.","After his collapse his sister, a committed nationalist, took control of his papers and shaped his image to suit her politics. The Nazis later claimed him. In his own writing he mocked German nationalism and despised antisemites. English translators also rendered the word as Superman, which did not help.","Today it turns up as hustle slogans, alpha posturing and the belief that rules are for lesser people.","Assuming you are immune. Any idea about being higher is attractive to exactly the part of you that should not be trusted with it.","Every philosophy of self-overcoming gets adopted first by the people who most need to overcome themselves."],
+[18,"N","What a higher self looks like on an ordinary Tuesday","None of this counts unless it shows up in small, dull choices when nobody is watching.","This part is my own addition, not from either author: a translation of the ideas above into behaviour.","You do the hard task first. You tell the truth when a small lie would be easier. You notice the urge to check your phone and let it pass. You say what you value and then spend the hour that way. You can sit alone in a quiet room. You stop blaming.","Waiting for a grand transformation. There is no ceremony. It is a few hundred unglamorous decisions a week.","The higher self is not found on a mountain. It is found at the moment you would rather not."]
+];
+
+const $=id=>document.getElementById(id), h=(t,c,x)=>{const e=document.createElement(t); if(c)e.className=c; if(x!=null)e.textContent=x; return e;};
+let vis=L, idx=0; const sqs=[], cards=[];
+L.forEach((l,i)=>{
+  const r=Math.floor(i/6), c=i%6, s=h("button","sq"+((r+c)%2?" d":"")); s.innerHTML=pc(l[1]); s.appendChild(h("i",null,l[0])); s.setAttribute("aria-label","Point "+l[0]+": "+l[2]); s.onclick=()=>openLaw(l); $("board").appendChild(s); sqs.push(s);
+  const b=h("button","cd"); b.innerHTML=scene(i).replace("<svg ",'<svg class="sc" loading="lazy" '); const cb=h("div","cb"); cb.append(h("i",null,l[0]),h("b",null,l[2])); cb.insertAdjacentHTML("beforeend",pc(l[1])); b.appendChild(cb); b.onclick=()=>openLaw(l); $("grid").appendChild(b); cards.push(b);
+});
+function chip(k){const b=h("button","chip"+(k?"":" all")); if(k) b.innerHTML=pc(k); b.appendChild(document.createTextNode(k?THEME[k][1]:"All 18")); b._k=k; b.onclick=()=>setFilter(k); $("chips").appendChild(b);}
+chip(null); Object.keys(THEME).forEach(chip);
+function setFilter(k){vis=k?L.filter(l=>l[1]===k):L; [...$("chips").children].forEach(b=>b.setAttribute("aria-pressed",b._k===k));
+  L.forEach((l,i)=>{const on=!k||l[1]===k; sqs[i].classList.toggle("off",!on); cards[i].style.display=on?"":"none";});
+  const t=$("theme"); if(k){t.style.display="block"; t.textContent=THEME[k][0]+" · "+THEME[k][1]+". "+THEME[k][2];} else t.style.display="none";
+  $("lh").textContent=k?THEME[k][1]+": "+vis.length+" points":"All 18 points";}
+function openLaw(l){ if(!vis.includes(l)) setFilter(null); idx=vis.indexOf(l);
+  $("s-art").innerHTML=scene(l[0]-1); $("s-k").innerHTML=pc(l[1]); $("s-k").appendChild(document.createTextNode("Point "+l[0]+" of 18 · "+THEME[l[1]][1])); $("s-n").textContent=l[2];
+  const b=$("s-body"); b.textContent="";
+  [["The idea",l[3],"idea"],["Where it comes from",l[4]],["What it looks like",l[5]],["The trap",l[6],"rev"],["Article angle",l[7],"flag"]].forEach(([k,v,c])=>{b.appendChild(h("h3",null,k)); b.appendChild(h("p",c||null,v));});
+  $("prev").disabled=idx===0; $("next").disabled=idx===vis.length-1; $("sheet").scrollTop=0; document.body.classList.add("open");}
+const close=()=>document.body.classList.remove("open");
+$("close").onclick=close; $("shade").onclick=close; addEventListener("keydown",e=>{if(e.key==="Escape")close();});
+$("prev").onclick=()=>openLaw(vis[idx-1]); $("next").onclick=()=>openLaw(vis[idx+1]);
+setFilter(null);
+</script>
+</body>
+</html>

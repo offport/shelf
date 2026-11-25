@@ -16,6 +16,21 @@ No server and no build step for reading: open `index.html`. Each file in `books/
 that opens on its own. Reading status is kept in the browser (`localStorage`), so it is shared between the shelf
 and the books when the folder is served over http; opened straight from disk, some browsers keep it per file.
 
+## Reading offline
+
+On the live site, **Save offline** at the top of the shelf downloads the shelf and every book and extra into the
+browser (about 1 MB in total). The button then reads **✓ Offline**, and everything opens with no connection.
+
+- Books added later are fetched by themselves the next time the shelf is opened online.
+- Online, the newest copy of a page is always used, so a rebuilt book never shows a stale version.
+- On an iPhone or iPad, add the shelf to the Home Screen: Safari can clear saved data for sites left unopened
+  for a few weeks, and Home Screen apps are spared.
+- It needs the site to be served over https (or localhost). Opened straight from disk the button is hidden,
+  and the files are on the disk anyway.
+
+It is two pieces: the button's script at the end of `index.html`, and `sw.js`, a small service worker that answers
+from the saved copies when the network does not.
+
 ## Adding a book
 
 1. Drop the HTML file in `inbox/`.
