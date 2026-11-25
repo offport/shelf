@@ -391,6 +391,32 @@
    "section": "books"
   },
   {
+   "id": "the-power-of-now",
+   "no": 16,
+   "title": "The Power of Now",
+   "author": "Eckhart Tolle",
+   "year": 1997,
+   "kind": "Guide",
+   "tags": [
+    "Spirituality",
+    "Mindfulness"
+   ],
+   "blurb": "Tolle's claim that nearly all suffering is made by the mind's refusal to be where it is. Meet the thinker and the watcher, slide the mind between past, now and future, then the key ideas, the practices, his three options for any situation and the objections.",
+   "source": "The Power of Now_ an illustrated guide.html",
+   "added": "2026-11-25",
+   "cover": {
+    "bg": "#17233a",
+    "fg": "#fbf3dc",
+    "line": "#e8b23a"
+   },
+   "bar": {
+    "bg": "var(--bg)",
+    "accent": "var(--acc)"
+   },
+   "emblem": "<circle cx=\"24\" cy=\"24\" r=\"17\"/><circle cx=\"24\" cy=\"24\" r=\"10\"/><circle cx=\"24\" cy=\"24\" r=\"3\" fill=\"currentColor\"/>",
+   "section": "books"
+  },
+  {
    "id": "the-manipulation-ladder",
    "no": 1,
    "title": "The Manipulation Ladder",

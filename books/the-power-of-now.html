@@ -1,0 +1,312 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>The Power of Now · Shelf</title>
+<!-- library:head -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%2317233a%22/%3E%3Cg fill=%22%23e8b23a%22 transform=%22translate%284 4%29%22%3E%3Cpath d=%22M5 2H22V4.6H4.6V10.7H19a3 3 0 0 1 3 3V19a3 3 0 0 1-3 3H2V19.4H19.4V13.3H5a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3z%22/%3E%3Cpath d=%22M6 6h2.2v5H6zM9.3 7h2v4h-2zM12.9 11.2L11.8 6.9l1.95-.5 1.1 4.3zM15.8 14.7h2.2v5h-2.2zM12.7 15.7h2v4h-2zM11.1 19.9l1.1-4.3-1.95-.5-1.1 4.3z%22/%3E%3C/g%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta name="theme-color" content="#17233a">
+<meta name="library:id" content="the-power-of-now">
+<!-- /library:head -->
+
+<style>:root{--bg:#f4f1ea;--panel:#fffdf8;--ink:#17233a;--ink2:#35405a;--mut:#6c7488;--line:#ddd6c6;--acc:#2a5c8f;--acc2:#e8b23a;--hd:#17233a;--hdt:#fbf3dc;--navbg:rgba(244,241,234,.96);--notebg:#fbf0cf}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:16.5px;line-height:1.6}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 80px}
+button,input{font:inherit;color:inherit}button{cursor:pointer}
+h1,h2,h3{font-family:Georgia,"Palatino Linotype",serif;margin:0}
+header{margin:0 -16px;background:var(--hd);color:var(--hdt);padding:28px 20px 22px;text-align:center;border-bottom:6px solid var(--acc2)}
+header small{letter-spacing:.28em;font-size:11px;text-transform:uppercase;font-weight:700;opacity:.85}
+header h1{font-size:clamp(32px,9.5vw,50px);line-height:1.06;margin:6px 0}
+header p{margin:6px auto 0;max-width:470px;font-size:15px;opacity:.9}
+nav{position:sticky;top:0;z-index:9;margin:0 -16px;background:var(--navbg);border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:8px 12px;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav a{flex:none;text-decoration:none;color:var(--ink);font-size:13px;border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:var(--panel)}
+.sec{padding-top:34px}.sec>small{display:block;letter-spacing:.24em;font-size:11px;color:var(--acc);text-transform:uppercase;font-weight:700}
+.sec>h2{font-size:26px;line-height:1.2;margin:2px 0 8px}.lead{margin:0 0 14px;color:var(--ink2)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+.panel p{margin:6px 0}
+.scene{border-radius:10px;overflow:hidden;border:2px solid var(--ink);background:#f1ede2}.scene svg{display:block;width:100%;height:auto}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(min-width:620px){.grid.g3{grid-template-columns:repeat(3,1fr)}}
+.card{background:var(--panel);border:1px solid var(--line);border-top:5px solid var(--acc);border-radius:12px;padding:8px 8px 10px;text-align:left;display:block;width:100%}
+.card .scene{border-width:1.5px}.card h3{font-size:16px;margin-top:8px}.card small{color:var(--mut);font-size:13px;line-height:1.3;display:block}
+.card .x{display:none;font-size:14.5px;margin-top:8px;border-top:1px dashed var(--line);padding-top:8px}.card.open .x{display:block}
+.card.wide{grid-column:1/-1}
+.acc{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:9px;overflow:hidden}
+.acc>button{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;width:100%;text-align:left;background:none;border:0;padding:12px}
+.acc h3{font-size:16.5px}.acc small{display:block;font-family:-apple-system,sans-serif;font-weight:400;color:var(--mut);font-size:13px}
+.acc .pm{font-size:20px;color:var(--mut)}.acc .body{display:none;padding:0 14px 14px;font-size:15.5px}
+.acc.open .body{display:block}.acc.open .pm{transform:rotate(45deg)}.acc .body p{margin:6px 0}.acc ul{margin:6px 0;padding-left:20px}.acc li{margin:5px 0}
+.no{font-family:Georgia,serif;font-size:20px;color:var(--acc);min-width:26px;text-align:center;font-weight:700}
+.tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:4px;padding:2px 7px;color:#fff;background:#2f6f6a}.tag.r{background:#b3384a}.tag.g{background:#8a6a1a}
+.note{border-left:4px solid var(--acc2);background:var(--notebg);padding:9px 12px;border-radius:0 8px 8px 0;font-size:14.5px;margin-top:12px}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{border:1.5px solid var(--ink);background:var(--panel);border-radius:999px;padding:7px 13px;font-size:14px}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+.btn{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:12px 18px;font-weight:700;font-size:15px}
+.btn.ghost{background:var(--panel);color:var(--ink);border:1.5px solid var(--ink)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.hs{cursor:pointer}.hs circle.d{fill:var(--acc);stroke:#fff;stroke-width:2.5}.hs.seen circle.d{fill:#2f6f6a}.hs text{fill:#fff;font:700 12px sans-serif;text-anchor:middle;pointer-events:none}
+.hs .r{fill:none;stroke:var(--acc);stroke-width:2;animation:pu 2.2s ease-out infinite}@keyframes pu{0%{r:9;opacity:.8}100%{r:22;opacity:0}}
+footer{margin-top:30px;border-top:1px solid var(--line);padding-top:12px;font-size:13px;color:var(--mut)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style></head><body>
+<!-- library:bar — added by tools/shelve.py; the original file is in originals/ -->
+<div id="library-bar" role="navigation" aria-label="Shelf" class="" style="display:block;flex:none;--lib-bg:var(--bg);--lib-accent:var(--acc);"><template shadowrootmode="open"><style>:host{display:block;flex:none;position:relative;font:500 12.5px/1 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  color:inherit;background:var(--lib-bg,transparent);-webkit-text-size-adjust:100%}
+:host(.lib-sticky){position:sticky;top:0;z-index:50}
+*{box-sizing:border-box}
+.bar{display:flex;align-items:center;gap:4px;height:38px;padding:0 8px 0 6px;max-width:100%;
+  border-bottom:1px solid color-mix(in srgb,currentColor 16%,transparent)}
+a,button{color:inherit;font:inherit;text-decoration:none;background:none;border:0;cursor:pointer;border-radius:6px;
+  display:inline-flex;align-items:center;gap:7px;height:30px;padding:0 8px;-webkit-tap-highlight-color:transparent}
+a:hover,button:hover{background:color-mix(in srgb,currentColor 9%,transparent)}
+:focus-visible{outline:2px solid var(--lib-accent,currentColor);outline-offset:1px}
+.home svg{width:18px;height:18px;fill:var(--lib-accent,currentColor);flex:none}
+.home b{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:13px;letter-spacing:.2em;text-transform:uppercase}
+.no{opacity:.62;font-variant-numeric:tabular-nums;white-space:nowrap;padding-left:9px;margin-left:1px;
+  border-left:1px solid color-mix(in srgb,currentColor 22%,transparent);line-height:16px}
+.sp{flex:1}
+.status i{width:11px;height:11px;border-radius:50%;border:1.6px solid currentColor;flex:none;opacity:.75}
+.status[data-s="reading"] i{background:linear-gradient(90deg,var(--lib-accent,currentColor) 50%,transparent 50%);border-color:var(--lib-accent,currentColor);opacity:1}
+.status[data-s="finished"] i{background:var(--lib-accent,currentColor);border-color:var(--lib-accent,currentColor);opacity:1}
+.step{width:30px;padding:0;justify-content:center;font-size:17px;line-height:1}
+.step[aria-disabled="true"]{opacity:.28;pointer-events:none}
+@media (max-width:400px){.no span{display:none}.home b{letter-spacing:.14em}}
+@media (max-width:330px){.status span{display:none}}</style><div class="bar"><a class="home" href="../index.html#the-power-of-now" title="Back to the shelf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2H22V4.6H4.6V10.7H19a3 3 0 0 1 3 3V19a3 3 0 0 1-3 3H2V19.4H19.4V13.3H5a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3z"/><path d="M6 6h2.2v5H6zM9.3 7h2v4h-2zM12.9 11.2L11.8 6.9l1.95-.5 1.1 4.3zM15.8 14.7h2.2v5h-2.2zM12.7 15.7h2v4h-2zM11.1 19.9l1.1-4.3-1.95-.5-1.1 4.3z"/></svg><b>Shelf</b></a><span class="no" title="No. 16 of 16">No. 16<span> of 16</span></span><span class="sp"></span><button class="status" type="button" data-s="none"><i></i><span>To read</span></button><a class="step" href="unfuck-your-brain.html" title="Previous: Unfu*k Your Brain" aria-label="Previous: Unfu*k Your Brain">‹</a><a class="step" aria-disabled="true" aria-label="Nothing next">›</a></div></template></div>
+<script>(function(){
+  var B={"id": "the-power-of-now"}, host=document.getElementById("library-bar"); if(!host) return;
+  var root=host.shadowRoot; if(!root){var t=host.querySelector("template"); root=host.attachShadow({mode:"open"}); if(t){root.appendChild(t.content); t.remove();}}
+  var KEY="library.v1", LAB={none:"To read",reading:"Reading",finished:"Finished"}, NEXT={none:"reading",reading:"finished",finished:"none"};
+  function load(){try{var s=JSON.parse(localStorage.getItem(KEY)); if(s&&s.books) return s;}catch(e){} return {books:{}};}
+  function save(s){try{localStorage.setItem(KEY,JSON.stringify(s));}catch(e){}}
+  var btn=root.querySelector(".status");
+  function draw(){var st=(load().books[B.id]||{}).status||"none"; btn.dataset.s=st; btn.querySelector("span").textContent=LAB[st];
+    btn.setAttribute("aria-label","Reading status: "+LAB[st]+". Press to change.");}
+  var s=load(), me=s.books[B.id]||(s.books[B.id]={}); me.opened=Date.now(); save(s); draw();
+  btn.addEventListener("click",function(){var s=load(), me=s.books[B.id]||(s.books[B.id]={}); me.status=NEXT[me.status||"none"]; me.opened=Date.now(); save(s); draw();});
+  addEventListener("storage",function(e){if(e.key===KEY) draw();});
+})();</script>
+<!-- /library:bar -->
+<div class="wrap">
+<header><small>Eckhart Tolle · 1997</small><h1>The Power of Now</h1><p>A guide to the claim that nearly all suffering is made by the mind's refusal to be where it is.</p></header>
+<nav><a href="#idea">The idea</a><a href="#mind">You and your mind</a><a href="#time">Time</a><a href="#key">Key ideas</a><a href="#practice">Practices</a><a href="#three">Three options</a><a href="#ch">Chapters</a><a href="#crit">Objections</a></nav>
+<section class="sec" id="idea"><small>Start here</small><h2>The idea in one minute</h2>
+<p class="lead">You are not the voice in your head. You are the one who hears it. Tolle's whole book follows from that sentence.</p>
+<div class="panel"><p><b>1.</b> The mind is a useful tool that has taken over. It thinks without stopping, and we mistake its commentary for who we are.</p><p><b>2.</b> That commentary lives almost entirely in the past and the future. The present moment, the only place life happens, gets used as a corridor to somewhere else.</p><p><b>3.</b> Step out of the stream of thought into direct attention on what is here, and most of what you called your problems turns out to be thinking about problems.</p></div>
+<div class="note"><b>Where it came from.</b> Tolle describes years of anxiety and depression ending one night when he was 29. He caught himself thinking that he could not live with himself any longer, and was struck by the oddness of it: were there two of him? The question stopped his mind. He woke the next morning in a state of deep peace, and says he spent the next two years doing little but sitting on park benches. The book is written as questions and answers.</div></section>
+<section class="sec" id="mind"><small>The first move</small><h2>The thinker and the watcher</h2><div class="grid" id="mindgrid"></div>
+<div class="panel" style="margin-top:12px;text-align:center"><h3 style="font-size:18px">Try it: watch for your next thought</h3><p style="font-size:14.5px">Tolle's exercise. Close your eyes and ask yourself what your next thought will be. Then wait for it, alert, like a cat watching a mouse hole.</p>
+<div id="tm" style="font-family:Georgia,serif;font-size:64px;color:var(--acc);font-weight:700;line-height:1.2">30</div><button class="btn" id="tgo">Start 30 seconds</button><p id="tout" style="font-size:14.5px;color:var(--mut);min-height:66px;margin-top:10px"></p></div></section>
+<section class="sec" id="time"><small>The second move</small><h2>Where is your mind right now?</h2><p class="lead">Tolle maps unhappy feelings onto the direction the mind is facing. Drag the slider.</p>
+<div class="panel"><div class="scene" id="tscene"></div><input type="range" id="ts" min="0" max="100" value="50" style="width:100%;accent-color:var(--acc)" aria-label="Past to future">
+<div style="display:flex;justify-content:space-between;font-size:12.5px;color:var(--mut);font-weight:600"><span>Past</span><span>Now</span><span>Future</span></div>
+<h3 id="tt" style="font-size:19px;margin-top:10px"></h3><p id="tp" style="font-size:15.5px"></p></div>
+<div class="note"><b>Two kinds of time.</b> Clock time is practical: setting an appointment, learning from a mistake, planning a trip. Psychological time is living in the past or future as if they were more real than the present. He is against the second, not the first. Use the clock, then come back.</div></section>
+<section class="sec" id="key"><small>The vocabulary</small><h2>Key ideas</h2><p class="lead">Tap a card to open it.</p><div class="grid" id="keygrid"></div></section>
+<section class="sec" id="practice"><small>What to actually do</small><h2>Practices from the book</h2><div id="plist"></div></section>
+<section class="sec" id="three"><small>A working rule</small><h2>Three options for any situation</h2><p class="lead">Tolle says that when you are unhappy with where you are, there are only three sane responses. Everything else is what he calls madness. Pick a situation.</p>
+<div class="chips" id="sit"></div><div id="sout" style="margin-top:10px"></div></section>
+<section class="sec" id="ch"><small>Chapter by chapter</small><h2>How the book runs</h2><div id="chlist"></div></section>
+<section class="sec" id="crit"><small>A fair hearing</small><h2>Strengths and objections</h2><div id="clist"></div></section>
+<footer>Written from memory of the book, in my own words, with no quotations. The illustrations, the slider and the situation examples are mine, built on the book's ideas. This is a summary of a spiritual self-help book, not treatment. For ongoing depression, anxiety or trauma, a doctor or therapist is the right next step.</footer>
+</div><script>
+/* =====================  character builder, 200 x 250  ===================== */
+const INK="#22252b", SKIN={a:"#f3cfae",b:"#e0aa80",c:"#b97d54",d:"#8a5636",e:"#f8dcc6"};
+const shade=(hex,k)=>{const n=parseInt(hex.slice(1),16),f=v=>Math.max(0,Math.min(255,Math.round(v*k)));return "#"+[n>>16,(n>>8)&255,n&255].map(v=>f(v).toString(16).padStart(2,"0")).join("");};
+function arm(sx,sy,p,col,skin,short){
+  const [ex,ey,hx,hy]=p; let s=`<path d="M${sx},${sy} L${ex},${ey} L${hx},${hy}" fill="none" stroke="${short?skin:col}" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>`;
+  if(short) s+=`<path d="M${sx},${sy} L${(sx*.45+ex*.55).toFixed(1)},${(sy*.45+ey*.55).toFixed(1)}" stroke="${col}" stroke-width="14.5" stroke-linecap="round"/>`;
+  return s+`<circle cx="${hx}" cy="${hy}" r="7.6" fill="${skin}"/>`;
+}
+function leg(sx,p,col,shoe,dir,skinLeg){
+  const [kx,ky,fx,fy]=p;
+  return `<path d="M${sx},170 L${kx},${ky} L${fx},${fy}" fill="none" stroke="${skinLeg||col}" stroke-width="${skinLeg?12:16}" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="${fx+dir*4}" cy="${fy+6}" rx="12" ry="6.5" fill="${shoe}"/>`;
+}
+const HAIR={
+ short:c=>["",`<path d="M73,68 q-3,-36 27,-36 q30,0 27,36 q-5,-16 -27,-17 q-22,1 -27,17z" fill="${c}"/>`],
+ side:c=>["",`<path d="M73,72 q-4,-40 27,-40 q32,0 27,40 q-3,-14 -12,-20 q-20,8 -37,2 q-4,6 -5,18z" fill="${c}"/>`],
+ slick:c=>["",`<path d="M73,66 q-2,-36 27,-36 q29,0 27,36 q-4,-12 -10,-17 q-17,-6 -34,0 q-6,5 -10,17z" fill="${c}"/><path d="M84,40 q16,-6 32,0" fill="none" stroke="${shade(c,1.5)}" stroke-width="1.5" opacity=".6"/>`],
+ spiky:c=>["",`<path d="M73,68 l-3,-18 l10,6 l0,-18 l11,10 l6,-18 l8,16 l12,-12 l1,16 l11,-6 l-2,24 q-5,-14 -27,-15 q-22,1 -27,15z" fill="${c}"/>`],
+ curly:c=>["",`<g fill="${c}"><circle cx="78" cy="52" r="10"/><circle cx="90" cy="42" r="11"/><circle cx="104" cy="39" r="11"/><circle cx="117" cy="45" r="10"/><circle cx="124" cy="56" r="8"/><circle cx="75" cy="62" r="7"/></g>`],
+ afro:c=>[`<circle cx="100" cy="56" r="40" fill="${c}"/>`,`<path d="M75,66 q4,-22 25,-22 q21,0 25,22 q-10,-10 -25,-10 q-15,0 -25,10z" fill="${c}"/>`],
+ long:c=>[`<path d="M70,72 q-4,-42 30,-42 q34,0 30,42 l4,50 q-34,12 -68,0z" fill="${c}"/>`,`<path d="M74,70 q0,-34 26,-34 q26,0 26,34 q-8,-18 -22,-22 q-16,10 -30,22z" fill="${c}"/>`],
+ bob:c=>[`<path d="M69,72 q-4,-42 31,-42 q35,0 31,42 l1,22 q-32,10 -64,0z" fill="${c}"/>`,`<path d="M74,68 q2,-30 26,-30 q24,0 26,30 q-12,-12 -52,-8z" fill="${c}"/>`],
+ bun:c=>[`<circle cx="100" cy="30" r="12" fill="${c}"/>`,`<path d="M73,68 q-3,-34 27,-34 q30,0 27,34 q-6,-16 -27,-16 q-21,0 -27,16z" fill="${c}"/>`],
+ pony:c=>[`<path d="M122,48 q26,2 22,36 q-2,22 -14,34 q4,-22 -2,-38 q-4,-16 -12,-20z" fill="${c}"/>`,`<path d="M73,70 q-4,-38 27,-38 q31,0 27,38 q-6,-18 -18,-22 q-18,10 -36,22z" fill="${c}"/>`],
+ buzz:c=>["",`<path d="M74,64 q0,-30 26,-30 q26,0 26,30 q-6,-16 -26,-16 q-20,0 -26,16z" fill="${c}" opacity=".85"/>`]
+};
+function face(f={}){
+  const d=INK, b=f.brow||"soft", e=f.eyes||"dot", m=f.mouth||"smile"; let s="";
+  s+={soft:`<path d="M84,61 q6,-3 12,0 M104,61 q6,-3 12,0"`,flat:`<path d="M84,61 h12 M104,61 h12"`,down:`<path d="M84,59 l12,3 M116,59 l-12,3"`,up:`<path d="M84,59 q6,-5 12,-1 M104,58 q6,-4 12,1"`,quirk:`<path d="M84,62 h12 M104,57 q6,-4 12,0"`}[b]+` fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`;
+  s+={dot:`<circle cx="90" cy="70" r="2.8" fill="${d}"/><circle cx="110" cy="70" r="2.8" fill="${d}"/>`,
+      wide:`<circle cx="90" cy="70" r="4.2" fill="#fff"/><circle cx="110" cy="70" r="4.2" fill="#fff"/><circle cx="90.6" cy="70.4" r="2.5" fill="${d}"/><circle cx="110.6" cy="70.4" r="2.5" fill="${d}"/>`,
+      smile:`<path d="M85.5,71 q4.5,-5 9,0 M105.5,71 q4.5,-5 9,0" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      lash:`<circle cx="90" cy="70" r="2.8" fill="${d}"/><circle cx="110" cy="70" r="2.8" fill="${d}"/><path d="M85,67 l-3,-2 M115,67 l3,-2" stroke="${d}" stroke-width="1.8" stroke-linecap="round"/>`}[e];
+  s+=`<path d="M100,73 q3,5 -1,7" fill="none" stroke="#0002" stroke-width="2" stroke-linecap="round"/>`;
+  s+={smile:`<path d="M92,83 q8,6 16,0" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      soft:`<path d="M94,84 q6,3.5 12,0" fill="none" stroke="${d}" stroke-width="2.2" stroke-linecap="round"/>`,
+      flat:`<path d="M94,85 h12" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      smirk:`<path d="M93,85 q7,2 14,-3" fill="none" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/>`,
+      grin:`<path d="M90,81 q10,13 20,0z" fill="${d}"/><path d="M93,82.5 h14" stroke="#fff" stroke-width="2.6"/>`,
+      o:`<ellipse cx="100" cy="85" rx="4" ry="5" fill="${d}"/>`}[m];
+  if(f.blush) s+=`<circle cx="82" cy="78" r="5" fill="#e8766b" opacity=".32"/><circle cx="118" cy="78" r="5" fill="#e8766b" opacity=".32"/>`;
+  return s;
+}
+function torso(o){
+  const t=o.top, sh=shade(t,.8), st=o.style||"tee"; let s="";
+  const base=c=>`<path d="M76,105 q24,-9 48,0 l6,62 q-30,9 -60,0z" fill="${c}"/>`;
+  const shadow=`<path d="M104,101 q12,0 20,4 l6,62 q-13,4 -26,5z" fill="#000" opacity=".08"/>`;
+  if(st==="dress") return `<path d="M76,105 q24,-9 48,0 l5,40 l15,58 q-44,11 -88,0 l15,-58z" fill="${t}"/><path d="M104,101 q12,0 20,4 l5,40 l15,58 q-20,5 -40,6z" fill="#000" opacity=".08"/>`+(o.belt?`<path d="M72,144 q28,7 56,0 v7 q-28,7 -56,0z" fill="${o.belt}"/>`:"");
+  if(st==="coat"){ s=base(o.inner||"#f4f1ea")+`<path d="M76,105 q10,-5 19,-5 l-3,100 h-24z" fill="${t}"/><path d="M124,105 q-10,-5 -19,-5 l3,100 h24z" fill="${t}"/><path d="M108,100 l3,100 h21 l-8,-95z" fill="#000" opacity=".08"/><path d="M95,100 l-6,24 M105,100 l6,24" stroke="${sh}" stroke-width="2.5" stroke-linecap="round"/>`; return s; }
+  s=base(st==="jacket"||st==="vest"||st==="overalls"||st==="shirt"?(o.inner||"#f4f1ea"):t);
+  if(st==="suit") s+=`<path d="M91,100 l9,26 l9,-26z" fill="#fbfaf7"/><path d="M98,104 h4 l2.5,20 l-4.5,6 l-4.5,-6z" fill="${o.tie||"#b3262e"}"/><path d="M91,100 l9,26 M109,100 l-9,26" stroke="${sh}" stroke-width="3" stroke-linecap="round"/><circle cx="100" cy="144" r="1.8" fill="${sh}"/><circle cx="100" cy="156" r="1.8" fill="${sh}"/>`;
+  if(st==="shirt") s+=`<path d="M90,100 l10,9 l10,-9 l3,8 l-13,6 l-13,-6z" fill="${shade(o.inner||"#f4f1ea",.9)}"/><path d="M98,108 h4 l3,34 l-5,7 l-5,-7z" fill="${o.tie||t}"/><path d="M100,150 v20" stroke="#0001" stroke-width="2"/>`;
+  if(st==="jacket") s+=`<path d="M76,105 q9,-5 17,-5 l-5,68 q-8,0 -18,-1z" fill="${t}"/><path d="M124,105 q-9,-5 -17,-5 l5,68 q8,0 18,-1z" fill="${t}"/><path d="M93,100 l-4,22 M107,100 l4,22" stroke="${sh}" stroke-width="2.5" stroke-linecap="round"/>`;
+  if(st==="vest") s+=`<path d="M78,105 q8,-4 14,-5 l8,30 l8,-30 q6,1 14,5 l5,62 q-27,8 -54,0z" fill="${t}"/><path d="M98,106 h4 l2,16 l-4,5 l-4,-5z" fill="${o.tie||"#8f2f25"}"/><circle cx="100" cy="142" r="1.8" fill="${sh}"/><circle cx="100" cy="154" r="1.8" fill="${sh}"/>`;
+  if(st==="overalls") s+=`<path d="M86,122 h28 l10,46 q-24,7 -48,0z" fill="${t}"/><path d="M88,122 l-5,-18 M112,122 l5,-18" stroke="${t}" stroke-width="6" stroke-linecap="round"/><circle cx="88" cy="124" r="2.4" fill="#e6c25a"/><circle cx="112" cy="124" r="2.4" fill="#e6c25a"/><rect x="92" y="132" width="16" height="12" rx="2" fill="${sh}"/>`;
+  if(st==="hoodie") s+=`<path d="M86,146 h28 l4,16 h-36z" fill="${sh}"/><path d="M95,104 v16 M105,104 v16" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".8"/>`;
+  if(st==="turtle") s+=`<rect x="88" y="91" width="24" height="15" rx="6" fill="${t}"/><path d="M88,99 h24" stroke="${sh}" stroke-width="1.5"/>`;
+  if(st==="sweater") s+=`<path d="M88,101 q12,9 24,0" fill="none" stroke="${sh}" stroke-width="4" stroke-linecap="round"/><path d="M72,160 q28,9 56,0" fill="none" stroke="${sh}" stroke-width="5"/>`;
+  if(st==="stripe") s+=`<g stroke="${o.stripe||"#fff"}" stroke-width="4" opacity=".9"><path d="M77,116 q23,-6 46,0"/><path d="M76,130 q24,-5 48,0"/><path d="M75,144 q25,-4 50,0"/><path d="M74,158 q26,-3 52,0"/></g>`;
+  if(o.graphic) s+=o.graphic;
+  return s+shadow;
+}
+function fig(o){
+  const skin=SKIN[o.skin||"a"], bottom=o.bottom||"#2f3440", shoe=o.shoes||"#22252b";
+  const la=o.la||[66,140,70,166], ra=o.ra||[134,140,130,166], ll=o.ll||[87,202,86,232], rl=o.rl||[113,202,114,232];
+  const [hb,hf]=HAIR[o.hair||"short"](o.hairCol||"#3a2a20"), short=o.sleeve==="short";
+  const long=o.style==="dress"||o.style==="coat", skirt=o.style==="dress";
+  const legs=leg(90,ll,bottom,shoe,-1,skirt?skin:null)+leg(110,rl,bottom,shoe,1,skirt?skin:null);
+  const hips=skirt?"":`<path d="M71,164 q29,9 58,0 l2,14 q-31,8 -62,0z" fill="${bottom}"/>`;
+  const armCol=o.armCol||o.top;
+  const armL=arm(79,111,la,armCol,skin,short), armR=arm(121,111,ra,armCol,skin,short);
+  return `<svg viewBox="0 0 200 250" role="img" aria-label="${o.label||""}">
+   <circle cx="100" cy="122" r="96" fill="${o.bg||"#eee"}"/>${o.back||""}
+   <ellipse cx="100" cy="${o.jump?244:240}" rx="${o.jump?34:48}" ry="6" fill="#000" opacity=".14"/>
+   ${hb}${o.behind||""}${legs}${hips}${o.armsBack?armL+armR:""}${torso(o)}${o.armsBack?"":armL+armR}
+   <rect x="93" y="88" width="14" height="18" rx="5" fill="${shade(SKIN[o.skin||"a"],.88)}"/>${o.style==="turtle"?`<rect x="88" y="91" width="24" height="15" rx="6" fill="${o.top}"/>`:""}${o.style==="hoodie"?`<path d="M80,104 q20,-14 40,0 q-20,10 -40,0z" fill="${shade(o.top,.8)}"/>`:""}
+   <circle cx="74" cy="72" r="5.5" fill="${skin}"/><circle cx="126" cy="72" r="5.5" fill="${skin}"/><circle cx="100" cy="68" r="27" fill="${skin}"/><path d="M110,42 a27,27 0 0 1 0,52 a34,34 0 0 0 0,-52z" fill="#000" opacity=".06"/>
+   ${o.beard?`<path d="M75,74 q2,26 25,26 q23,0 25,-26 q-8,14 -25,14 q-17,0 -25,-14z" fill="${o.hairCol}"/>`:""}${hf}${face(o.face)}${o.acc||""}${o.front||""}</svg>`;
+}
+/* small drawing helpers for props and backdrops */
+const star=(x,y,r,c,o=1)=>{let p="";for(let i=0;i<8;i++){const a=i*Math.PI/4,q=i%2?r*.38:r;p+=(x+q*Math.cos(a)).toFixed(1)+","+(y+q*Math.sin(a)).toFixed(1)+" ";}return `<polygon points="${p}" fill="${c}" opacity="${o}"/>`;};
+const gear=(x,y,r,c,o=1)=>{let t="";for(let i=0;i<8;i++)t+=`<rect x="${x-r*.16}" y="${y-r*1.22}" width="${r*.32}" height="${r*.5}" rx="1.5" transform="rotate(${i*45} ${x} ${y})"/>`;return `<g fill="${c}" opacity="${o}">${t}<circle cx="${x}" cy="${y}" r="${r}"/></g><circle cx="${x}" cy="${y}" r="${r*.42}" fill="#fff" opacity="${o*.7}"/>`;};
+const note=(x,y,c)=>`<g fill="${c}"><ellipse cx="${x}" cy="${y}" rx="5" ry="4" transform="rotate(-20 ${x} ${y})"/><rect x="${x+3.5}" y="${y-18}" width="2.2" height="18"/><path d="M${x+3.5},${y-18} q9,2 9,10 q-3,-5 -9,-4z"/></g>`;
+const heart=(x,y,s,c,o=1)=>`<path d="M${x},${y+s*.9} l${-s},${-s} a${s*.56},${s*.56} 0 0 1 ${s},${-s*.62} a${s*.56},${s*.56} 0 0 1 ${s},${s*.62}z" fill="${c}" opacity="${o}"/>`;
+const glasses=(sq)=>sq?`<rect x="81" y="63" width="17" height="13" rx="3" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.2"/><rect x="102" y="63" width="17" height="13" rx="3" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.2"/><path d="M98,68 h4 M81,68 l-6,-2 M119,68 l6,-2" stroke="${INK}" stroke-width="2.2"/>`:`<circle cx="90" cy="70" r="8.5" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.2"/><circle cx="110" cy="70" r="8.5" fill="#fff" fill-opacity=".35" stroke="${INK}" stroke-width="2.2"/><path d="M98.5,69 h3 M81.5,69 l-6,-2 M118.5,69 l6,-2" stroke="${INK}" stroke-width="2.2"/>`;
+
+
+/* =====================  scene kit, 400 x 210  ===================== */
+const inner=o=>fig(o).replace(/^<svg[^>]*>\s*<circle[^>]*\/>/,"").replace("</svg>","");
+const G="#e3b54a", RED="#c23a3a", INKC="#22252b";
+const S5=(x,y,r,c,o=1)=>{let p="";for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,q=i%2?r*.45:r;p+=(x+q*Math.cos(a)).toFixed(1)+","+(y+q*Math.sin(a)).toFixed(1)+" ";}return `<polygon points="${p}" fill="${c}" opacity="${o}"/>`;};
+const crown=(x,y,k=1,c=G)=>`<path d="M${x-16*k},${y} l${-3*k},${-18*k} l${9*k},${8*k} l${10*k},${-13*k} l${10*k},${13*k} l${9*k},${-8*k} l${-3*k},${18*k}z" fill="${c}" stroke="${INKC}" stroke-width="2" stroke-linejoin="round"/>`;
+const CH={
+ Y:{skin:"b",hair:"short",hairCol:"#2b2224",style:"jacket",top:"#27365e",inner:"#fbfaf7",bottom:"#3a3f4c"},
+ K:{skin:"a",hair:"side",hairCol:"#8a857a",beard:1,style:"coat",top:"#5a3d7a",inner:"#e3b54a",bottom:"#3a2f4a",acc:crown(100,46,1.15)},
+ Q:{skin:"e",hair:"bun",hairCol:"#a8442a",style:"dress",top:"#1f7a5a",belt:"#e3b54a",bottom:"#1f7a5a",shoes:"#7a4a2e",ll:[88,214,87,232],rl:[112,214,113,232]},
+ R:{skin:"c",hair:"slick",hairCol:"#1d1a1c",style:"suit",top:"#7a2630",tie:"#e3b54a",bottom:"#3a2226"},
+ M:{skin:"d",hair:"curly",hairCol:"#1d1a1c",style:"vest",top:"#c79a2e",inner:"#f4f1ea",armCol:"#f4f1ea",tie:"#7a4a2e",bottom:"#4a4036"},
+ S:{skin:"a",hair:"buzz",hairCol:"#3a332c",style:"turtle",top:"#6b7078",bottom:"#3a3f4c"},
+ F:{skin:"e",hair:"long",hairCol:"#c9a24a",style:"sweater",top:"#c2557a",bottom:"#5a3f52"},
+ O:{skin:"b",hair:"spiky",hairCol:"#e6e1d6",beard:1,style:"coat",top:"#6b4a2e",inner:"#d8cfbe",bottom:"#3a332c"}
+};
+const POSE={stand:{},hips:{la:[58,134,80,152],ra:[142,134,120,152]},point:{ra:[146,108,170,92]},open:{la:[54,128,34,114],ra:[146,128,166,114]},up:{ra:[146,104,152,74]},
+ cheer:{la:[56,100,46,68],ra:[144,100,154,68]},think:{ra:[142,136,116,100]},whisper:{ra:[140,112,122,90]},give:{ra:[146,126,168,120]},heart:{la:[66,138,95,132]},
+ stop:{ra:[146,116,162,92]},bowl:{la:[62,138,86,148],ra:[138,138,114,148]},back:{la:[70,140,84,164],ra:[130,140,116,164]},uphip:{la:[58,134,80,152],ra:[146,104,152,74]}};
+const FACE={soft:{brow:"soft",mouth:"soft"},smile:{brow:"up",mouth:"smile"},grin:{brow:"up",mouth:"grin"},smirk:{brow:"soft",mouth:"smirk"},stern:{brow:"down",mouth:"flat"},worry:{brow:"up",mouth:"flat"},
+ shock:{brow:"up",eyes:"wide",mouth:"o"},sly:{brow:"quirk",mouth:"smirk"},calm:{brow:"soft",eyes:"smile",mouth:"smile"},angry:{brow:"down",eyes:"wide",mouth:"o"},wow:{brow:"up",eyes:"wide",mouth:"grin"}};
+const WALK={ll:[84,202,74,232],rl:[116,202,126,232]};
+function P(x,ch,pose,face,o={}){const s=o.s||.74, y0=208-250*s; const spec=Object.assign({},CH[ch],POSE[pose],{face:FACE[face]},o.w?WALK:{},o.x||{});
+  if(o.f) spec.front=(spec.front||"")+o.f; if(o.b) spec.back=o.b; if(o.h) spec.behind=o.h; if(o.a) spec.acc=(spec.acc||"")+o.a;
+  return `<g transform="translate(${o.m?x+200*s:x},${y0}) scale(${o.m?-s:s},${s})"${o.o?` opacity="${o.o}"`:""}>${inner(spec)}</g>`;}
+const mini=(x,y,c,s,hc,k=1)=>`<g transform="translate(${x},${y}) scale(${k})"><path d="M-13,34 q0,-22 13,-22 q13,0 13,22z" fill="${c}"/><circle r="9.5" fill="${s}"/><path d="M-9,-2 q9,-12 18,0 q-9,-5 -18,0z" fill="${hc}"/></g>`;
+const crowd=(x,y)=>mini(x,y,"#6a7f9a","#f3cfae","#3a2a20")+mini(x+28,y+10,"#9a6a5a","#b97d54","#1d1a1c")+mini(x+56,y,"#7f8f5a","#f8dcc6","#7a4a2e");
+const bub=(x,y,w,t,c,tc,d)=>`<rect x="${x}" y="${y}" width="${w}" height="28" rx="12" fill="${c}"/><path d="M${x+(d>0?w-24:14)},${y+26} l${d*7},11 l2,-12z" fill="${c}"/><text x="${x+w/2}" y="${y+19}" font-size="13" font-weight="800" text-anchor="middle" fill="${tc}" font-family="system-ui,sans-serif">${t}</text>`;
+const scrib=(x,y,w,hh,c,d)=>`<rect x="${x}" y="${y}" width="${w}" height="${hh}" rx="14" fill="${c}"/><path d="M${x+(d>0?w-26:16)},${y+hh-2} l${d*7},12 l2,-13z" fill="${c}"/><path d="M${x+10},${y+hh/2} q6,-12 12,0 q6,12 12,0 q6,-12 12,0 q6,12 12,0${w>80?" q6,-12 12,0 q6,12 12,0":""}" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>`;
+const sword=(x,y,r,c="#cfd4da")=>`<g transform="translate(${x},${y}) rotate(${r})"><path d="M-3,-4 v-44 l3,-8 l3,8 v44z" fill="${c}" stroke="${INKC}" stroke-width="1.6"/><rect x="-11" y="-5" width="22" height="5" rx="2" fill="${G}" stroke="${INKC}" stroke-width="1.4"/><rect x="-2.5" y="0" width="5" height="12" fill="#7a4a2e"/></g>`;
+const coin=(x,y,r=8)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${G}" stroke="${INKC}" stroke-width="1.8"/><circle cx="${x}" cy="${y}" r="${r*.55}" fill="none" stroke="#b98a2e" stroke-width="1.5"/>`;
+const bag=(x,y)=>`<path d="M${x-12},${y+16} q-6,-18 6,-24 h12 q12,6 6,24z" fill="#b98a5c" stroke="${INKC}" stroke-width="2"/><path d="M${x-7},${y-8} h14" stroke="${INKC}" stroke-width="3" stroke-linecap="round"/>`+coin(x,y+6,5);
+const gift=(x,y)=>`<rect x="${x-14}" y="${y-10}" width="28" height="22" rx="2" fill="${G}" stroke="${INKC}" stroke-width="2"/><rect x="${x-3}" y="${y-10}" width="6" height="22" fill="${RED}"/><path d="M${x},${y-10} q-10,-12 -13,-3 q2,5 13,3 q10,-12 13,-3 q-2,5 -13,3z" fill="${RED}" stroke="${INKC}" stroke-width="1.4" stroke-linejoin="round"/>`;
+const flag=(x,y,c,hh=46)=>`<rect x="${x}" y="${y-hh}" width="3" height="${hh}" fill="#5a3d2a"/><path d="M${x+3},${y-hh} h26 l-6,8 l6,8 h-26z" fill="${c}" stroke="${INKC}" stroke-width="1.4" stroke-linejoin="round"/>`;
+const key=(x,y,k=1)=>`<g transform="translate(${x},${y}) scale(${k})" fill="none" stroke="${G}" stroke-width="5" stroke-linecap="round"><circle cx="0" cy="-14" r="9"/><path d="M0,-5 v30 M0,14 h9 M0,24 h7"/></g>`;
+const clock=(x,y,r)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#fbfaf7" stroke="${INKC}" stroke-width="2.5"/><path d="M${x},${y-r*.6} v${r*.6} l${r*.45},${r*.25}" fill="none" stroke="${INKC}" stroke-width="2.5" stroke-linecap="round"/>`;
+const hourglass=(x,y,k=1)=>`<g transform="translate(${x},${y}) scale(${k})"><path d="M-10,-18 h20 l-8,16 l8,16 h-20 l8,-16z" fill="#fbfaf7" stroke="${INKC}" stroke-width="2" stroke-linejoin="round"/><path d="M-5,-15 h10 l-5,10z M-7,13 h14 l-7,-9z" fill="${G}"/><path d="M-12,-18 h24 M-12,14 h24" stroke="${INKC}" stroke-width="3" stroke-linecap="round"/></g>`;
+const sheep=(x,y)=>`<g fill="#f2efe8" stroke="#b9b2a6" stroke-width="1"><circle cx="${x}" cy="${y}" r="11"/><circle cx="${x+12}" cy="${y-3}" r="10"/><circle cx="${x+22}" cy="${y+2}" r="10"/></g><ellipse cx="${x-9}" cy="${y-2}" rx="6" ry="7" fill="#3d3530"/><path d="M${x+2},${y+10} v9 M${x+18},${y+10} v9" stroke="#3d3530" stroke-width="3"/>`;
+const mask=(x,y,happy)=>`<path d="M${x-22},${y-22} q22,-10 44,0 q4,34 -22,48 q-26,-14 -22,-48z" fill="#fbfaf7" stroke="${INKC}" stroke-width="2"/><path d="M${x-13},${y-8} q5,-5 10,0 M${x+3},${y-8} q5,-5 10,0" fill="none" stroke="${INKC}" stroke-width="2.4" stroke-linecap="round"/><path d="M${x-9},${y+8} q9,${happy?10:-8} 18,0" fill="none" stroke="${RED}" stroke-width="2.6" stroke-linecap="round"/>`;
+const target=(x,y,r)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#fbfaf7" stroke="${INKC}" stroke-width="2"/><circle cx="${x}" cy="${y}" r="${r*.66}" fill="${RED}"/><circle cx="${x}" cy="${y}" r="${r*.33}" fill="#fbfaf7"/>`;
+const arrow=(x1,y1,x2,y2,c=INKC,w=3)=>{const a=Math.atan2(y2-y1,x2-x1);return `<path d="M${x1},${y1} L${x2},${y2}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/><path d="M${x2},${y2} l${(-11*Math.cos(a-.45)).toFixed(1)},${(-11*Math.sin(a-.45)).toFixed(1)} M${x2},${y2} l${(-11*Math.cos(a+.45)).toFixed(1)},${(-11*Math.sin(a+.45)).toFixed(1)}" stroke="${c}" stroke-width="${w}" stroke-linecap="round" fill="none"/>`;};
+const spot=(x,w)=>`<path d="M${x},0 l${-w},208 h${w*2}z" fill="#ffe9a8" opacity=".28"/>`;
+const rain=(x,y)=>`<g fill="#7a7f8a"><circle cx="${x}" cy="${y}" r="13"/><circle cx="${x+16}" cy="${y-7}" r="16"/><circle cx="${x+34}" cy="${y}" r="13"/><rect x="${x}" y="${y}" width="34" height="13"/></g><g stroke="#6aa0d8" stroke-width="2.5" stroke-linecap="round"><path d="M${x},${y+20} l-3,9 M${x+12},${y+22} l-3,9 M${x+24},${y+20} l-3,9 M${x+36},${y+22} l-3,9"/></g>`;
+const throne=(x,y)=>`<rect x="${x-22}" y="${y-74}" width="44" height="74" rx="6" fill="#7a2630" stroke="${INKC}" stroke-width="2"/><rect x="${x-28}" y="${y-30}" width="56" height="30" rx="4" fill="#9a3640" stroke="${INKC}" stroke-width="2"/><circle cx="${x-22}" cy="${y-76}" r="5" fill="${G}"/><circle cx="${x+22}" cy="${y-76}" r="5" fill="${G}"/>`;
+const tower=(x,y,w,hh)=>`<path d="M${x},${y} v${-hh} h${w/5} v10 h${w/5} v-10 h${w/5} v10 h${w/5} v-10 h${w/5} v${hh}z" fill="#9aa0a8" stroke="${INKC}" stroke-width="2" stroke-linejoin="round"/><g stroke="#6b7078" stroke-width="1.5"><path d="M${x},${y-hh*.33} h${w} M${x},${y-hh*.66} h${w} M${x+w/3},${y} v${-hh*.33} M${x+w*.66},${y-hh*.33} v${-hh*.33}"/></g>`;
+const glove=(x,y)=>`<circle cx="${x}" cy="${y}" r="9" fill="#fff" stroke="#b9b2a6" stroke-width="1.5"/>`;
+
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+const scn=(inner,bg="#f1ede2",gr="#ddd6c4")=>`<svg viewBox="0 0 400 210"><rect width="400" height="210" fill="${bg}"/><rect y="200" width="400" height="10" fill="${gr}"/>${inner}</svg>`;
+const acc=(box,items)=>items.forEach(c=>{const d=el('div','acc',`<button>${c[0]}<span><h3>${c[1]}</h3>${c[3]?`<small>${c[3]}</small>`:''}</span><span class="pm">+</span></button><div class="body">${c[2]}</div>`);d.querySelector('button').onclick=()=>d.classList.toggle('open');$(box).appendChild(d)});
+const cards=(box,items)=>items.forEach(c=>{const b=el('button','card'+(c[4]?' wide':''),`<div class="scene">${c[0]}</div><h3>${c[1]}</h3><small>${c[2]}</small><div class="x">${c[3]}</div>`);b.onclick=()=>b.classList.toggle('open');$(box).appendChild(b)});
+const NO=n=>`<span class="no">${n}</span>`,TG=(t,c='')=>`<span class="tag ${c}">${t}</span>`;
+const rocket=(x,y,k=1)=>`<g transform="translate(${x},${y}) scale(${k})"><path d="M0,-34 q16,16 12,44 h-24 q-4,-28 12,-44z" fill="#fbfaf7" stroke="${INKC}" stroke-width="2"/><circle cy="-8" r="5" fill="#6aa0d8" stroke="${INKC}" stroke-width="1.5"/><path d="M-12,6 l-10,12 l10,-2z M12,6 l10,12 l-10,-2z" fill="${RED}" stroke="${INKC}" stroke-width="1.5"/><path d="M-7,12 q7,26 14,0z" fill="#f08a3c"/><path d="M-3,12 q3,14 6,0z" fill="#ffe08a"/></g>`;
+const heartS2=(x,y,k=1,c=RED)=>`<path transform="translate(${x},${y}) scale(${k})" d="M0,6 q-14,-12 -8,-20 q5,-6 8,2 q3,-8 8,-2 q6,8 -8,20z" fill="${c}" stroke="${INKC}" stroke-width="1.4"/>`;
+
+
+const blob=(x,y,k=1)=>`<g transform="translate(${x},${y}) scale(${k})"><path d="M-40,40 q-20,-50 10,-70 q30,-22 54,4 q26,30 6,66z" fill="#2a2433" opacity=".9"/><circle cx="-6" cy="-14" r="5" fill="#e04b5a"/><circle cx="16" cy="-14" r="5" fill="#e04b5a"/></g>`;
+cards('#mindgrid',[
+ [scn(scrib(150,6,150,56,"#6c7488",-1)+scrib(250,70,110,40,"#8f95a6",-1)+P(30,"Y","think","worry")),"The thinker","The voice that never stops","Judging, comparing, replaying, rehearsing. Tolle calls compulsive thinking an addiction, with the usual sign of one: you cannot choose to stop. As long as you take the voice to be you, its moods are your moods."],
+ [scn(`<circle cx="200" cy="96" r="86" fill="#ffe9a8" opacity=".45"/><g opacity=".2"><g transform="translate(-74,-52) scale(1.38)">${P(126,"S","heart","calm")}</g></g>`+P(126,"S","heart","calm")+scrib(280,20,96,36,"#b9bfcc",-1)),"The watcher","The awareness behind it","The moment you notice a thought as a thought, there is the thought and there is whoever noticed. That second presence is what he says you are. It does not argue with the mind. It only sees, and being seen is what loosens the mind's grip."]
+]);
+let tmr=null;$('#tgo').onclick=()=>{if(tmr)return;let n=30;$('#tm').textContent=n;$('#tout').textContent='Eyes closed. Wait for the thought.';$('#tgo').disabled=true;
+ tmr=setInterval(()=>{n--;$('#tm').textContent=n;if(n<=0){clearInterval(tmr);tmr=null;$('#tgo').disabled=false;$('#tgo').textContent='Again';$('#tout').textContent="Notice whether there was a gap before the next thought came. Tolle's point is that while you were fully alert, thinking slowed or stopped, and you were still there."}},1000)};
+const TZ=[
+ [0,34,()=>scn(rain(60,24)+P(30,"Y","think","worry",{m:1})+`<g opacity=".5">${clock(300,90,34)}</g><path d="M276,60 a34,34 0 1 0 6,-6" fill="none" stroke="#17233a" stroke-width="3"/><path d="M282,54 l-14,2 l8,12z" fill="#17233a"/>`),"Facing the past","Guilt, regret, resentment, grievance, sadness, bitterness. Every form of not forgiving, yourself or anyone else. The event is over. What remains is a thought about it that you keep feeding with attention."],
+ [34,67,()=>scn(`<circle cx="200" cy="100" r="80" fill="#ffe9a8" opacity=".5"/>`+P(126,"Y","open","calm")+S5(80,50,6,G)+S5(320,60,5,G)+`<path d="M330,200 v-22" stroke="#2f7d5a" stroke-width="4" stroke-linecap="round"/><path d="M330,184 q-16,-4 -16,-18 q16,0 16,18z M330,180 q16,-4 16,-18 q-16,0 -16,18z" fill="#4aa66f" stroke="#17233a" stroke-width="1.5"/>`),"Here","In this exact moment there is usually no problem. There may be a situation, something to deal with or to accept. A problem, in his sense, is a situation carried around in the mind with no intention of acting on it now."],
+ [67,101,()=>scn(P(30,"Y","think","worry")+bub(150,16,60,"what if",`#6c7488`,"#fff",-1)+`<g opacity=".5">${clock(300,90,34)}</g><path d="M324,60 a34,34 0 1 1 -6,-6" fill="none" stroke="#17233a" stroke-width="3"/><path d="M318,54 l14,2 l-8,12z" fill="#17233a"/>`+rain(310,150)),"Facing the future","Unease, anxiety, tension, stress, worry: all forms of fear. You can cope with what is in front of you. You cannot cope with something that exists only as a projection, because there is nothing there to act on."]
+];
+function drawT(){const v=+$('#ts').value,z=TZ.find(x=>v>=x[0]&&v<x[1]);$('#tscene').innerHTML=z[2]();$('#tt').textContent=z[3];$('#tp').textContent=z[4]}
+$('#ts').oninput=drawT;drawT();
+cards('#keygrid',[
+ [scn(P(30,"R","hips","smirk",{x:{acc:crown(100,46,1.1)}})+mask(250,96,true)+bub(214,20,60,"me!",RED,"#fff",-1)),"The ego","A false self made of thought","Not pride in the everyday sense. For Tolle the ego is the self-image the mind builds from your history, roles, opinions and possessions. It needs enemies, comparisons and problems to feel real, and it is afraid all the time because it can be taken away."],
+ [scn(blob(100,150,1.2)+P(150,"F","stand","worry")+rain(250,20)),"The pain-body","Old hurt that wants feeding","His term for accumulated emotional pain that lives in you as a semi-independent thing. Mostly dormant, it wakes when something resembles the original hurt, takes over your thinking, and looks for more pain: a fight, a drama, a grievance. The remedy is not to fight it but to watch it while it is active. Observed, it cannot use you."],
+ [scn(P(126,"S","heart","calm",{f:`<circle cx="100" cy="140" r="26" fill="#ffe08a" opacity=".7"/><circle cx="100" cy="140" r="12" fill="#fff6cf"/>`})+S5(60,50,5,G)+S5(330,70,6,G)),"The inner body","An anchor in the present","Feel your hands from the inside. Then your arms, feet, the whole body as one field of aliveness. Attention placed there cannot also be lost in thought, so he recommends keeping part of your attention in the body all day, especially while listening or waiting."],
+ [scn(hourglass(70,170,1.6)+P(126,"M","think","soft")+`<rect x="280" y="100" width="90" height="100" rx="6" fill="#b98a5c" stroke="${INKC}" stroke-width="2"/><circle cx="350" cy="152" r="5" fill="${G}"/>`),"Waiting","Wanting the future, refusing the present","Waiting in a queue is small-scale. Large-scale is waiting for the holiday, the better job, the right partner, for life to begin. He calls it a state of mind in which you reduce the present to a means. People can spend an entire life waiting to start living."],
+ [scn(rain(40,24)+rain(300,36)+P(126,"Y","open","calm")),"Surrender","Yielding to what is, then acting","Not giving up and not putting up with things. It means dropping the inner \"no\" to the present moment. The outer situation may still need changing. Action taken from acceptance is clearer than action taken from resentment."],
+ [scn(P(30,"Q","heart","smile")+P(214,"Y","hips","soft",{m:1})+heartS2(200,56,2.2)+rain(180,110)),"Relationships","Love that turns into attack","Most romantic love, he says, is two egos using each other to feel complete, which is why it flips so easily into blame. The way out is to stop trying to fix the other person and to stay present when the other's pain-body flares. He frames a relationship as there to make you conscious more than to make you happy."],
+ [scn(`<rect width="400" height="210" fill="#17233a"/>`+[[40,30],[90,150],[330,40],[360,150],[60,100],[300,180],[200,24]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="1.8" fill="#fff" opacity=".8"/>`).join('')+`<circle cx="200" cy="110" r="60" fill="none" stroke="#e8b23a" stroke-width="2" stroke-dasharray="3 6"/>`+P(126,"S","heart","calm")),"Being and the unmanifested","His word for what lies under everything","Tolle uses Being for the formless life from which all things arise, and avoids the word God because of its baggage. He names several doorways into it: the present moment, the inner body, silence, empty space, surrender, and the gap between thoughts. This is the most metaphysical part of the book and the part you have to take or leave on experience.",1]
+]);
+acc('#plist',[
+ [NO(1),"Watch the thinker","<p>Listen to the voice in your head as often as you can, especially the repeating tracks. Do not judge it or try to stop it. Noticing is the whole practice.</p>","Several times a day"],
+ [NO(2),"Use routine actions","<p>Give full attention to something you normally do on autopilot: washing your hands, climbing stairs, getting into the car. Feel the water, hear the sounds. One conscious breath counts.</p>","Ordinary moments as practice"],
+ [NO(3),"Ask what is lacking right now","<p>Not next week. At this exact moment, is anything actually missing? Is there a problem in this second? He suggests the honest answer is nearly always no.</p>","The one-question check"],
+ [NO(4),"Feel the inner body","<p>Keep some attention on the felt sense of your body while you do other things. When you cannot sleep or have to wait, flood the body with attention part by part.</p>","A permanent anchor"],
+ [NO(5),"Watch the pain-body arrive","<p>When a heavy mood or a surge of anger comes out of proportion to its cause, say to yourself that the pain-body is here. Feel it in the body and do not think about it. Staying with it as an observer cuts its link to your thinking.</p>","Catch it as it wakes"],
+ [NO(6),"Drop the inner no","<p>Notice resistance in small things first: the weather, the traffic, the slow person ahead. Feel what refusing reality costs in tension, and let that go while keeping your ability to act.</p>","Surrender in small things"]
+]);
+const SI={"A job you resent":["Leave. Start the search today and treat it as decided.","Change it. Have the conversation, ask for the different role, fix the one thing that grinds you down.","Accept it fully for now, as a choice, because of what it pays for. Then stop complaining about it, including in your own head."],
+ "Stuck in traffic":["Leaving is not on offer.","Changing it is not on offer either, beyond another route next time.","So accept it completely. The delay is real. The fuming is extra, and it is the only part you are adding."],
+ "A friendship that has gone sour":["Step away from it cleanly, without a campaign.","Say what has been bothering you, once and plainly.","Accept the friend as they are and take the friendship for what it is. What he rules out is the fourth thing: staying, saying nothing, and resenting."],
+ "A health diagnosis":["You cannot leave.","Change what can be changed: treatment, habits, the help you ask for.","Accept what cannot be changed in this moment, one moment at a time, without adding a story about the whole future."]};
+Object.keys(SI).forEach((k,i)=>{const b=el('button','chip');b.textContent=k;b.onclick=()=>{$$('#sit .chip').forEach(x=>x.classList.toggle('on',x==b));const v=SI[k];$('#sout').innerHTML=['Remove yourself','Change it','Accept it totally'].map((t,j)=>`<div class="panel" style="margin-bottom:8px;border-left:5px solid var(--acc${j==2?'2':''})"><b>${t}.</b> ${v[j]}</div>`).join('')};$('#sit').appendChild(b);if(!i)b.click()});
+acc('#chlist',[
+ [NO("·"),"Introduction","<p>His own story and how the book came out of answering people's questions. He asks the reader not to read with the mind alone but to pause where something registers.</p>"],
+ [NO(1),"You are not your mind","<p>The greatest obstacle to peace is identification with thinking. Enlightenment is described plainly, as the natural state of feeling at one with Being, and the mind as what blocks it. Emotion is the body's reaction to the mind.</p>"],
+ [NO(2),"Consciousness: the way out of pain","<p>Most pain is self-created through resistance to what is. He introduces the pain-body and the ego's deep fear, and says the light of attention dissolves both.</p>"],
+ [NO(3),"Moving deeply into the Now","<p>The core chapter. Clock time against psychological time, the claim that problems are made by the mind and need time to survive, and the idea that the quality of your attention now determines the future better than planning does.</p>"],
+ [NO(4),"Mind strategies for avoiding the Now","<p>Ordinary unconsciousness, a constant low-level unease, against deep unconsciousness, when things go badly. Complaining, waiting and living for the next thing are examined. The three options appear here.</p>"],
+ [NO(5),"The state of presence","<p>Presence is not a thought about presence. It is alert stillness, the cat at the mouse hole. Nature, beauty and silence are described as things that can only be perceived from it.</p>"],
+ [NO(6),"The inner body","<p>The body as the doorway. Inhabit it from within. He makes strong claims here about strengthened immunity and slowed ageing, which should be read as his belief, not as established fact.</p>"],
+ [NO(7),"Portals into the unmanifested","<p>Silence, space, the gap between thoughts, dreamless sleep and death as openings to what he calls the source.</p>"],
+ [NO(8),"Enlightened relationships","<p>Why love turns to its opposite, how to stay present with a partner's pain, and his view that the relationship with yourself disappears when you stop being two.</p>"],
+ [NO(9),"Beyond happiness and unhappiness there is peace","<p>Happiness depends on conditions. Peace does not. Accepting what is includes the apparently bad, and he says that deep acceptance of loss can open into peace. Drama in life is traced to the ego.</p>"],
+ [NO(10),"The meaning of surrender","<p>Surrender is an inner matter and compatible with decisive action. He applies it to illness, to violence and to dying, and ends on the idea that there is nothing to attain in the future because it is already here.</p>"]
+]);
+acc('#clist',[
+ [TG("Strength"),"One clear, testable instruction","<p>Notice your thinking and return to the present. You can check within minutes whether doing so changes how you feel. Many readers report that the idea of the watcher was a turning point.</p>"],
+ [TG("Strength"),"It overlaps with tested methods","<p>Observing thoughts without getting caught in them is the core skill of mindfulness-based therapies, which have reasonable evidence for stress and for preventing relapse in depression. Tolle's version is the same move in spiritual language.</p>"],
+ [TG("Objection","r"),"The metaphysics cannot be checked","<p>Being, the unmanifested and the pain-body as an entity are presented as facts on the strength of his experience. You either recognise them or you do not. The pain-body is a metaphor, not a clinical concept.</p>"],
+ [TG("Objection","r"),"Old teachings, lightly credited","<p>The content is close to Buddhism, Advaita Vedanta and Christian mystics such as Meister Eckhart, whom he does mention. Critics say he repackages them with the discipline and ethics removed.</p>"],
+ [TG("Objection","r"),"It can become avoidance","<p>\"Just be present\" is sometimes used to skip grief, anger or necessary planning, and to treat real injustice as a failure of acceptance. Tolle allows for action, but the emphasis leans strongly toward acceptance.</p>"],
+ [TG("Objection","r"),"Health claims and serious conditions","<p>Statements about illness and ageing go beyond any evidence. And for depression, trauma or psychosis, turning attention inward without guidance can make things worse. This is a book, not a treatment.</p>"],
+ [TG("Objection","r"),"Repetitive","<p>The same point is made many times in slightly different words. Admirers say that is the method. Others find a pamphlet's worth of idea in a book.</p>"]
+]);
+
+</script></body></html>
